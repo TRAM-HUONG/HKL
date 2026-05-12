@@ -20,8 +20,8 @@ const QuanLyTacPham = () => {
         if (window.confirm(confirmMsg)) {
             try {
                 const endpoint = type === 'truyen' 
-                    ? `https://hkl-backend.onrender.com/api/author/delete-truyen/${id}`
-                    : `https://hkl-backend.onrender.com/api/author/delete-ban-thao/${id}`;
+                    ? `https://hkl-backend-v3uu.onrender.com/api/author/delete-truyen/${id}`
+                    : `https://hkl-backend-v3uu.onrender.com/api/author/delete-ban-thao/${id}`;
                     
                 const res = await axios.delete(endpoint);
                 if (res.data.success) {
@@ -37,7 +37,7 @@ const QuanLyTacPham = () => {
     const handleHoanThanh = async (id) => {
         if (window.confirm("Xác nhận tác phẩm này đã kết thúc và chuyển sang trạng thái 'Hoàn thành'?")) {
             try {
-                const res = await axios.put(`https://hkl-backend.onrender.com/api/author/hoan-thanh-truyen/${id}`);
+                const res = await axios.put(`https://hkl-backend-v3uu.onrender.com/api/author/hoan-thanh-truyen/${id}`);
                 if (res.data.success) {
                     alert("Cập nhật trạng thái Hoàn thành thành công!");
                     fetchLibrary();
@@ -51,7 +51,7 @@ const QuanLyTacPham = () => {
     const fetchLibrary = async () => {
         setLoading(true);
         try {
-            const res = await axios.get(`https://hkl-backend.onrender.com/api/author/my-library/${matk}`);
+            const res = await axios.get(`https://hkl-backend-v3uu.onrender.com/api/author/my-library/${matk}`);
             if (res.data.success) {
                 setLibrary(res.data.data);
             }
@@ -91,7 +91,7 @@ const QuanLyTacPham = () => {
                                 <td data-label="Ảnh/Mã" className="col-image">
                                     {type === 'truyen' ? (
                                         <img 
-                                            src={`https://hkl-backend.onrender.com/images/${s.hinh_anh}`} 
+                                            src={`https://hkl-backend-v3uu.onrender.com/images/${s.hinh_anh}`} 
                                             alt="cover" 
                                             className="table-img-preview"
                                             onError={(e) => e.target.src = "https://via.placeholder.com/45x60"}

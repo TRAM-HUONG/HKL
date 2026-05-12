@@ -11,7 +11,7 @@ const DetailedRevenue = () => {
     useEffect(() => {
         const fetchDetailedSales = async () => {
             try {
-                const res = await axios.get('https://hkl-backend.onrender.com/api/admin/doanh-thu/sales');
+                const res = await axios.get('https://hkl-backend-v3uu.onrender.com/api/admin/doanh-thu/sales');
                 if (res.data.success) {
                     setSalesData(res.data.data);
                 }

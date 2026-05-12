@@ -23,7 +23,7 @@ const DocTruyen = () => {
     const fetchContent = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`https://hkl-backend.onrender.com/api/chuong/noidung/${mabt}`);
+        const res = await fetch(`https://hkl-backend-v3uu.onrender.com/api/chuong/noidung/${mabt}`);
         const data = await res.json();
         setChuong(data);
 
@@ -37,7 +37,7 @@ const DocTruyen = () => {
           if (!madg) {
             setHasAccess(false);
           } else {
-            const checkRes = await fetch(`https://hkl-backend.onrender.com/api/chuong/check-quyen?mabt=${mabt}&madg=${madg}`);
+            const checkRes = await fetch(`https://hkl-backend-v3uu.onrender.com/api/chuong/check-quyen?mabt=${mabt}&madg=${madg}`);
             const checkData = await checkRes.json();
             setHasAccess(checkData.purchased);
           }
@@ -77,7 +77,7 @@ const DocTruyen = () => {
     const gia = chuong.gia_xu || chuong.GIA_XU;
     if (window.confirm(`Xác nhận dùng ${gia} Xu để mở khóa chương này?`)) {
       try {
-        const res = await fetch("https://hkl-backend.onrender.com/api/chuong/mua-le", {
+        const res = await fetch("https://hkl-backend-v3uu.onrender.com/api/chuong/mua-le", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -101,7 +101,7 @@ const DocTruyen = () => {
   };
 
   const loadBinhLuan = () => {
-    fetch(`https://hkl-backend.onrender.com/api/binh-luan/chuong/${mabt}`)
+    fetch(`https://hkl-backend-v3uu.onrender.com/api/binh-luan/chuong/${mabt}`)
       .then(res => res.ok ? res.json() : [])
       .then(data => setBinhLuan(data))
       .catch(err => {
@@ -161,7 +161,7 @@ const DocTruyen = () => {
     };
 
     try {
-        const res = await fetch(`https://hkl-backend.onrender.com/api/binh-luan`, {
+        const res = await fetch(`https://hkl-backend-v3uu.onrender.com/api/binh-luan`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
@@ -180,7 +180,7 @@ const DocTruyen = () => {
     if (!window.confirm("Bạn có chắc muốn xóa bình luận này?")) return;
     const userId = user?.MADG || user?.madg || user?.MATG || user?.matg;
     try {
-      const res = await fetch(`https://hkl-backend.onrender.com/api/binh-luan/${id}`, {
+      const res = await fetch(`https://hkl-backend-v3uu.onrender.com/api/binh-luan/${id}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId })
@@ -200,7 +200,7 @@ const DocTruyen = () => {
     if (!window.confirm("Bạn có chắc muốn xóa phản hồi này?")) return;
     const userId = user?.MADG || user?.madg || user?.MATG || user?.matg;
     try {
-      const res = await fetch(`https://hkl-backend.onrender.com/api/binh-luan/phan-hoi/${id}`, {
+      const res = await fetch(`https://hkl-backend-v3uu.onrender.com/api/binh-luan/phan-hoi/${id}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId })
@@ -217,7 +217,7 @@ const DocTruyen = () => {
   };
 
   const saveReadingHistory = (madg, mat, tenbt) => {
-    fetch(`https://hkl-backend.onrender.com/api/lich-su/update`, {
+    fetch(`https://hkl-backend-v3uu.onrender.com/api/lich-su/update`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ madg, mat, tenbt })
@@ -227,7 +227,7 @@ const DocTruyen = () => {
   };
 
   const fetchDanhSachChuong = (maTruyen) => {
-    fetch(`https://hkl-backend.onrender.com/api/chuong/truyen/${maTruyen}`)
+    fetch(`https://hkl-backend-v3uu.onrender.com/api/chuong/truyen/${maTruyen}`)
       .then((res) => res.json())
       .then((data) => {
         setDanhSachChuong(data);

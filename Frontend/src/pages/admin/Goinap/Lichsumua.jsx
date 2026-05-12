@@ -9,7 +9,7 @@ const Lichsumua = () => {
     const [searchTerm, setSearchTerm] = useState(""); // State lưu từ khóa tìm kiếm
 
     useEffect(() => {
-        axios.get('https://hkl-backend.onrender.com/api/admin/purchase-history')
+        axios.get('https://hkl-backend-v3uu.onrender.com/api/admin/purchase-history')
             .then(res => {
                 if(res.data.success) setData(res.data.data);
                 setLoading(false);
