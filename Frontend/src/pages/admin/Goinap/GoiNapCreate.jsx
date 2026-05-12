@@ -1,0 +1,60 @@
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import Layout from "../../layout/layout.jsx";
+import "../../../static/css/Goinapadmin.css"; 
+// GoiNapCreate.jsx
+const GoiNapCreate = () => {
+    const navigate = useNavigate();
+    const [formData, setFormData] = useState({
+        ten_goi: '', 
+        so_tien_vnd: '', 
+        so_xu_nhan: '' 
+    });
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await axios.post('http://localhost:5000/api/admin/goi-nap/create', formData);
+            if (res.data.success) {
+                alert(res.data.message);
+                navigate('/admin/goi-nap');
+            }
+        } catch (error) {
+            alert("Lỗi khi thêm gói nạp!");
+        }
+    };
+
+    return (
+        <Layout>
+            <div className="admin-glass-content">
+                <h2 className="page-title">➕ TẠO GÓI NẠP MỚI</h2>
+                <form className="admin-form-glass" onSubmit={handleSubmit} style={{maxWidth: '600px', margin: '0 auto'}}>
+                    {/* Bỏ ô nhập mã gói, chỉ giữ lại các thông tin còn lại */}
+                    <div className="form-group">
+                        <label>Tên gói:</label>
+                        <input type="text" placeholder="VD: Gói Siêu Cấp" required 
+                            onChange={e => setFormData({...formData, ten_goi: e.target.value})} />
+                    </div>
+                    <div className="form-group">
+                        <label>Giá tiền (VND):</label>
+                        <input type="number" placeholder="50000" required 
+                            onChange={e => setFormData({...formData, so_tien_vnd: e.target.value})} />
+                    </div>
+                    <div className="form-group">
+                        <label>Số Xu nhận:</label>
+                        <input type="number" placeholder="500" required 
+                            onChange={e => setFormData({...formData, so_xu_nhan: e.target.value})} />
+                    </div>
+                    <div style={{marginTop: '20px', display: 'flex', gap: '10px'}}>
+                        <button type="submit" className="btn-submit">Lưu Gói Nạp</button>
+                        <button type="button" className="btn-cancel" onClick={() => navigate('/admin/goi-nap')}>Hủy</button>
+                    </div>
+                </form>
+            </div>
+        </Layout>
+    );
+};
+
+
+export default GoiNapCreate;

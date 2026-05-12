@@ -1,0 +1,115 @@
+/* Tone màu Pastel từ image_098480.png */
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800&display=swap');
+
+.admin-glass-content {
+    font-family: 'Be Vietnam Pro', sans-serif !important;
+    padding: 40px 20px;
+    background: radial-gradient(circle at top left, #fff5f5, #f0f4ff);
+    min-height: 100vh;
+}
+
+/* Tiêu đề pha màu chuẩn, không bị mất chữ */
+.admin-glass-content h1 {
+    text-align: center;
+    font-weight: 800;
+    font-size: 2.2rem;
+    background: linear-gradient(to right, #ff9aa2, #c7ceea);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+}
+
+.edit-form {
+    max-width: 900px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 40px;
+    border-radius: 25px;
+    box-shadow: 0 15px 35px rgba(255, 154, 162, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.edit-form label {
+    display: block;
+    font-weight: 700;
+    color: #666;
+    margin-bottom: 8px;
+    margin-top: 15px;
+    font-size: 0.95rem;
+}
+
+/* Input & Select phong cách hiện đại */
+.admin-input {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 12px;
+    border: 2px solid #f0f0f0;
+    background: #fafafa;
+    font-family: 'Be Vietnam Pro', sans-serif !important; /* Chống nhảy dấu */
+    transition: all 0.3s ease;
+    outline: none;
+    font-size: 1rem;
+}
+
+.admin-input:focus {
+    border-color: #ffb7b2;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(255, 183, 178, 0.2);
+}
+
+/* Cột chứa ảnh bìa */
+.right-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 15px;
+    border: 2px dashed #c7ceea;
+    padding: 20px;
+}
+
+.preview-img {
+    width: 150px;
+    height: 210px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin-bottom: 15px;
+}
+
+/* Tùy chỉnh nút bấm */
+.btn-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 40px;
+}
+
+.btn-confirm {
+    background: linear-gradient(135deg, #b5ead7, #e2f0cb) !important;
+    color: #448b72 !important;
+    font-weight: 700 !important;
+    padding: 15px !important;
+    border-radius: 12px !important;
+    border: none !important;
+    flex: 2;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-confirm:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(181, 234, 215, 0.4);
+}
+
+.btn-back {
+    background: #f5f5f5 !important;
+    color: #888 !important;
+    font-weight: 600 !important;
+    padding: 15px !important;
+    border-radius: 12px !important;
+    border: none !important;
+    flex: 1;
+    cursor: pointer;
+}

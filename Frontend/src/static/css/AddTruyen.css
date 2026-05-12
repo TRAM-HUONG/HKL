@@ -1,0 +1,263 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+
+/* --- BIẾN TOÀN CỤC --- */
+:root {
+    --color-1: #6C7EE1;
+    --color-2: #92B9E3;
+    --color-3: #FFC4A4;
+    --color-4: #FBA2D0;
+    --color-5: #C688EB;
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.5);
+    --text-main: #334155;
+    --text-muted: #64748b;
+}
+
+/* --- LAYOUT CHÍNH --- */
+.add-truyen-wrapper {
+    min-height: 100vh;
+    padding: 40px 20px;
+    background: 
+        radial-gradient(at 0% 0%, rgba(108, 126, 225, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(198, 136, 235, 0.15) 0px, transparent 50%),
+        #f8fafc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.add-truyen-container {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    width: 100%;
+    max-width: 1100px;
+    border-radius: 30px;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    animation: fadeInScale 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.95) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* --- HEADER --- */
+.form-header-section {
+    background: linear-gradient(90deg, var(--color-1), var(--color-5));
+    padding: 40px;
+    text-align: center;
+    color: white;
+}
+
+.form-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+.form-info {
+    margin-top: 10px;
+    opacity: 0.9;
+    font-size: 1rem;
+}
+
+/* --- BỐ CỤC FORM --- */
+.add-form {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr; /* Chia 2 cột hoành tráng */
+    gap: 40px;
+    padding: 40px;
+}
+
+.form-left-col, .form-right-col {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-group label {
+    font-weight: 700;
+    color: var(--text-main);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* --- INPUT & TEXTAREA --- */
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group textarea {
+    padding: 15px 20px;
+    border: 2px solid transparent;
+    border-radius: 16px;
+    background: #ffffff;
+    font-size: 1rem;
+    color: var(--text-main);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--color-2);
+    box-shadow: 0 0 0 4px rgba(146, 185, 227, 0.2);
+    transform: translateY(-2px);
+    outline: none;
+}
+
+/* --- UPLOAD ẢNH (WAO) --- */
+.form-group input[type="file"] {
+    padding: 25px;
+    border: 2px dashed var(--color-2);
+    background: rgba(146, 185, 227, 0.08);
+    border-radius: 20px;
+    cursor: pointer;
+    text-align: center;
+    color: var(--text-muted);
+    font-weight: 600;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.form-group input[type="file"]::file-selector-button {
+    background: linear-gradient(135deg, var(--color-1), var(--color-2));
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    margin-right: 15px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(108, 126, 225, 0.2);
+    transition: all 0.3s;
+}
+
+.form-group input[type="file"]:hover {
+    background: rgba(146, 185, 227, 0.15);
+    border-color: var(--color-1);
+}
+
+/* --- CUSTOM REACT-SELECT (FIX LỖI CHÌM CHỮ) --- */
+.select__control {
+    border-radius: 16px !important;
+    padding: 5px !important;
+    border: 2px solid transparent !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05) !important;
+    background-color: white !important;
+}
+
+.select__menu {
+    background-color: white !important;
+    border-radius: 16px !important;
+    padding: 10px !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+    border: 1px solid var(--glass-border) !important;
+    z-index: 100 !important;
+}
+
+.select__option {
+    color: var(--text-main) !important;
+    border-radius: 10px !important;
+    margin-bottom: 4px !important;
+    cursor: pointer !important;
+}
+
+.select__option--is-focused {
+    background-color: rgba(146, 185, 227, 0.15) !important;
+    color: var(--color-1) !important;
+}
+
+.select__option--is-selected {
+    background: linear-gradient(90deg, var(--color-1), var(--color-2)) !important;
+    color: white !important;
+}
+
+.select__multi-value {
+    background-color: rgba(108, 126, 225, 0.1) !important;
+    border-radius: 8px !important;
+}
+
+.select__multi-value__label {
+    color: var(--color-1) !important;
+    font-weight: 600 !important;
+}
+
+.select__placeholder {
+    color: #94a3b8 !important;
+}
+
+/* --- NÚT BẤM (ACTIONS) --- */
+.form-actions-wrapper {
+    grid-column: span 2;
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    padding: 30px 40px;
+    background: rgba(0,0,0,0.02);
+    border-top: 1px solid #f1f5f9;
+}
+
+.btn-cancel {
+    padding: 16px 35px;
+    background: #f1f5f9;
+    color: var(--text-muted);
+    border: none;
+    border-radius: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-cancel:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+.btn-submit {
+    padding: 16px 50px;
+    background: linear-gradient(135deg, var(--color-1), var(--color-5));
+    color: white;
+    border: none;
+    border-radius: 18px;
+    font-weight: 800;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 10px 25px -5px rgba(108, 126, 225, 0.4);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.btn-submit:hover:not(:disabled) {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 20px 35px -10px rgba(108, 126, 225, 0.5);
+}
+
+.btn-submit:active {
+    transform: scale(0.98);
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 900px) {
+    .add-form {
+        grid-template-columns: 1fr;
+    }
+    .form-actions-wrapper {
+        grid-column: span 1;
+        justify-content: center;
+    }
+}

@@ -1,0 +1,141 @@
+/* Sử dụng lại hệ biến màu Pastel */
+:root {
+    --color-blue: #6C7EE1;
+    --color-light-blue: #92B9E3;
+    --color-peach: #FFC4A4;
+    --color-pink: #FBA2D0;
+    --color-purple: #C688EB;
+    --glass-bg: rgba(255, 255, 255, 0.12);
+    --glass-border: rgba(255, 255, 255, 0.2);
+}
+
+/* Container chính */
+.admin-glass-content {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 30px;
+    margin: 20px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Tiêu đề hiệu ứng chuyển màu */
+.admin-header h1 {
+    font-size: 2.2rem;
+    font-weight: 850;
+    background: linear-gradient(to right, #fff, var(--color-peach), var(--color-pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 5px;
+}
+
+.admin-subtitle {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 25px;
+    font-style: italic;
+}
+
+/* Bộ lọc (Filter Bar) */
+.filter-bar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 10px 22px;
+    border-radius: 50px;
+    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.filter-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background: white;
+    color: var(--color-blue);
+    border-color: white;
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+}
+
+/* Bảng dữ liệu */
+.admin-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+.admin-table th {
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--color-peach);
+    padding: 15px;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    text-align: left;
+}
+
+.admin-table tr {
+    background: rgba(255, 255, 255, 0.05);
+    transition: 0.3s;
+}
+
+.admin-table td {
+    padding: 15px;
+    border-top: 1px solid var(--glass-border);
+    border-bottom: 1px solid var(--glass-border);
+}
+
+/* Badge trạng thái */
+.status-badge {
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.status-badge.Chờ\ duyệt { background: var(--color-peach); color: #8a5e45; }
+.status-badge.Đã\ chuyển\ tiền { background: #2ecc71; color: white; }
+.status-badge.Từ\ chối { background: #ff4d4f; color: white; }
+
+/* Nút thao tác */
+.btn-action {
+    padding: 8px 16px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-action.approve {
+    background: linear-gradient(45deg, #2ecc71, #27ae60);
+    color: white;
+}
+
+.btn-action.reject {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #ff4d4f;
+    color: #ff4d4f;
+}
+
+.btn-action:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
+.processed-date {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+}

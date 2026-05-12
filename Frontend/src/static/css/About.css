@@ -1,0 +1,424 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Quicksand:wght@500;700&display=swap');
+
+/* Áp dụng cho toàn bộ nội dung */
+body, input, textarea, select, .ql-editor {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    line-height: 1.6; /* Giúp các dấu có không gian hiển thị, không bị đè */
+}
+.about-wrapper {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Nền toàn trang sử dụng màu loang đồng bộ */
+    background: radial-gradient(at 0% 0%, #6c7ae0 0, transparent 50%),
+                radial-gradient(at 100% 100%, #fbc19d 0, transparent 50%),
+                radial-gradient(at 50% 50%, #c08ae9 0, transparent 100%);
+    background-color: #f0f0f0;
+    perspective: 2500px;
+}
+
+.book-system {
+    position: relative;
+    width: 520px; 
+    height: 680px;
+    transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transform-style: preserve-3d;
+}
+
+.book-system.is-open {
+    transform: translateX(50%);
+}
+
+.paper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform-origin: left;
+    transform-style: preserve-3d;
+    transition: transform 0.8s ease-in-out;
+    cursor: pointer;
+}
+
+.front, .back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    box-sizing: border-box;
+    border-radius: 0 20px 20px 0;
+    box-shadow: inset 10px 0 30px rgba(0,0,0,0.1);
+}
+
+.back {
+    transform: rotateY(180deg);
+    border-radius: 20px 0 0 20px;
+}
+
+/* Lớp phủ Kính mờ (Glassmorphism) để xóa bỏ cảm giác trắng tinh */
+.glass-content {
+    background: rgba(255, 255, 255, 0.15); /* Trong suốt nhẹ */
+    backdrop-filter: blur(15px); /* Làm mờ màu loang phía sau */
+    height: 100%;
+    width: 100%;
+    border-radius: 15px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.glass-content.scrollable {
+    justify-content: flex-start;
+    text-align: left;
+    overflow-y: auto;
+}
+
+/* Màu Mesh Gradient lấy từ ảnh palette của bạn */
+.mesh-gradient-1 { background: linear-gradient(135deg, #6c7ae0, #8da9e6); color: white; }
+.mesh-gradient-2 { background: linear-gradient(135deg, #8da9e6, #fbc19d); color: white; }
+.mesh-gradient-3 { background: linear-gradient(135deg, #fbc19d, #f7a2cc); color: white; }
+
+.paper.flipped { transform: rotateY(-180deg); }
+
+/* Typography */
+.book-title { font-size: 45px; font-weight: 900; letter-spacing: -1px; }
+.divider { height: 5px; width: 60px; background: white; margin: 15px 0; border-radius: 5px; }
+.terms-list { line-height: 2.2; font-size: 16px; padding-left: 20px; }
+
+.back-btn {
+    margin-top: auto;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid white;
+    color: white;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: 0.3s;
+    align-self: center;
+}
+
+.back-btn:hover { background: white; color: #6c7ae0; }
+
+/* Custom Scrollbar cho lớp kính */
+.glass-content::-webkit-scrollbar { width: 4px; }
+.glass-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 10px; }
+/* --- PHẦN ĐIỀU KHIỂN CHO ADMIN --- */
+.admin-control-panel {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(20, 20, 20, 0.9);
+    padding: 10px 25px;
+    border-radius: 40px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    z-index: 9999;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+}
+
+.admin-info {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.admin-dot {
+    width: 8px;
+    height: 8px;
+    background: #00ff88;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 8px #00ff88;
+}
+
+.admin-btn {
+    padding: 7px 15px;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    transition: all 0.3s ease;
+}
+
+.admin-btn:hover { transform: scale(1.05); }
+.btn-active { background: #ff4757; color: white; }
+.btn-add { background: #6c7ae0; color: white; }
+
+/* --- STYLE CÁC Ô NHẬP LIỆU (EDITING) --- */
+.admin-edit-input {
+    background: transparent;
+    border: 1.5px dashed rgba(255, 255, 255, 0.5);
+    color: white;
+    width: 100%;
+    text-align: center;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.admin-edit-input.h1-style { font-size: 35px; font-weight: 900; }
+.admin-edit-input.h3-style { font-size: 20px; font-weight: bold; }
+
+.admin-edit-textarea {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px dashed rgba(255, 255, 255, 0.4);
+    color: white;
+    width: 100%;
+    height: 250px;
+    padding: 15px;
+    font-family: inherit;
+    font-size: 15px;
+    line-height: 1.6;
+    border-radius: 10px;
+    resize: none;
+}
+.content-img {
+    width: 100%;
+    max-height: 180px;
+    object-fit: contain;
+    margin: 10px 0;
+    border-radius: 5px;
+    background: rgba(255,255,255,0.1);
+}
+
+.img-preview {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    border: 1px solid #fff;
+}
+
+.edit-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 20; /* Đảm bảo nằm trên cùng để click không bị lật trang */
+}
+
+/* Ngăn lật trang khi click vào vùng sửa */
+.admin-edit-input, .admin-edit-textarea, .illustration-upload-btn {
+    pointer-events: auto;
+}
+/* Container bọc các ô sửa để không bị lật trang khi click vào */
+.edit-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Nút tải ảnh minh họa */
+.illustration-upload-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid white;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: 0.3s;
+}
+
+.illustration-upload-btn:hover {
+    background: white;
+    color: #333;
+}
+
+/* Ảnh minh họa khi đang xem */
+.content-img {
+    max-width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+    border-radius: 8px;
+    margin: 15px 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* Preview ảnh khi đang sửa */
+.preview-wrap {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.img-preview {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 5px;
+    border: 1px solid white;
+}
+
+.remove-img {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+/* Giữ nguyên các class admin cũ của bạn */
+.admin-edit-textarea {
+    width: 100%;
+    min-height: 150px;
+    /* ... giữ nguyên các style cũ của bạn ... */
+}
+/* Hình ảnh minh họa khi xem bình thường */
+.illustration-img {
+    width: 100%;
+    max-height: 200px; /* Giới hạn chiều cao để không đẩy chữ ra ngoài trang */
+    object-fit: contain;
+    border-radius: 10px;
+    margin: 15px 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Nút tải ảnh trong chế độ Admin */
+.img-upload-label {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    border: 1px solid white;
+    transition: 0.3s;
+}
+
+.img-upload-label:hover {
+    background: white;
+    color: #333;
+}
+
+/* Preview ảnh nhỏ khi đang chỉnh sửa */
+.admin-img-preview {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    border: 1.5px solid #fff;
+}
+
+/* Ngăn lật trang khi click vào vùng edit */
+.edit-box {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 100;
+}
+/* --- TỐI ƯU HÓA TOÀN DIỆN CHO MOBILE --- */
+@media (max-width: 768px) {
+    /* 1. Reset wrapper để cho phép cuộn nội dung */
+    .about-wrapper {
+        height: auto;
+        min-height: 100vh;
+        padding: 80px 15px 40px; /* Chừa chỗ cho Admin panel phía trên */
+        perspective: none; /* Bỏ 3D để tránh lỗi hiển thị */
+        overflow-y: auto;
+        display: block; /* Chuyển về khối để cuộn dọc */
+    }
+
+    /* 2. Biến hệ thống sách thành danh sách cuộn dọc */
+    .book-system {
+        width: 100%;
+        height: auto;
+        transform: none !important;
+        display: flex;
+        flex-direction: column;
+        gap: 20px; /* Khoảng cách giữa các "trang" */
+    }
+
+    /* 3. Chỉnh lại các tờ giấy (Paper) thành các Card phẳng */
+    .paper {
+        position: relative; /* Không để absolute chồng nhau nữa */
+        width: 100%;
+        height: auto;
+        transform: none !important;
+        cursor: default;
+        z-index: 1 !important;
+    }
+
+    /* 4. Hiển thị cả mặt trước và mặt sau nối tiếp nhau */
+    .front, .back {
+        position: relative;
+        width: 100%;
+        height: auto;
+        min-height: 300px;
+        backface-visibility: visible;
+        transform: none !important;
+        border-radius: 15px !important; /* Bo góc đều 4 cạnh */
+        margin-bottom: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    /* Đảm bảo mặt sau không bị ngược chữ */
+    .back {
+        display: flex !important; /* Hiển thị luôn mặt sau */
+    }
+
+    /* 5. Tối ưu nội dung bên trong */
+    .glass-content {
+        padding: 20px;
+        backdrop-filter: blur(10px);
+    }
+
+    .book-title {
+        font-size: 28px !important;
+        text-align: center;
+    }
+
+    .book-text {
+        font-size: 15px;
+        text-align: justify;
+    }
+
+    .illustration-img {
+        max-height: 200px;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    /* 6. Admin Panel trên Mobile */
+    .admin-control-panel {
+        width: 90%;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    /* 7. Ẩn nút "Quay lại" và các hiệu ứng không cần thiết trên mobile */
+    .back-btn {
+        display: none; 
+    }
+}

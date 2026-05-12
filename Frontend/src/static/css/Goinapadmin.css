@@ -1,0 +1,252 @@
+/* ==========================================================================
+   1. HỆ THỐNG BIẾN (VARIABLES) & RESET
+   ========================================================================== */
+:root {
+    --color-primary: #6C7EE1;    /* Xanh tím hiện đại */
+    --color-accent: #FFC4A4;     /* Màu đào làm điểm nhấn */
+    --color-gold: #f1c40f;       /* Màu vàng cho Xu/Tiền */
+    --glass-bg: rgba(15, 15, 25, 0.85); 
+    --glass-border: rgba(255, 255, 255, 0.12);
+    --input-bg: rgba(255, 255, 255, 0.05);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Fix lỗi các vệt trắng hoặc nền mặc định bị đè từ component cha */
+.table-header, 
+.page-header, 
+.header-wrapper, 
+.admin-form-glass div {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* ==========================================================================
+   2. CONTAINER CHÍNH (GLASSMORPHISM)
+   ========================================================================== */
+.admin-glass-content {
+    position: relative;
+    z-index: 1;
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 30px;
+    margin: 20px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    color: #ffffff !important;
+}
+
+/* ==========================================================================
+   3. TIÊU ĐỀ & TYPOGRAPHY (CHỮ NỔI BẬT - CHỐNG MỜ)
+   ========================================================================== */
+.page-header, .table-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 25px;
+    position: relative;
+    z-index: 10;
+}
+
+.page-title, 
+.table-header h2, 
+.admin-glass-content h2 {
+    font-size: 1.8rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 !important;
+    color: #ffffff !important;
+    
+    /* Hiệu ứng Gradient kết hợp đổ bóng để chữ sắc nét tuyệt đối */
+    background: linear-gradient(135deg, #fff 30%, var(--color-accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); 
+    
+    /* Reset filter nếu bị dính hiệu ứng blur từ cha */
+    filter: none !important;
+}
+
+.page-subtitle {
+    color: #94a3b8;
+    font-size: 0.95rem;
+    margin-top: -15px;
+    margin-bottom: 20px;
+}
+
+.page-title i, .page-title span, .page-title img {
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
+    font-size: 1.6rem;
+    -webkit-text-fill-color: initial; /* Giữ màu gốc cho icon */
+}
+
+/* ==========================================================================
+   4. BẢNG DỮ LIỆU (PREMIUM TABLE)
+   ========================================================================== */
+.table-container, .table-wrapper {
+    overflow-x: auto;
+    border-radius: 16px;
+    border: 1px solid var(--glass-border);
+    background: rgba(0, 0, 0, 0.2) !important;
+}
+
+.premium-table, .admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #e2e8f0;
+}
+
+.premium-table th, .admin-table th {
+    background: rgba(108, 126, 225, 0.15) !important;
+    color: var(--color-accent) !important;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 18px 15px;
+    text-align: left;
+    border-bottom: 2px solid var(--glass-border);
+}
+
+.premium-table td, .admin-table td {
+    padding: 16px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background: transparent !important;
+}
+
+.premium-table tr:hover, .admin-table tr:hover {
+    background: rgba(255, 255, 255, 0.03) !important;
+}
+
+/* ==========================================================================
+   5. FORM & INPUT
+   ========================================================================== */
+input[type="text"], input[type="number"] {
+    background: var(--input-bg) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 12px;
+    color: white !important;
+    padding: 12px 18px;
+    transition: var(--transition);
+}
+
+input[type="text"]:focus, input[type="number"]:focus {
+    border-color: var(--color-primary) !important;
+    box-shadow: 0 0 0 4px rgba(108, 126, 225, 0.2);
+    outline: none;
+}
+
+/* ==========================================================================
+   6. PHÂN TRANG (PAGINATION)
+   ========================================================================== */
+.pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+}
+
+.pagination-info {
+    color: #94a3b8;
+    font-size: 0.9rem;
+}
+
+.pagination-list {
+    display: flex;
+    gap: 8px;
+}
+
+.page-item {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.page-item:hover {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+}
+
+.page-item.active {
+    background: var(--color-primary);
+    box-shadow: 0 0 15px rgba(108, 126, 225, 0.4);
+    font-weight: bold;
+    border-color: var(--color-primary);
+}
+
+/* ==========================================================================
+   7. RESPONSIVE (MOBILE OPTIMIZATION)
+   ========================================================================== */
+@media (max-width: 768px) {
+    .admin-glass-content {
+        margin: 10px;
+        padding: 15px;
+    }
+
+    .page-title {
+        font-size: 1.4rem;
+    }
+
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 15px;
+    }
+
+    /* Chuyển bảng thành dạng Cards */
+    .premium-table thead, .admin-table thead {
+        display: none;
+    }
+
+    .premium-table tr, .admin-table tr {
+        display: block;
+        background: rgba(255, 255, 255, 0.05) !important;
+        margin-bottom: 15px;
+        border-radius: 15px;
+        padding: 10px;
+        border: 1px solid var(--glass-border);
+    }
+
+    .premium-table td, .admin-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: right;
+        padding: 10px 5px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* Hiển thị tiêu đề cột bằng thuộc tính data-label */
+    .premium-table td::before, .admin-table td::before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        color: var(--color-accent);
+        text-transform: uppercase;
+        font-size: 0.75rem;
+    }
+
+    .premium-table td:last-child, .admin-table td:last-child {
+        border-bottom: none;
+    }
+
+    .pagination-container {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+}

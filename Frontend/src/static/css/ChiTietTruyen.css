@@ -1,0 +1,370 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Quicksand:wght@500;700&display=swap');
+
+/* Áp dụng cho toàn bộ nội dung */
+body, input, textarea, select, .ql-editor {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    line-height: 1.6; /* Giúp các dấu có không gian hiển thị, không bị đè */
+}
+.chitiet-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 35px;
+    background: linear-gradient(135deg, #fff5f5 0%, #fdfcf0 35%, #f0fff4 70%, #f0f5ff 100%);
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+    font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+.chitiet-content {
+    display: flex;
+    gap: 40px;
+}
+
+/* Ảnh truyện */
+.chitiet-left {
+    flex: 0 0 280px;
+}
+
+.chitiet-img {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease;
+    border: 4px solid #ffffff;
+}
+
+.chitiet-img:hover {
+    transform: scale(1.02);
+}
+
+/* Thông tin chữ */
+.chitiet-info {
+    flex: 1;
+}
+
+.chitiet-title {
+    font-size: 2rem;
+    color: #4a4a4a;
+    margin-bottom: 20px;
+    font-weight: 800;
+}
+
+/* Các chỉ số pha màu Pastel */
+.chitiet-stats-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.rating-bar {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 30px;
+    padding: 6px 15px;
+    border: 1px solid #ffe3e3;
+}
+
+.rating-circle {
+    color: #ff9999; /* Tông hồng pastel */
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.rating-stars {
+    margin-left: 10px;
+    color: #ffd8a8; /* Tông cam đào */
+}
+
+/* Badge số chương và thể loại */
+.chapter-badge {
+    background: #e6fcf5; /* Tông xanh mint */
+    color: #20c997;
+    padding: 8px 18px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.category-badge {
+    background: #f1f3f5;
+    color: #868e96;
+    padding: 8px 18px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+}
+
+/* Meta info */
+.chitiet-meta p {
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.status-text {
+    color: #51cf66;
+    font-weight: 600;
+}
+
+/* Giới thiệu truyện chữ - Nền trắng đục để dễ đọc */
+.chitiet-description {
+    margin-top: 30px;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    line-height: 1.8; /* Dãn dòng cho truyện chữ */
+}
+
+.chitiet-description h3 {
+    color: #4a4a4a;
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    border-left: 4px solid #ffadad;
+    padding-left: 10px;
+}
+
+.chitiet-description p {
+    color: #666;
+    font-size: 1rem;
+    white-space: pre-line;
+}
+
+/* Nút Bắt đầu đọc - Loang màu Hồng & Cam */
+.read-now-btn {
+    margin-top: 30px;
+    padding: 15px 45px;
+    background: linear-gradient(45deg, #ffadad, #ffd6a5);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 173, 173, 0.4);
+    transition: 0.3s;
+}
+
+.read-now-btn:hover {
+    box-shadow: 0 6px 20px rgba(255, 173, 173, 0.6);
+    transform: translateY(-2px);
+}
+
+/* MODAL DANH SÁCH CHƯƠNG */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: linear-gradient(to bottom, #ffffff, #f8f9ff);
+    width: 90%;
+    max-width: 850px;
+    max-height: 85vh;
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+}
+
+.modal-header {
+    padding: 25px;
+    background: white;
+    border-bottom: 1px solid #f1f3f5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h2 {
+    font-size: 1.4rem;
+    color: #333;
+}
+
+.modal-body {
+    padding: 20px;
+    overflow-y: auto;
+}
+
+/* Danh sách chương dạng lưới (Grid) */
+.chuong-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 15px;
+}
+
+.chuong-item-card {
+    padding: 16px;
+    background: #ffffff;
+    border: 1px solid #edf2ff; /* Viền xanh lơ nhạt */
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.chuong-item-card:hover {
+    background: #fff5f5; /* Hover sang hồng nhạt */
+    border-color: #ffadad;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 173, 173, 0.15);
+}
+
+.chuong-number {
+    font-size: 0.85rem;
+    color: #adb5bd;
+    font-weight: 500;
+}
+
+.chuong-name {
+    font-weight: 600;
+    color: #495057;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.close-btn {
+    background: #f8f9fa;
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #adb5bd;
+}
+
+.close-btn:hover {
+    background: #ffe3e3;
+    color: #ff8e8e;
+}
+/* CSS cho phần Đánh giá */
+.chitiet-reviews-section {
+    margin-top: 40px;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 15px;
+}
+
+.chitiet-reviews-section h3 {
+    font-size: 1.1rem;
+    color: #4a4a4a;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #fff;
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+.review-item {
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #f0f0f0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.reviewer-name {
+    font-weight: 700;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.reviewer-stars {
+    color: #ffd8a8; /* Màu cam đào pastel từ hình của bạn */
+    font-size: 0.8rem;
+}
+
+.review-content {
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.no-review {
+    color: #999;
+    font-style: italic;
+    text-align: center;
+}
+.review-form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    border: 1px dashed #ffc9c9;
+}
+
+.star-rating-input {
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.review-form textarea {
+    width: 100%;
+    height: 80px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    font-family: inherit;
+}
+
+.btn-send-review {
+    background: #ff9999;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-send-review:hover {
+    background: #ff7777;
+}
+
+.login-hint {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    color: #666;
+}
+/* Màu cho sao đã chọn (Sáng) */
+.star-active {
+    color: #ffcc00; /* Màu vàng */
+    text-shadow: 0 0 5px rgba(255, 204, 0, 0.5);
+    cursor: pointer;
+}
+
+/* Màu cho sao chưa chọn (Tối) */
+.star-inactive {
+    color: #555; /* Màu xám tối */
+    cursor: pointer;
+}
+
+/* Hiệu ứng khi di chuột qua */
+.star-selector span:hover {
+    transform: scale(1.2);
+    transition: transform 0.2s;
+}

@@ -1,0 +1,128 @@
+/* 1. ĐỊNH NGHĨA BIẾN MÀU HỆ THỐNG */
+:root {
+    --color-blue: #6C7EE1;
+    --color-light-blue: #92B9E3;
+    --color-peach: #FFC4A4;
+    --color-pink: #FBA2D0;
+    --color-purple: #C688EB;
+    --glass-bg: rgba(255, 255, 255, 0.12);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* 2. CONTAINER CHÍNH HIỆU ỨNG KÍNH */
+.admin-glass-content {
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 30px;
+    margin: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    color: white;
+    animation: slideUp 0.5s ease-out;
+}
+
+/* 3. TIÊU ĐỀ GRADIENT */
+.admin-glass-content h1, .admin-header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 25px;
+    background: linear-gradient(to right, #fff, var(--color-peach), var(--color-pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 1px;
+    text-shadow: var(--text-shadow);
+}
+
+/* 4. ĐỊNH DẠNG BẢNG DỮ LIỆU */
+.admin-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px; /* Tạo khoảng cách giữa các dòng */
+    margin-top: 10px;
+}
+
+.admin-table th {
+    padding: 15px;
+    text-align: left;
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--color-peach);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid var(--glass-border);
+}
+
+.admin-table tr {
+    background: rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+
+.admin-table tr:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: scale(1.01);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.admin-table td {
+    padding: 15px;
+    border-top: 1px solid var(--glass-border);
+    border-bottom: 1px solid var(--glass-border);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Bo góc cho dòng đầu và cuối của mỗi row */
+.admin-table tr td:first-child { border-left: 1px solid var(--glass-border); border-radius: 12px 0 0 12px; }
+.admin-table tr td:last-child { border-right: 1px solid var(--glass-border); border-radius: 0 12px 12px 0; }
+
+/* 5. ĐỊNH DẠNG NỘI DUNG VĂN BẢN ĐẶC BIỆT */
+.text-muted {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.text-muted em {
+    font-style: italic;
+    background: rgba(0, 0, 0, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* Trạng thái sao trong đánh giá */
+.star-rating {
+    color: #f1c40f;
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(241, 196, 15, 0.3);
+}
+
+/* 6. NÚT XÓA (RED GRADIENT) */
+.btn-delete {
+    background: linear-gradient(45deg, #ff4d4f, #ff7875);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+    box-shadow: 0 4px 10px rgba(255, 77, 79, 0.2);
+}
+
+.btn-delete:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(255, 77, 79, 0.4);
+}
+
+/* 7. HIỆU ỨNG ĐỘNG */
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .admin-table th, .admin-table td { padding: 10px; font-size: 0.8rem; }
+}

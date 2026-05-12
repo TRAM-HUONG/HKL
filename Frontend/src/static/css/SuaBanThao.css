@@ -1,0 +1,117 @@
+/* --- CSS CHO SUA BAN THAO --- */
+
+.edit-form {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    margin-top: 20px;
+}
+
+/* Sửa lại tiêu đề trang tránh lỗi mất chữ */
+.admin-glass-content h1 {
+    font-family: 'Be Vietnam Pro', sans-serif !important;
+    font-weight: 800;
+    font-size: 2.2rem;
+    background: linear-gradient(to right, #ff9aa2, #0131f2);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.admin-input {
+    width: 100%;
+    height: 45px; /* Thêm chiều cao cố định cho input */
+    padding: 10px 15px !important; /* Thêm khoảng cách đệm để chữ không dính lề */
+    font-family: 'Be Vietnam Pro', sans-serif !important;
+    border-radius: 12px !important;
+    border: 2px solid #f0f0f0 !important;
+    background-color: #fafafa !important; /* Nền xám nhạt */
+    color: #333333 !important; /* ÉP MÀU CHỮ ĐEN ĐẬM */
+    transition: all 0.3s ease;
+    outline: none;
+    font-size: 1rem;
+    display: block;
+}
+
+/* Đảm bảo chữ bên trong không bị ẩn */
+.admin-input::placeholder {
+    color: #aaaaaa !important;
+}
+
+.admin-input:focus {
+    border-color: #ffb7b2 !important;
+    background-color: #ffffff !important; /* Khi focus thì nền trắng hẳn */
+    color: #000000 !important; /* Chữ đen tuyệt đối khi gõ */
+    box-shadow: 0 0 0 4px rgba(255, 183, 178, 0.2);
+}
+/* Nút bấm pha màu pastel */
+.form-actions-edit {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.btn-save {
+    background: linear-gradient(135deg, #b5ead7, #e2f0cb) !important;
+    color: #448b72 !important;
+    padding: 12px 25px !important;
+    border: none !important;
+    border-radius: 10px !important;
+    font-weight: 700 !important;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.btn-cancel-edit {
+    background: #f5f5f5 !important;
+    color: #888 !important;
+    padding: 12px 25px !important;
+    border: none !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    cursor: pointer;
+}
+
+.btn-save:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(181, 234, 215, 0.4);
+}
+/* Đảm bảo font chữ trong trình soạn thảo mượt mà */
+.ql-editor {
+    font-family: 'Be Vietnam Pro', sans-serif !important;
+    font-size: 16px;
+    line-height: 1.8;
+    min-height: 400px;
+}
+
+/* Bo góc cho khung soạn thảo */
+.ql-container.ql-snow {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.ql-toolbar.ql-snow {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    background-color: #f8f9fa;
+}
+/* Đảm bảo chữ trong trình soạn thảo luôn là màu đen/tối */
+.ql-editor {
+    color: #333 !important; /* Đổi màu chữ thành màu tối */
+    background-color: #ffffff !important; /* Đảm bảo nền luôn trắng */
+}
+
+/* Fix lỗi placeholder (chữ gợi ý) cũng bị trắng khó nhìn */
+.ql-editor.ql-blank::before {
+    color: #999 !important;
+    font-style: normal;
+}
+
+/* Đảm bảo các bảng chọn (dropdown) trong toolbar cũng có màu chữ nhìn thấy được */
+.ql-snow .ql-picker {
+    color: #444 !important;
+}

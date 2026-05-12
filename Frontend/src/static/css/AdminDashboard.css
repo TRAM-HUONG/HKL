@@ -1,0 +1,208 @@
+/* Import font chữ hiện đại */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+:root {
+    --color-blue: #6C7EE1;
+    --color-sky: #92B9E3;
+    --color-peach: #FFC4A4;
+    --color-pink: #FBA2D0;
+    --color-purple: #C688EB;
+    
+    --bg-admin: #f8faff;
+    --text-main: #2d3436;
+    --text-sub: #636e72;
+    --glass-bg: rgba(255, 255, 255, 0.8);
+    --shadow-soft: 0 10px 30px rgba(108, 126, 225, 0.08);
+}
+
+.admin-wow-dashboard {
+    padding: 30px;
+    background-color: var(--bg-admin);
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    color: var(--text-main);
+}
+
+/* --- THỐNG KÊ (TOP STATS) --- */
+.wow-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.wow-stat-card {
+    background: white;
+    padding: 25px;
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.wow-stat-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(108, 126, 225, 0.15);
+}
+
+/* Màu viền dưới cho từng thẻ theo tone màu chủ đạo */
+.wow-stat-card.bg-blue { border-bottom: 5px solid var(--color-blue); }
+.wow-stat-card.bg-sky { border-bottom: 5px solid var(--color-sky); }
+.wow-stat-card.bg-orange { border-bottom: 5px solid var(--color-peach); }
+.wow-stat-card.bg-pink { border-bottom: 5px solid var(--color-pink); }
+
+.wow-icon {
+    font-size: 2.5rem;
+    width: 65px;
+    height: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f3ff;
+    border-radius: 18px;
+}
+
+.wow-info p { margin: 0; color: var(--text-sub); font-size: 0.9rem; font-weight: 600; }
+.wow-info h3 { margin: 5px 0 0; font-size: 1.6rem; font-weight: 800; color: var(--text-main); }
+
+/* --- BỐ CỤC CHÍNH (SIDEBAR & MAIN) --- */
+.wow-body-layout {
+    display: flex;
+    gap: 30px;
+}
+
+/* SIDEBAR */
+.wow-sidebar {
+    flex: 0 0 280px;
+}
+
+.wow-sidebar-inner {
+    background: white;
+    border-radius: 30px;
+    padding: 25px;
+    position: sticky;
+    top: 20px;
+    box-shadow: var(--shadow-soft);
+}
+
+.wow-sidebar-title {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--color-blue);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 25px;
+    text-align: center;
+    opacity: 0.7;
+}
+
+.wow-menu-group { margin-bottom: 25px; }
+
+.wow-group-name {
+    font-size: 0.75rem;
+    color: var(--text-sub);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    padding-left: 10px;
+    border-left: 3px solid var(--color-purple);
+}
+
+.wow-menu-link {
+    display: flex;
+    align-items: center;
+    padding: 12px 18px;
+    border-radius: 15px;
+    cursor: pointer;
+    color: #4a5568;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.wow-menu-link:hover {
+    background: #f0f3ff;
+    color: var(--color-blue);
+    transform: translateX(5px);
+}
+
+.wow-link-icon { margin-right: 15px; font-size: 1.2rem; }
+
+/* BẢNG QUY TẮC (MAIN CONTENT) */
+.wow-main-content {
+    flex: 1;
+}
+
+.wow-rules-table-container {
+    background: white;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+}
+
+.wow-table-header {
+    padding: 25px;
+    background: white;
+    border-bottom: 1px solid #f1f2f6;
+}
+
+.wow-table-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 800;
+    background: linear-gradient(to right, var(--color-blue), var(--color-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.wow-table { width: 100%; border-collapse: collapse; }
+
+.wow-table th {
+    background: #fafbff;
+    padding: 18px 25px;
+    text-align: left;
+    font-size: 0.8rem;
+    color: var(--text-sub);
+    text-transform: uppercase;
+}
+
+.wow-table td {
+    padding: 20px 25px;
+    border-bottom: 1px solid #f8f9fa;
+    font-size: 0.95rem;
+}
+
+/* Các nhãn thời gian phản hồi (Tag) */
+.wow-tag {
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    background: #eef2ff;
+    color: var(--color-blue);
+}
+
+/* Màu sắc các tag đặc biệt */
+.wow-tag.orange { background: #fff5f0; color: #e67e22; }
+.wow-tag.pink { background: #fff0f6; color: #d63384; }
+
+/* --- MOBILE RESPONSIVE --- */
+@media (max-width: 1024px) {
+    .wow-body-layout { flex-direction: column; }
+    .wow-sidebar { width: 100%; }
+    .wow-menu-groups-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .wow-stats-grid { grid-template-columns: 1fr; }
+    .wow-menu-groups-container { grid-template-columns: 1fr; }
+    .wow-table th:nth-child(2), .wow-table td:nth-child(2) { display: none; }
+    .admin-wow-dashboard { padding: 15px; }
+}

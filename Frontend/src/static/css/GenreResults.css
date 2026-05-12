@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Quicksand:wght@500;700&display=swap');
+
+/* Áp dụng cho toàn bộ nội dung */
+body, input, textarea, select, .ql-editor {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    line-height: 1.6; /* Giúp các dấu có không gian hiển thị, không bị đè */
+}
+.genre-results-container {
+    padding: 40px 5%;
+    background-color: #fdfaf1; /* Đồng bộ màu nền kem đậm */
+    min-height: 80vh;
+}
+
+.genre-header {
+    margin-bottom: 40px;
+    border-left: 6px solid #FF6B6B; /* Viền Hồng San Hô đậm */
+    padding-left: 20px;
+}
+
+.genre-title {
+    font-size: 2rem;
+    color: #2c3e50;
+    margin: 0;
+}
+
+.genre-title span {
+    color: #FF6B6B;
+    font-weight: bold;
+}
+
+.results-count {
+    color: #7f8c8d;
+    font-style: italic;
+    margin-top: 5px;
+}
+
+/* Grid hiển thị truyện */
+.genre-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 30px;
+}
+
+.book-card-link {
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s ease;
+}
+
+.book-card-link:hover {
+    transform: translateY(-10px);
+}
+
+.book-card-item {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.book-image-wrapper {
+    position: relative;
+    height: 260px;
+}
+
+.book-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.book-badge {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: #6BCB77; /* Xanh lá cỏ đậm */
+    color: white;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.book-info {
+    padding: 15px;
+    flex-grow: 1;
+}
+
+.book-info h4 {
+    margin: 0 0 10px 0;
+    font-size: 1.1rem;
+    color: #2c3e50;
+    display: -webkit-box;
+    
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.book-author {
+    font-size: 0.85rem;
+    color: #FF8E53; /* Cam đào đậm */
+    margin: 0;
+}
+
+.empty-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 100px 0;
+    font-size: 1.2rem;
+    color: #bdc3c7;
+}
+
+/* Tối ưu di động */
+@media (max-width: 600px) {
+    .genre-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 15px;
+    }
+    .book-image-wrapper {
+        height: 200px;
+    }
+}
