@@ -31,7 +31,7 @@ const SuaBanThao = () => {
     useEffect(() => {
         const fetchDetail = async () => {
             try {
-                const res = await axios.get(`https://hkl-backend-v3uu.onrender.com/api/author/ban-thao/${id}`);
+                const res = await axios.get(`http://localhost:5000/api/author/ban-thao/${id}`);
                 if (res.data.success) {
                     const data = res.data.data;
                     setFormData({ 
@@ -54,7 +54,7 @@ const SuaBanThao = () => {
         e.preventDefault();
         try {
             // Gửi formData bao gồm cả gia_xu lên API
-            const res = await axios.put(`https://hkl-backend-v3uu.onrender.com/api/author/update-ban-thao/${id}`, formData);
+            const res = await axios.put(`http://localhost:5000/api/author/update-ban-thao/${id}`, formData);
             if (res.data.success) {
                 alert("✅ Đã cập nhật! Nội dung sẽ được chuyển về trạng thái 'Chờ duyệt'.");
                 navigate('/quan-ly-tac-pham'); 
