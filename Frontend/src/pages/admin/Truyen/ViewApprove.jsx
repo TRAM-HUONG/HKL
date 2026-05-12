@@ -14,7 +14,7 @@ const ViewApprove = () => {
         const fetchDetail = async () => {
             try {
                 // Gọi API lấy chi tiết truyện đã join các bảng TAC_GIA, THE_LOAI, CHI_TIET_TRUYEN
-                const res = await axios.get(`https://hkl-backend.onrender.com/api/admin/truyen-detail/${id}`);
+                const res = await axios.get(`https://hkl-backend-v3uu.onrender.com/api/admin/truyen-detail/${id}`);
                 if (res.data.success) {
                     setData(res.data.data);
                 }
@@ -30,7 +30,7 @@ const ViewApprove = () => {
     const handleApprove = async () => {
         if (window.confirm("Xác nhận phê duyệt truyện này lên hệ thống?")) {
             try {
-                const res = await axios.put(`https://hkl-backend.onrender.com/api/admin/approve-truyen/${id}`);
+                const res = await axios.put(`https://hkl-backend-v3uu.onrender.com/api/admin/approve-truyen/${id}`);
                 if (res.data.success) {
                     alert("Duyệt thành công!");
                     navigate('/admin/truyen');
@@ -56,7 +56,7 @@ const ViewApprove = () => {
                 {/* Phần bên trái: Ảnh bìa (Trường HINHANH) */}
                 <div className="detail-poster">
                     <img 
-                        src={`https://hkl-backend.onrender.com/images/${data.hinh_anh}`} 
+                        src={`https://hkl-backend-v3uu.onrender.com/images/${data.hinh_anh}`} 
                         alt="cover" 
                         style={{ width: '280px', borderRadius: '12px', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}
                         onError={(e) => e.target.src = "https://via.placeholder.com/280x400"}

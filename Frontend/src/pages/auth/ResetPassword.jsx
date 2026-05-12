@@ -10,7 +10,7 @@ const ResetPassword = () => {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    const res = await fetch("https://hkl-backend.onrender.com/api/auth/reset-password", {
+    const res = await fetch("https://hkl-backend-v3uu.onrender.com/api/auth/reset-password", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token, newPassword }),
