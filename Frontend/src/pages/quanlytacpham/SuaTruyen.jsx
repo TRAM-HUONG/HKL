@@ -24,8 +24,8 @@ const SuaTruyen = () => {
         const fetchData = async () => {
             try {
                 const [tlRes, trRes] = await Promise.all([
-                    axios.get('http://localhost:5000/api/author/the-loai'),
-                    axios.get(`http://localhost:5000/api/author/truyen/${id}`)
+                    axios.get('https://hkl-backend.onrender.com/api/author/the-loai'),
+                    axios.get(`https://hkl-backend.onrender.com/api/author/truyen/${id}`)
                 ]);
                 setTheLoaiList(tlRes.data);
                 
@@ -45,7 +45,7 @@ const SuaTruyen = () => {
                         hinhanh: d.hinhanh || d.HINHANH || '',
                         gia_tron_goi: d.gia_tron_goi || d.GIA_TRON_GOI || 0 
                     });
-                    setPreviewImage(`http://localhost:5000/images/${d.hinhanh || d.HINHANH}`);
+                    setPreviewImage(`https://hkl-backend.onrender.com/images/${d.hinhanh || d.HINHANH}`);
                 }
             } catch (err) { 
                 console.error("Lỗi tải dữ liệu:", err); 
@@ -88,7 +88,7 @@ const SuaTruyen = () => {
         }
 
         try {
-            const res = await axios.put(`http://localhost:5000/api/author/update-truyen/${id}`, data, {
+            const res = await axios.put(`https://hkl-backend.onrender.com/api/author/update-truyen/${id}`, data, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
             if (res.data.success) {

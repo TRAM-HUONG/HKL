@@ -18,7 +18,7 @@ const DanhMuc = () => {
             setLoading(true);
             try {
                 // Gọi API lấy toàn bộ danh sách truyện
-                const res = await axios.get("http://localhost:5000/api/truyen");
+                const res = await axios.get("https://hkl-backend.onrender.com/api/truyen");
                 const allTruyen = res.data;
 
                 // Lọc danh sách truyện dựa trên từ khóa tìm kiếm (không phân biệt hoa thường)[cite: 4]
@@ -60,7 +60,7 @@ const DanhMuc = () => {
                             <div key={truyen.mat} className="truyen-item-card" style={{ textAlign: 'center' }}>
                                 <Link to={`/truyen/${truyen.mat}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                                     <img 
-                                        src={`http://localhost:5000/images/${truyen.hinhanh}`} 
+                                        src={`https://hkl-backend.onrender.com/images/${truyen.hinhanh}`} 
                                         alt={truyen.tent} 
                                         style={{ width: '100%', height: '280px', objectFit: 'cover', borderRadius: '8px' }}
                                         onError={(e) => { e.target.src = "https://via.placeholder.com/200x280"; }}

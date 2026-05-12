@@ -37,7 +37,7 @@ const Payment = () => {
     setIsProcessing(true);
     
     try {
-      const response = await fetch("http://localhost:5000/api/user/nap-tien", {
+      const response = await fetch("https://hkl-backend.onrender.com/api/user/nap-tien", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
