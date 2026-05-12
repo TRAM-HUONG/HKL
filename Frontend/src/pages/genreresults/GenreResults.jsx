@@ -12,7 +12,7 @@ const GenreResults = () => {
     useEffect(() => {
         setLoading(true);
         // Gọi API lọc truyện theo thể loại[cite: 5, 7]
-        fetch(`http://localhost:5000/api/danh-muc/${matl}/truyen`)
+        fetch(`https://hkl-backend.onrender.com/api/danh-muc/${matl}/truyen`)
             .then(res => res.json())
             .then(data => {
                 setListTruyen(data);
@@ -46,7 +46,7 @@ const GenreResults = () => {
                                 <div className="book-card-item">
                                     <div className="book-image-wrapper">
                                         <img 
-                                            src={`http://localhost:5000/images/${truyen.hinhanh || truyen.HINHANH}`} 
+                                            src={`https://hkl-backend.onrender.com/images/${truyen.hinhanh || truyen.HINHANH}`} 
                                             alt={truyen.tent || truyen.TENT} 
                                             onError={(e) => { e.target.src = "https://via.placeholder.com/200x300?text=No+Cover"; }}
                                         />

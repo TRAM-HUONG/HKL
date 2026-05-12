@@ -8,7 +8,7 @@ const Docgia = () => {
     const [searchTerm, setSearchTerm] = useState(""); // State lưu từ khóa tìm kiếm
 
     const fetchData = () => {
-        axios.get('http://localhost:5000/api/admin/readers')
+        axios.get('https://hkl-backend.onrender.com/api/admin/readers')
             .then(res => setReaders(res.data))
             .catch(err => console.error("Lỗi lấy dữ liệu:", err));
     };
@@ -20,7 +20,7 @@ const Docgia = () => {
     const deleteReader = async (id) => {
         if (window.confirm("Xóa độc giả này?")) {
             try {
-                const res = await axios.delete(`http://localhost:5000/api/admin/accounts/${id}`);
+                const res = await axios.delete(`https://hkl-backend.onrender.com/api/admin/accounts/${id}`);
                 if (res.data.success) {
                     setReaders(readers.filter(r => r.matk !== id));
                     alert("Xóa thành công!");

@@ -12,7 +12,7 @@ const GoiNapList = () => {
 
     const fetchPackages = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/admin/goi-nap/all');
+            const res = await axios.get('https://hkl-backend.onrender.com/api/admin/goi-nap/all');
             if (res.data.success) {
                 setPackages(res.data.data);
             }
@@ -30,7 +30,7 @@ const GoiNapList = () => {
     const handleDelete = async (magoi) => {
         if (window.confirm(`Bạn có chắc muốn xóa gói ${magoi}?`)) {
             try {
-                const res = await axios.delete(`http://localhost:5000/api/admin/goi-nap/delete/${magoi}`);
+                const res = await axios.delete(`https://hkl-backend.onrender.com/api/admin/goi-nap/delete/${magoi}`);
                 if (res.data.success) {
                     alert("Xóa thành công!");
                     setPackages(packages.filter(p => p.magoi !== magoi));
