@@ -34,7 +34,7 @@ const Register = () => {
     }
 
     try {
-      const response = await fetch("https://hkl-backend-v3uu.onrender.com/api/auth/register", {
+      const response = await fetch("http://localhost:5000/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         // Chỉ gửi những trường mà server cần (bỏ confirmMk)
@@ -181,13 +181,15 @@ const Register = () => {
 };
 
 // Styles bổ trợ cho icon con mắt và select[cite: 3]
+// Sửa lại style này trong file Register.jsx
 const eyeIconStyle = {
   position: 'absolute',
   right: '15px',
-  top: '42px',
+  top: '38px', // Căn chỉnh lại cho vừa với chiều cao input mới
   cursor: 'pointer',
   fontSize: '1.2rem',
-  opacity: 0.7
+  opacity: 0.7,
+  zIndex: 10 // Đảm bảo icon luôn nằm trên input
 };
 
 const selectStyle = {

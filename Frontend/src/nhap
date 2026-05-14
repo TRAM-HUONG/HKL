@@ -1,0 +1,12 @@
+//Nếu đang chạy ở máy (development) thì dùng localhost, 
+  ? 'https://hkl-backend-v3uu.onrender.com' 
+ //Nếu đã lên Render thì dùng link backend của Render
+  : 'http://localhost:5000';
+  //Khoi tao githup
+  git remote add origin https://github.com/TRAM-HUONG/HKL.git
+  //push code len github
+  git branch -M main
+  git push -u origin main --force
+  //pull code tu github ve
+  git pull origin main
+

@@ -57,9 +57,9 @@ exports.register = async (req, res) => {
 
     // 2. Gói dữ liệu vào Token
     const token = jwt.sign({ tendn, mk, email, sdt, ngaysinh, role }, SECRET_KEY, { expiresIn: '10m' });
-    const confirmLink = `https://hkl-backend-v3uu.onrender.com/api/auth/confirm-registration?token=${token}`;
+    const confirmLink = `http://localhost:5000/api/auth/confirm-registration?token=${token}`;
 
-    // 3. SOẠN THƯ VÀ GỬI (Tự động gửi đến email người đăng ký)
+  
     await transporter.sendMail({
       from: '"HKL Story" <nguyentramhuong2k221@gmail.com>',
       to: email, 
@@ -73,7 +73,7 @@ exports.register = async (req, res) => {
               <p>Chào mừng bạn đến với <b>HKL Story</b>. Khi tham gia cộng đồng của chúng tôi, bạn cần tuân thủ các điều khoản sau:</p>
               <ul>
                 <li><b>1. Nội dung:</b> Không đăng tải truyện hoặc bình luận có nội dung đồi trụy, vi phạm pháp luật hoặc xúc phạm cá nhân/tổ chức khác.</li>
-                <li><b>2. Bản quyền:</b> Tôn trọng quyền tác giả. Không sao chép truyện từ nền tảng khác khi chưa được phép.</li>
+                <li><b>2. Bản quyền:</b> Tôn trọng quyền tác giả. Không sao chép truyện từ nền tảng khác khi chưa được phép và khi sao chép cần mô tả chi tiết nguồn hoặc tên cua tác giả khác.</li>
                 <li><b>3. Bảo mật:</b> Bạn có trách nhiệm tự bảo quản mật khẩu cá nhân. Hệ thống không chịu trách nhiệm nếu bạn làm lộ thông tin.</li>
                 <li><b>4. Xử lý vi phạm:</b> Ban quản trị có quyền khóa hoặc xóa tài khoản vĩnh viễn nếu phát hiện hành vi gian lận hoặc phá hoại hệ thống.</li>
               </ul>

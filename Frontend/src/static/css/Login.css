@@ -28,24 +28,38 @@ body, input, textarea, select, .ql-editor {
 .book {
   display: flex;
   width: 1000px;
-  height: 600px;
+  min-height: 750px; /* Tăng chiều cao tối thiểu để chứa đủ các field */
+  height: auto;      /* Cho phép chiều cao co giãn theo nội dung form */
   position: relative;
   transform-style: preserve-3d;
   transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 30px 60px rgba(0,0,0,0.2);
-  border-radius: 10px;
+  border-radius: 15px; /* Tăng bo góc cho mềm mại hơn */
+  margin: 20px 0;    /* Thêm khoảng cách trên dưới */
 }
-
 /* Các trang sách chung */
 .book-page {
   flex: 1;
-  padding: 50px;
+  padding: 30px 50px; /* Giảm padding một chút để tiết kiệm diện tích dọc */
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: center; /* Giúp nội dung luôn nằm giữa trang sách */
   position: relative;
-  backdrop-filter: blur(10px); /* Hiệu ứng kính mờ */
+  backdrop-filter: blur(10px);
   background: rgba(255, 255, 255, 0.7);
+}
+
+.input-group {
+  margin-bottom: 15px; /* Giảm từ 25px xuống 15px */
+}
+
+.input-group label {
+  margin-bottom: 5px;  /* Giảm khoảng cách giữa label và input */
+  font-size: 0.9rem;   /* Thu nhỏ font label một chút cho gọn */
+}
+
+.input-group input, .input-group select {
+  padding: 10px 15px;  /* Giảm padding bên trong input */
 }
 
 /* Trang trái - Giới thiệu (Tông màu Hồng/Cam pastel) */
@@ -186,12 +200,8 @@ body, input, textarea, select, .ql-editor {
 @media (max-width: 1050px) {
   .book {
     width: 100%;
-    height: auto;
+    height: auto; /* Quan trọng: để auto để các trang xếp chồng lên nhau */
     flex-direction: column;
   }
-  .book-page {
-    border-radius: 15px !important;
-    margin-bottom: 20px;
-  }
-  .book::before { display: none; }
+  /* Các chỉnh sửa khác giữ nguyên như cũ */
 }

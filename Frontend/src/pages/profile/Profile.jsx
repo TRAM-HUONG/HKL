@@ -63,7 +63,7 @@ const Profile = () => {
   const fetchDoanhThu = async (matg) => {
     if (!matg) return;
     try {
-      const response = await fetch(`https://hkl-backend-v3uu.onrender.com/api/user/tac-gia/doanh-thu/${matg}`);
+      const response = await fetch(`http://localhost:5000/api/user/tac-gia/doanh-thu/${matg}`);
       if (response.ok) {
         const data = await response.json();
         setDoanhThu(data);
@@ -84,7 +84,7 @@ const Profile = () => {
     const fullBankInfo = `STK: ${withdrawData.soTK} - Ngân hàng: ${withdrawData.nganHang} - Chủ TK: ${withdrawData.tenChuTK} ${withdrawData.ghiChu ? '(Ghi chú: ' + withdrawData.ghiChu + ')' : ''}`;
 
     try {
-      const res = await fetch(`https://hkl-backend-v3uu.onrender.com/api/user/withdraw/request`, {
+      const res = await fetch(`http://localhost:5000/api/user/withdraw/request`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -110,7 +110,7 @@ const Profile = () => {
   const fetchLichSu = async (madg) => {
     if (!madg) return;
     try {
-      const response = await fetch(`https://hkl-backend-v3uu.onrender.com/api/lich-su/${madg}`);
+      const response = await fetch(`http://localhost:5000/api/lich-su/${madg}`);
       if (response.ok) {
         const data = await response.json();
         setLichSu(Array.isArray(data) ? data : []);
@@ -124,7 +124,7 @@ const Profile = () => {
   const fetchFinance = async (matk) => {
     if (!matk) return;
     try {
-      const response = await fetch(`https://hkl-backend-v3uu.onrender.com/api/user/financial-info/${matk}`);
+      const response = await fetch(`http://localhost:5000/api/user/financial-info/${matk}`);
       if (response.ok) {
         const data = await response.json();
         setFinance(data);
@@ -144,7 +144,7 @@ const Profile = () => {
     };
 
     try {
-      const response = await fetch(`https://hkl-backend-v3uu.onrender.com/api/user/update`, {
+      const response = await fetch(`http://localhost:5000/api/user/update`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updateData),
@@ -170,7 +170,7 @@ const Profile = () => {
   const handleDeleteLichSu = async (mat) => {
     if (window.confirm("Bạn có chắc chắn muốn xóa truyện này khỏi lịch sử đọc?")) {
       try {
-        const response = await fetch(`https://hkl-backend-v3uu.onrender.com/api/lich-su/delete`, {
+        const response = await fetch(`http://localhost:5000/api/lich-su/delete`, {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ 
@@ -421,7 +421,7 @@ const Profile = () => {
                 lichSu.map((item, index) => (
                   <div key={index} className="history-item">
                     <img 
-                      src={`https://hkl-backend-v3uu.onrender.com/images/${item.hinhanh}`} 
+                      src={`http://localhost:5000/images/${item.hinhanh}`} 
                       alt={item.tent} 
                       onError={(e) => e.target.src = "https://via.placeholder.com/100x150?text=No+Image"}
                     />
