@@ -72,7 +72,7 @@ const Layout = ({ children }) => {
   }, [location.pathname, navigate]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/truyen")
+    fetch("https://hkl-backend-v3uu.onrender.com/api/truyen")
       .then((res) => res.json())
       .then((data) => {
         const shuffled = [...data].sort(() => 0.5 - Math.random());
@@ -80,7 +80,7 @@ const Layout = ({ children }) => {
       })
       .catch((err) => console.error("Lỗi tải banner:", err));
 
-    fetch("http://localhost:5000/api/danh-muc")
+    fetch("https://hkl-backend-v3uu.onrender.com/api/danh-muc")
       .then((res) => res.json())
       .then((data) => setTheLoaiList(data))
       .catch((err) => console.error("Lỗi tải danh mục:", err));
@@ -209,7 +209,7 @@ const Layout = ({ children }) => {
             <div key={idx} className={`carousel-card ${getCardClass(idx)}`}>
               <Link to={`/truyen/${truyen.matruyen || truyen.MAT || truyen.mat}`}>
                 <img 
-                  src={`http://localhost:5000/images/${truyen.hinhanh || truyen.HINHANH}`} 
+                  src={`https://hkl-backend-v3uu.onrender.com/images/${truyen.hinhanh || truyen.HINHANH}`} 
                   alt={truyen.tentruyen || truyen.TENT} 
                   onError={(e) => { e.target.src = "https://via.placeholder.com/150"; }} 
                 />

@@ -1,14 +1,26 @@
-//Nếu đang chạy ở máy (development) thì dùng localhost, 
+# Nếu đang chạy ở máy (development) thì dùng localhost, 
   ? 'https://hkl-backend-v3uu.onrender.com' 
- //Nếu đã lên Render thì dùng link backend của Render
-  : 'http://localhost:5000';
-  //Khoi tao githup
+# Nếu đã lên Render thì dùng link backend của Render
+  : 'https://hkl-backend-v3uu.onrender.com';
+# Khoi tao githup
   git remote add origin https://github.com/TRAM-HUONG/HKL.git
-  //push code len github
+# push code len github
   git branch -M main
   git push -u origin main --force
-  //pull code tu github ve
-git checkout --theirs .
-git add .
-git commit -m "Resolve conflicts by keeping remote changes"
+# 1. Tải thông tin mới nhất từ GitHub về (nhưng chưa áp dụng)
+git fetch origin main
 
+# 2. Ép code trong máy quay về trạng thái của GitHub (Xóa mọi sửa đổi local)
+git reset --hard origin/main
+
+# 3. Xóa các file "rác" không có trên GitHub nhưng đang có ở máy bạn
+git clean -fd
+
+# 1. Xóa thư mục node_modules và file lock
+rm -rf node_modules package-lock.json
+
+# 2. Cài đặt lại các thư viện
+npm install
+
+# 3. Chạy lại dự án
+npm run dev

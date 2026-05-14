@@ -12,7 +12,7 @@ const ChiTietBanthao = () => {
 
     const fetchDetail = async () => {
         try {
-            const res = await axios.get(`http://localhost:5000/api/admin/ban-thao/detail/${mabt}`);
+            const res = await axios.get(`https://hkl-backend-v3uu.onrender.com/api/admin/ban-thao/detail/${mabt}`);
             if (res.data.success) {
                 setDraft(res.data.data);
             }
@@ -30,7 +30,7 @@ const ChiTietBanthao = () => {
     const handleApprove = async () => {
         if (window.confirm("Bạn có chắc chắn muốn duyệt chương này lên trang chủ?")) {
             try {
-                const res = await axios.put(`http://localhost:5000/api/admin/ban-thao/approve/${mabt}`);
+                const res = await axios.put(`https://hkl-backend-v3uu.onrender.com/api/admin/ban-thao/approve/${mabt}`);
                 if (res.data.success) {
                     alert("Duyệt bản thảo thành công!");
                     navigate('/admin/ban-thao');

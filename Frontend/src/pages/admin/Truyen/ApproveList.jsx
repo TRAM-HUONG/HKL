@@ -18,7 +18,7 @@ const ApproveList = () => {
     const fetchAllStories = async () => {
         setLoading(true);
         try {
-            const res = await axios.get('http://localhost:5000/api/admin/truyen-manage/all');
+            const res = await axios.get('https://hkl-backend-v3uu.onrender.com/api/admin/truyen-manage/all');
             if (res.data.success) {
                 setPendingStories(res.data.choDuyet);
                 setPublishedStories(res.data.daDuyet);
@@ -46,7 +46,7 @@ const ApproveList = () => {
     const handleReject = async (id) => {
         if (window.confirm("Bạn có chắc chắn muốn TỪ CHỐI duyệt truyện này?")) {
             try {
-                await axios.put(`http://localhost:5000/api/admin/truyen/reject/${id}`);
+                await axios.put(`https://hkl-backend-v3uu.onrender.com/api/admin/truyen/reject/${id}`);
                 alert("Đã từ chối truyện!");
                 fetchAllStories();
             } catch (err) {
@@ -58,7 +58,7 @@ const ApproveList = () => {
     const handleDelete = async (id) => {
         if (window.confirm("Bạn có chắc chắn muốn GỠ BỎ truyện này vĩnh viễn không?")) {
             try {
-                await axios.delete(`http://localhost:5000/api/admin/truyen/delete/${id}`);
+                await axios.delete(`https://hkl-backend-v3uu.onrender.com/api/admin/truyen/delete/${id}`);
                 alert("Đã gỡ bỏ truyện thành công!");
                 fetchAllStories();
             } catch (err) {
@@ -107,7 +107,7 @@ const ApproveList = () => {
                                 <td><span className="id-badge">#{s.mat}</span></td>
                                 <td>
                                     <img 
-                                        src={`http://localhost:5000/images/${s.hinhanh}`} 
+                                        src={`https://hkl-backend-v3uu.onrender.com/images/${s.hinhanh}`} 
                                         className="table-poster"
                                         alt="cover" 
                                         onError={(e) => { e.target.src = "https://via.placeholder.com/50x70?text=No+Cover"; }}
