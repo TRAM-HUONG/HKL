@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import axios from 'axios';
 import Layout from '../layout/layout.jsx'; 
-import "../../static/css/Home.css"; 
+import "../../static/css/Truyen.css"; 
 
 const DanhMuc = () => {
     const [dsTruyen, setDsTruyen] = useState([]);
@@ -18,7 +18,7 @@ const DanhMuc = () => {
             setLoading(true);
             try {
                 // Gọi API lấy toàn bộ danh sách truyện
-                const res = await axios.get("https://hkl-backend-v3uu.onrender.com/api/truyen");
+                const res = await axios.get("http://localhost:5000/api/truyen");
                 const allTruyen = res.data;
 
                 // Lọc danh sách truyện dựa trên từ khóa tìm kiếm (không phân biệt hoa thường)[cite: 4]
@@ -57,18 +57,21 @@ const DanhMuc = () => {
                         marginTop: '20px' 
                     }}>
                         {dsTruyen.map((truyen) => (
-                            <div key={truyen.mat} className="truyen-item-card" style={{ textAlign: 'center' }}>
-                                <Link to={`/truyen/${truyen.mat}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                                    <img 
-                                        src={`https://hkl-backend-v3uu.onrender.com/images/${truyen.hinhanh}`} 
-                                        alt={truyen.tent} 
-                                        style={{ width: '100%', height: '280px', objectFit: 'cover', borderRadius: '8px' }}
-                                        onError={(e) => { e.target.src = "https://via.placeholder.com/200x280"; }}
-                                    />
-                                    <h4 style={{ marginTop: '10px', fontSize: '16px' }}>{truyen.tent}</h4>
-                                    <p style={{ color: '#888', fontSize: '14px' }}>{truyen.ten_tac_gia}</p>
-                                </Link>
-                            </div>
+                            <div key={truyen.mat} className="truyen-item-card">
+    <Link to={`/truyen/${truyen.mat}`} className="card-link">
+        <div className="img-wrapper">
+            <img 
+                src={`http://localhost:5000/images/${truyen.hinhanh}`} 
+                alt={truyen.tent} 
+                onError={(e) => { e.target.src = "https://via.placeholder.com/200x280"; }}
+            />
+        </div>
+        <div className="card-content">
+            <h4 className="truyen-title">{truyen.tent}</h4>
+            <p className="truyen-author">{truyen.ten_tac_gia}</p>
+        </div>
+    </Link>
+</div>
                         ))}
                     </div>
                 ) : (

@@ -3,6 +3,9 @@ import '../../static/css/layout.css';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 import heroBackground from '../../static/images/banner.png';
+// Import thêm ảnh mới theo yêu cầu
+import footerImg from '../../static/images/Footer.png';
+import bodyBackground from '../../static/images/Br.png';
 
 const Layout = ({ children }) => {
   const [bannerImgs, setBannerImgs] = useState([]);
@@ -72,7 +75,7 @@ const Layout = ({ children }) => {
   }, [location.pathname, navigate]);
 
   useEffect(() => {
-    fetch("https://hkl-backend-v3uu.onrender.com/api/truyen")
+    fetch("http://localhost:5000/api/truyen")
       .then((res) => res.json())
       .then((data) => {
         const shuffled = [...data].sort(() => 0.5 - Math.random());
@@ -80,7 +83,7 @@ const Layout = ({ children }) => {
       })
       .catch((err) => console.error("Lỗi tải banner:", err));
 
-    fetch("https://hkl-backend-v3uu.onrender.com/api/danh-muc")
+    fetch("http://localhost:5000/api/danh-muc")
       .then((res) => res.json())
       .then((data) => setTheLoaiList(data))
       .catch((err) => console.error("Lỗi tải danh mục:", err));
@@ -127,16 +130,25 @@ const Layout = ({ children }) => {
   const role = user?.VAI_TRO || user?.vai_tro;
 
   return (
-    <div className={`home-container ${isMobileMenuOpen ? 'menu-open' : ''}`}>
+    <div 
+      className={`home-container ${isMobileMenuOpen ? 'menu-open' : ''}`}
+      style={{ 
+        backgroundImage: `url(${bodyBackground})`,
+        backgroundAttachment: 'fixed',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        minHeight: '100vh'
+      }}
+    >
       <header 
-  className="hero-section" 
-  style={{ 
-    backgroundImage: `url(${heroBackground})`,
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center'
-  }}
->
+        className="hero-section" 
+        style={{ 
+          backgroundImage: `url(${heroBackground})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }}
+      >
         <nav className="navbar">
           {/* Nút Hamburger cho Mobile */}
           <div className="mobile-menu-icon" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
@@ -209,7 +221,7 @@ const Layout = ({ children }) => {
             <div key={idx} className={`carousel-card ${getCardClass(idx)}`}>
               <Link to={`/truyen/${truyen.matruyen || truyen.MAT || truyen.mat}`}>
                 <img 
-                  src={`https://hkl-backend-v3uu.onrender.com/images/${truyen.hinhanh || truyen.HINHANH}`} 
+                  src={`http://localhost:5000/images/${truyen.hinhanh || truyen.HINHANH}`} 
                   alt={truyen.tentruyen || truyen.TENT} 
                   onError={(e) => { e.target.src = "https://via.placeholder.com/150"; }} 
                 />
@@ -237,10 +249,19 @@ const Layout = ({ children }) => {
 
       <main className="main-content">{children}</main>
 
-      <footer className="footer-modern">
-        <div className="footer-content">
+      <footer 
+        className="footer-modern"
+        style={{
+          backgroundImage: `url(${footerImg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          padding: '40px 0 20px 0' // Điều chỉnh padding cho cân đối
+        }}
+      >
+        <div className="footer-content" style={{ backgroundColor: 'transparent' }}>
           <div className="footer-brand">
-            <h2 className="footer-logo">HKL<span>.</span></h2>
+            <h2 className="footer-logo">HKL Library</h2>
             <p className="footer-slogan">Hệ thống quản lý thư viện số hiện đại.</p>
           </div>
           <nav className="footer-nav">
@@ -257,7 +278,7 @@ const Layout = ({ children }) => {
             )}
           </nav>
         </div>
-        <div className="footer-bottom">
+        <div className="footer-bottom" style={{ borderTop: '1px solid rgba(255,255,255,0.2)', backgroundColor: 'transparent' }}>
           <p>© 2026 HKL Team. Trang quản trị bảo mật cao.</p>
         </div>
       </footer>

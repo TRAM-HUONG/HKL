@@ -9,7 +9,7 @@ const Taikhoan = () => {
 
     const fetchData = async () => {
         try {
-            const res = await axios.get('https://hkl-backend-v3uu.onrender.com/api/admin/accounts');
+            const res = await axios.get('http://localhost:5000/api/admin/accounts');
             setData(res.data);
         } catch (err) { console.error(err); }
     };
@@ -17,7 +17,7 @@ const Taikhoan = () => {
     const handleDelete = async (id) => {
         if (window.confirm("Xóa tài khoản này sẽ xóa mọi dữ liệu liên quan (Độc giả/Tác giả). Tiếp tục?")) {
             try {
-                await axios.delete(`https://hkl-backend-v3uu.onrender.com/api/admin/accounts/${id}`);
+                await axios.delete(`http://localhost:5000/api/admin/accounts/${id}`);
                 fetchData();
             } catch (err) { alert("Lỗi khi xóa tài khoản"); }
         }
