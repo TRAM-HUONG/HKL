@@ -8,5 +8,7 @@
   git branch -M main
   git push -u origin main --force
   //pull code tu github ve
-  git pull origin main
+git checkout --theirs .
+git add .
+git commit -m "Resolve conflicts by keeping remote changes"
 
