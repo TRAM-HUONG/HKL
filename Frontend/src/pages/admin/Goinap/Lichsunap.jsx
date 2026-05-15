@@ -9,7 +9,7 @@ const Lichsunap = () => {
     const [searchTerm, setSearchTerm] = useState(""); // State lưu từ khóa tìm kiếm
 
     useEffect(() => {
-        axios.get('https://hkl-backend-v3uu.onrender.com/api/admin/recharge-history')
+        axios.get('http://localhost:5000/api/admin/recharge-history')
             .then(res => {
                 if(res.data.success) setData(res.data.data);
                 setLoading(false);
