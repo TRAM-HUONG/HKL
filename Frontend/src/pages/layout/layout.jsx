@@ -75,7 +75,7 @@ const Layout = ({ children }) => {
   }, [location.pathname, navigate]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/truyen")
+    fetch("https://hkl-backend-v3uu.onrender.com/api/truyen")
       .then((res) => res.json())
       .then((data) => {
         const shuffled = [...data].sort(() => 0.5 - Math.random());
@@ -83,7 +83,7 @@ const Layout = ({ children }) => {
       })
       .catch((err) => console.error("Lỗi tải banner:", err));
 
-    fetch("http://localhost:5000/api/danh-muc")
+    fetch("https://hkl-backend-v3uu.onrender.com/api/danh-muc")
       .then((res) => res.json())
       .then((data) => setTheLoaiList(data))
       .catch((err) => console.error("Lỗi tải danh mục:", err));
@@ -221,7 +221,7 @@ const Layout = ({ children }) => {
             <div key={idx} className={`carousel-card ${getCardClass(idx)}`}>
               <Link to={`/truyen/${truyen.matruyen || truyen.MAT || truyen.mat}`}>
                 <img 
-                  src={`http://localhost:5000/images/${truyen.hinhanh || truyen.HINHANH}`} 
+                  src={`https://hkl-backend-v3uu.onrender.com/images/${truyen.hinhanh || truyen.HINHANH}`} 
                   alt={truyen.tentruyen || truyen.TENT} 
                   onError={(e) => { e.target.src = "https://via.placeholder.com/150"; }} 
                 />
@@ -249,38 +249,45 @@ const Layout = ({ children }) => {
 
       <main className="main-content">{children}</main>
 
-      <footer 
+    <footer 
         className="footer-modern"
         style={{
           backgroundImage: `url(${footerImg})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
-          padding: '40px 0 20px 0' // Điều chỉnh padding cho cân đối
+          padding: '60px 0 30px 0',
+          color: '#462bb3' // Đảm bảo chữ trắng trên nền ảnh
         }}
       >
-        <div className="footer-content" style={{ backgroundColor: 'transparent' }}>
-          <div className="footer-brand">
-            <h2 className="footer-logo">HKL Library</h2>
-            <p className="footer-slogan">Hệ thống quản lý thư viện số hiện đại.</p>
+        <div className="footer-container">
+          {/* Cột 1: Thông tin & Điều hướng */}
+          <div className="footer-column contact-info">
+            <h2 className="footer-logo">HKL - Thế Giới Truyện</h2>
+            <div className="footer-contact-details">
+              <p>📍 Địa chỉ: ​Vườn Địa Đàng Tri Thức</p>
+              <p>📧 Email: lalalasuki222@gmail.com</p>
+              <p>📞 Hotline: 0972380225</p>
+            </div>
+            
+            <nav className="footer-quick-links">
+              <Link to="/" className="f-link">Trang Chủ</Link>
+              
+              {user && role !== 'DocGia' && (
+                 <Link to="/nap-tien" className="f-link highlight-footer">Nạp tiền</Link>
+              )}
+            </nav>
           </div>
-          <nav className="footer-nav">
-            <Link to="/" className="f-link">Trang Chủ</Link>
-            {role === 'Admin' && <Link to="/admin" className="f-link">Quản trị</Link>}
-            {role === 'TacGia' && (
-              <>
-                <Link to="/dang-ky-truyen" className="f-link">Đăng truyện</Link>
-                <Link to="/quan-ly-tac-pham" className="f-link">Tác phẩm</Link>
-              </>
-            )}
-            {user && role !== 'Admin' && (
-               <Link to="/nap-tien" className="f-link highlight">Nạp tiền ngay</Link>
-            )}
-          </nav>
+          <div className="footer-column slogan-area">
+            <h3 className="slogan-title">Mở Sách Ngay - Thay Cảm Xúc</h3>
+            <p className="slogan-text">
+              "Nơi cảm xúc thăng hoa cùng từng trang truyện. Mở sách ngay, để trái tim bạn được chạm vào những câu chuyện tuyệt vời nhất!"
+            </p>
+            
+          </div>
         </div>
-        <div className="footer-bottom" style={{ borderTop: '1px solid rgba(255,255,255,0.2)', backgroundColor: 'transparent' }}>
-          <p>© 2026 HKL Team. Trang quản trị bảo mật cao.</p>
-        </div>
+        
+       
       </footer>
     </div>
   );

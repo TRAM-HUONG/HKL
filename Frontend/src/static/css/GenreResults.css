@@ -7,7 +7,7 @@ body, input, textarea, select, .ql-editor {
 }
 .genre-results-container {
     padding: 40px 5%;
-    background-color: #fdfaf1; /* Đồng bộ màu nền kem đậm */
+    
     min-height: 80vh;
 }
 

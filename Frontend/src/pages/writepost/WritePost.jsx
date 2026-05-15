@@ -13,7 +13,7 @@ const WritePost = () => {
     const matg = user?.MATG || 'TG01'; 
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/chuong/tacgia/${matg}`)
+        axios.get(`https://hkl-backend-v3uu.onrender.com/api/chuong/tacgia/${matg}`)
             .then(res => setDsTruyen(res.data))
             .catch(err => console.error("Lỗi tải danh sách truyện", err));
     }, [matg]);
@@ -25,7 +25,7 @@ const WritePost = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('http://localhost:5000/api/chuong/viet-bai', {
+            const res = await axios.post('https://hkl-backend-v3uu.onrender.com/api/chuong/viet-bai', {
                 ...formData,
                 MATG: matg
             });

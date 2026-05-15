@@ -11,22 +11,21 @@ body, input, textarea, select, .ql-editor {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: radial-gradient(at 0% 0%, #6c7ae0 0, transparent 50%),
-                radial-gradient(at 100% 100%, #fbc19d 0, transparent 50%),
-                radial-gradient(at 50% 50%, #c08ae9 0, transparent 100%);
-    background-color: #f0f0f0;
+  
     perspective: 2500px;
     overflow: hidden;
     position: relative;
 }
 
 /* --- 2. ĐIỀU HƯỚNG --- */
+/* --- 2. ĐIỀU HƯỚNG --- */
 .navigation-controls {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 1200px; 
+    /* Tăng từ 1200px lên 1400px để rộng ra hai biên màn hình */
+    width: 1400px; 
     display: flex;
     justify-content: space-between;
     pointer-events: none;
@@ -68,12 +67,13 @@ body, input, textarea, select, .ql-editor {
 /* --- 3. QUYỂN SÁCH --- */
 .book-system {
     position: relative;
-    width: 520px; 
-    height: 680px;
+    /* Tăng từ 520px lên 650px (hoặc tùy chọn) */
+    width: 600px; 
+    /* Tăng từ 680px lên 850px */
+    height: 700px; 
     transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
     transform-style: preserve-3d;
 }
-
 .book-system.is-open {
     transform: translateX(50%);
 }

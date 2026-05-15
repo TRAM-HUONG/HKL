@@ -9,93 +9,107 @@
 /* --- KHUNG BAO TRUYỆN (CARD) --- */
 .truyen-item-card {
     position: relative;
-    border-radius: 30px; /* Bo góc cực đại giống mẫu */
-    padding: 12px; /* Khoảng cách giữa ảnh và viền khung bên ngoài */
-    transition: all 0.4s ease;
+    border-radius: 25px; 
+    padding: 12px; 
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     border: 1px solid rgba(255, 255, 255, 0.3);
     display: flex;
     flex-direction: column;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    
+    /* --- HÌNH NỀN CỦA MUỘI ĐÂY --- */
+    background-image: url('../../static/images/nen.png');
+    background-size: cover;
+    background-position: center;
+    
+    overflow: hidden;
+    cursor: pointer;
+}
+
+/* Lớp phủ Glossy tạo độ bóng láng */
+.truyen-item-card::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0) 45%,
+        rgba(255, 255, 255, 0.25) 50%,
+        rgba(255, 255, 255, 0) 55%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transition: all 0.6s ease;
+    pointer-events: none;
+    z-index: 5;
 }
 
 .truyen-item-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
 }
 
-/* --- PHẦN HÌNH ẢNH --- */
+.truyen-item-card:hover::after {
+    left: 50%;
+    top: 50%;
+}
+
+/* --- PHẦN HÌNH ẢNH TRUYỆN --- */
 .img-wrapper {
     width: 100%;
     height: 280px;
-    border-radius: 22px; /* Bo góc ảnh nhỏ hơn khung ngoài một chút */
+    border-radius: 18px; 
     overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
 .img-wrapper img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    filter: brightness(1.05) contrast(1.1);
+    transition: transform 0.5s ease;
 }
 
-/* --- NỘI DUNG CHỮ TRONG KHUNG --- */
+/* --- NỘI DUNG CHỮ --- */
 .card-content {
-    padding: 15px 10px;
+    margin-top: 15px;
+    padding: 10px 5px;
     text-align: center;
+    position: relative;
+    z-index: 6;
+    /* Tạo một lớp nền tối nhẹ bên dưới chữ để dễ đọc hơn trên hình nền */
+    background: rgba(7, 245, 43, 0.2);
+    border-radius: 15px;
 }
 
 .truyen-title {
     font-size: 1.1rem;
     font-weight: 800;
-    margin: 5px 0;
-    color: #fff;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    /* Cắt dòng nếu tên quá dài */
+    margin-bottom: 5px;
+    color: #ffffff;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.9);
     display: -webkit-box;
-    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; 
     overflow: hidden;
-    min-height: 2.8rem;
+    height: 2.8rem;
+    line-height: 1.4rem;
 }
 
 .truyen-author {
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.9);
-    font-weight: 500;
-    margin: 0;
+    font-size: 0.8rem;
+    color: #ffcccc;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-/* --- ĐỔ MÀU GRADIENT PHA TRỘN THEO PALETTE --- */
-/* Sử dụng phối hợp 2 màu từ bảng màu để tạo hiệu ứng chuyển động */
-
-/* Khung 1: Xanh dương pha Xanh nhạt */
-.truyen-item-card:nth-child(5n+1) { 
-    background: linear-gradient(135deg, #807EE1 0%, #8DB8F3 100%); 
-}
-
-/* Khung 2: Xanh nhạt pha Hồng */
-.truyen-item-card:nth-child(5n+2) { 
-    background: linear-gradient(135deg, #8DB8F3 0%, #FBA2D0 100%); 
-}
-
-/* Khung 3: Cam đào pha Hồng */
-.truyen-item-card:nth-child(5n+3) { 
-    background: linear-gradient(135deg, #FFD4AA 0%, #FBA2D0 100%); 
-}
-.truyen-item-card:nth-child(5n+3) .truyen-title { color: #5d4037; text-shadow: none; }
-.truyen-item-card:nth-child(5n+3) .truyen-author { color: #795548; }
-
-/* Khung 4: Hồng pha Tím */
-.truyen-item-card:nth-child(5n+4) { 
-    background: linear-gradient(135deg, #FBA2D0 0%, #C689EB 100%); 
-}
-
-/* Khung 5: Tím pha Xanh dương */
-.truyen-item-card:nth-child(5n+5) { 
-    background: linear-gradient(135deg, #C689EB 0%, #807EE1 100%); 
-}
-
-/* Loại bỏ gạch chân link */
 .card-link {
     text-decoration: none !important;
 }

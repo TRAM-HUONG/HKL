@@ -8,7 +8,6 @@ const DanhMuc = () => {
     const [dsTruyen, setDsTruyen] = useState([]);
     const [loading, setLoading] = useState(true);
     
-    // Lấy query parameter "search" từ URL
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const searchKeyword = queryParams.get('search') || "";
@@ -17,11 +16,9 @@ const DanhMuc = () => {
         const fetchTruyen = async () => {
             setLoading(true);
             try {
-                // Gọi API lấy toàn bộ danh sách truyện
-                const res = await axios.get("http://localhost:5000/api/truyen");
+                const res = await axios.get("https://hkl-backend-v3uu.onrender.com/api/truyen");
                 const allTruyen = res.data;
 
-                // Lọc danh sách truyện dựa trên từ khóa tìm kiếm (không phân biệt hoa thường)[cite: 4]
                 if (searchKeyword) {
                     const filtered = allTruyen.filter(t => 
                         t.tent.toLowerCase().includes(searchKeyword.toLowerCase())
@@ -38,46 +35,78 @@ const DanhMuc = () => {
         };
 
         fetchTruyen();
-    }, [searchKeyword]); // Chạy lại mỗi khi từ khóa tìm kiếm thay đổi[cite: 4]
+    }, [searchKeyword]);
 
     return (
         <Layout>
-            <div className="danhmuc-container" style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
-                <h2 style={{ borderBottom: '2px solid #ff6b6b', paddingBottom: '10px' }}>
-                    {searchKeyword ? `Kết quả tìm kiếm cho: "${searchKeyword}"` : "Tất cả truyện"}
-                </h2>
+            <div className="danhmuc-container" style={{ padding: '40px 20px', maxWidth: '1200px', margin: '0 auto' }}>
+                <header style={{ marginBottom: '40px', textAlign: 'center' }}> {/* Căn giữa header */}
+            <h2 style={{ 
+                color: '#ff0505', 
+                fontSize: '2.5rem', // Tăng nhẹ kích thước để nổi bật
+                fontWeight: 'bold',
+                textTransform: 'uppercase',
+                display: 'inline-block', // Để border-bottom chỉ dài bằng chữ
+                position: 'relative',
+                paddingBottom: '10px'
+            }}>
+                {searchKeyword ? `Kết quả tìm kiếm: ${searchKeyword}` : "Tàng Thư Các"}
+                
+                {/* Tạo một đường gạch dưới trang trí thay cho border-left cũ */}
+                <span style={{
+                    content: '""',
+                    position: 'absolute',
+                    bottom: 0,
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    width: '60px',
+                    height: '4px',
+                    backgroundColor: '#ff6b6b',
+                    borderRadius: '2px'
+                }}></span>
+            </h2>
+        </header>
 
                 {loading ? (
-                    <p>Đang tải dữ liệu...</p>
+                    <div style={{ textAlign: 'center', padding: '100px' }}>
+                        <div className="loader" style={{ color: '#ff6b6b', fontSize: '1.2rem' }}>
+                            Đang tải truyện...
+                        </div>
+                    </div>
                 ) : dsTruyen.length > 0 ? (
-                    <div className="truyen-grid" style={{ 
-                        display: 'grid', 
-                        gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', 
-                        gap: '20px', 
-                        marginTop: '20px' 
-                    }}>
+                    <div className="truyen-grid">
                         {dsTruyen.map((truyen) => (
                             <div key={truyen.mat} className="truyen-item-card">
-    <Link to={`/truyen/${truyen.mat}`} className="card-link">
-        <div className="img-wrapper">
-            <img 
-                src={`http://localhost:5000/images/${truyen.hinhanh}`} 
-                alt={truyen.tent} 
-                onError={(e) => { e.target.src = "https://via.placeholder.com/200x280"; }}
-            />
-        </div>
-        <div className="card-content">
-            <h4 className="truyen-title">{truyen.tent}</h4>
-            <p className="truyen-author">{truyen.ten_tac_gia}</p>
-        </div>
-    </Link>
-</div>
+                                <Link to={`/truyen/${truyen.mat}`} className="card-link">
+                                    <div className="img-wrapper">
+                                        <img 
+                                            src={`https://hkl-backend-v3uu.onrender.com/images/${truyen.hinhanh}`} 
+                                            alt={truyen.tent}
+                                                onError={(e) => { e.target.src = "https://via.placeholder.com/200x280"; }}
+                                        />
+                                    </div>
+                                    <div className="card-content">
+                                        <h4 className="truyen-title">{truyen.tent}</h4>
+                                        <p className="truyen-author">{truyen.ten_tac_gia}</p>
+                                    </div>
+                                </Link>
+                            </div>
                         ))}
                     </div>
                 ) : (
-                    <div style={{ textAlign: 'center', marginTop: '50px' }}>
-                        <p>Không tìm thấy truyện nào phù hợp với từ khóa của bạn.</p>
-                        <Link to="/" style={{ color: '#ff6b6b' }}>Quay lại trang chủ</Link>
+                    <div style={{ textAlign: 'center', marginTop: '80px', color: '#fff' }}>
+                            <Link to="/" style={{ 
+                            display: 'inline-block',
+                            marginTop: '20px',
+                            color: '#ff6b6b', 
+                            textDecoration: 'none',
+                            fontWeight: 'bold',
+                            border: '1px solid #ff6b6b',
+                            padding: '10px 25px',
+                            borderRadius: '30px'
+                        }}>
+                            Quay lại trang chủ
+                        </Link>
                     </div>
                 )}
             </div>
@@ -85,4 +114,4 @@ const DanhMuc = () => {
     );
 };
 
-export default DanhMuc; 
+export default DanhMuc;
