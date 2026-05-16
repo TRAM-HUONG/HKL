@@ -11,7 +11,7 @@ const GoiNapEdit = () => {
     useEffect(() => {
         const fetchDetail = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/api/admin/goi-nap/all');
+                const res = await axios.get('https://hkl-backend-v3uu.onrender.com/api/admin/goi-nap/all');
                 const pkg = res.data.data.find(p => p.magoi === magoi);
                 if (pkg) setFormData(pkg);
             } catch (error) { console.error(error); }
@@ -22,7 +22,7 @@ const GoiNapEdit = () => {
     const handleUpdate = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:5000/api/admin/goi-nap/update/${magoi}`, formData);
+            await axios.put(`https://hkl-backend-v3uu.onrender.com/api/admin/goi-nap/update/${magoi}`, formData);
             alert("Cập nhật thành công!");
             navigate('/admin/goi-nap');
         } catch (error) { alert("Lỗi cập nhật!"); }
