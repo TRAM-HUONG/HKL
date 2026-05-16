@@ -19,7 +19,7 @@ const AddTruyen = () => {
     });
 
     useEffect(() => {
-        fetch("http://localhost:5000/api/danh-muc")
+        fetch("https://hkl-backend-v3uu.onrender.com/api/danh-muc")
             .then(res => res.json())
             .then(data => {
                 const options = data.map(tl => ({
@@ -61,7 +61,7 @@ const AddTruyen = () => {
         }
 
         try {
-            const response = await fetch("http://localhost:5000/api/truyen/register", {
+            const response = await fetch("https://hkl-backend-v3uu.onrender.com/api/truyen/register", {
                 method: "POST",
                 body: data 
             });

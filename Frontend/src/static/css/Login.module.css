@@ -211,13 +211,42 @@
 
 /* ==========================================================================
    HỆ THỐNG NÚT BẤM VÀ ĐƯỜNG DẪN LIÊN KẾT
-   ========================================================================== */
-.login-btn, .reset-password-btn {
+/* Sửa lại tiêu đề Form */
+.login-form h2, .reset-password-form h2 {
+    /* Đổi từ Cinzel sang Playfair Display để hết lỗi tiếng Việt */
+    font-family: 'Playfair Display', 'Georgia', serif !important; 
+    font-size: 2.2rem !important;
+    font-weight: 900 !important; /* Tăng độ đậm để bù lại nét trang trí */
+    color: var(--bright-red) !important;
+    text-align: center !important;
+    margin-top: 0 !important;
+    margin-bottom: 30px !important;
+    letter-spacing: 1px !important;
+}
+
+/* Sửa lại nút bấm */
+.login-btn {
+    font-family: 'Playfair Display', serif !important; 
+    font-size: 1rem !important;
+    font-weight: 900 !important; 
+    
     background: var(--royal-red) !important;
     color: #ffffff !important;
-    font-family: 'Playfair Display', serif !important;
-    font-weight: 900 !important;
-    font-size: 1.05rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    padding: 13px !important;
+    border: 2px solid var(--gold-solid) !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    margin-top: 15px !important;
+    box-shadow: 0 4px 12px rgba(128, 0, 0, 0.3) !important;
+    transition: var(--royal-transition) !important;
+    width: 100% !important;
+}
+ .reset-password-btn {
+    background: var(--royal-red) !important;
+    color: #ffffff !important;
+
     text-transform: uppercase !important;
     letter-spacing: 1px !important;
     padding: 13px !important;

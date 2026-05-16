@@ -213,11 +213,58 @@ body, input, textarea, select, .ql-editor {
 }
 
 /* --- 7. MOBILE --- */
-@media (max-width: 768px) {
-    .navigation-controls { display: none; }
-    .about-wrapper { height: auto; padding: 80px 15px; display: block; overflow-y: auto; }
-    .book-system { width: 100%; height: auto; transform: none !important; display: flex; flex-direction: column; gap: 20px; }
-    .paper { position: relative; width: 100%; height: auto; transform: none !important; }
-    .front, .back { position: relative; width: 100%; height: auto; min-height: 400px; backface-visibility: visible !important; transform: none !important; border-radius: 15px !important; }
-    .back { display: flex !important; transform: none; }
+/* ==========================================================================
+   CHỈ CẦN NGOÀI LAPTOP LỚN RA LÀ TỰ ĐỘNG SỔ DỌC (ÁP DỤNG CHO < 1100px)
+   ========================================================================== */
+@media (max-width: 1100px) {
+    .navigation-controls { 
+        display: none !important; 
+    }
+    
+    .about-wrapper { 
+        height: auto !important; 
+        padding: 40px 15px !important; 
+        display: block !important; 
+        overflow-y: auto !important; 
+    }
+    
+    .book-system { 
+        width: 100% !important; 
+        height: auto !important; 
+        transform: none !important; 
+        display: flex !important; 
+        flex-direction: column !important; 
+        gap: 25px !important; 
+    }
+    
+    .paper { 
+        position: relative !important; 
+        width: 100% !important; 
+        height: auto !important; 
+        transform: none !important; 
+    }
+    
+    .front, .back { 
+        position: relative !important; 
+        width: 100% !important; 
+        height: auto !important; 
+        min-height: 350px !important; 
+        backface-visibility: visible !important; 
+        transform: none !important; 
+        border-radius: 8px !important; 
+    }
+    
+    .back { 
+        display: flex !important; 
+        transform: none !important; 
+        margin-top: 15px !important; /* Tạo khoảng cách nhẹ giữa mặt trước và mặt sau khi xổ dọc */
+    }
+
+    /* Đảm bảo lớp kính mờ cũ không bóp nghẹt chiều cao của chữ */
+    .glass-content {
+        position: relative !important;
+        max-height: none !important;
+        overflow: visible !important;
+        background: rgba(255, 255, 255, 0.85) !important; /* Giữ kính mờ nhưng làm sáng lên cho dễ đọc */
+    }
 }
