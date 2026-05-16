@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import "../../static/css/ResetPassword.css"; // 1. Import CSS ở đây
 import Layout from '../layout/layout.jsx';
+import styles from "../../static/css/Login.module.css";
+
 const ResetPassword = () => {
   const [searchParams] = useSearchParams();
   const [newPassword, setNewPassword] = useState('');
@@ -26,22 +27,28 @@ const ResetPassword = () => {
 
   return (
     <Layout>
-    <div className="reset-password-container"> {/* 2. Cập nhật class này */}
-      <div className="reset-password-card">     {/* Thêm bọc ngoài để tạo hình trang sách */}
-        <form onSubmit={handleUpdate} className="reset-password-form">
-          <h2>Mật khẩu mới</h2>
-          <input 
-            type="password" 
-            required 
-            onChange={(e) => setNewPassword(e.target.value)} 
-            placeholder="Nhập mật khẩu mới..." 
-          />
-          <button type="submit" className="reset-password-btn">
-            Cập nhật mật khẩu
-          </button>
-        </form>
+      <div className={styles['reset-password-container']}>
+        {/* Thêm styles['single-page-wrapper'] để tạo khung trang đơn gọn gàng không bị lằn gáy */}
+        <div className={`${styles['reset-password-card']} ${styles['single-page-wrapper']}`}>
+          <div className={`${styles['book-page']} ${styles['single-page']}`}>
+            <form onSubmit={handleUpdate} className={styles['reset-password-form']}>
+              <h2>Mật khẩu mới</h2>
+              <div className={styles['input-group']}>
+                <label>Mật khẩu mới</label>
+                <input 
+                  type="password" 
+                  required 
+                  onChange={(e) => setNewPassword(e.target.value)} 
+                  placeholder="Nhập mật khẩu mới..." 
+                />
+              </div>
+              <button type="submit" className={styles['reset-password-btn']}>
+                Cập nhật mật khẩu
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
-    </div>
     </Layout>
   );
 };

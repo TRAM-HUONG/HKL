@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Layout from '../layout/layout.jsx';
+import styles from "../../static/css/Login.module.css";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -21,18 +22,24 @@ const ForgotPassword = () => {
 
   return (
     <Layout>
-      <div className="login-container"> {/* Dùng chung CSS với trang Login */}
-        <div className="book">
-          <div className="book-page right-page" style={{ margin: 'auto' }}>
-            <form onSubmit={handleSendMail} className="login-form">
+      <div className={styles['login-container']}>
+        {/* Thêm styles['single-page-wrapper'] để loại bỏ thanh gáy đè chữ */}
+        <div className={`${styles['book']} ${styles['single-page-wrapper']}`}>
+          <div className={`${styles['book-page']} ${styles['single-page']}`}>
+            <form onSubmit={handleSendMail} className={styles['login-form']}>
               <h2>Khôi phục mật khẩu</h2>
-              <p style={{ fontSize: '14px', color: '#666' }}>Nhập email bạn đã đăng ký để nhận link cập nhật mật khẩu.</p>
-              <div className="input-group">
+              <p style={{ fontSize: '15px', color: '#1a0f0f', textAlign: 'center', marginBottom: '25px', fontFamily: 'Playfair Display, serif', fontStyle: 'italic' }}>
+                Nhập email bạn đã đăng ký để nhận link cập nhật mật khẩu.
+              </p>
+              <div className={styles['input-group']}>
                 <label>Email</label>
-                <input type="email" required onChange={(e) => setEmail(e.target.value)} />
+                <input type="email" required onChange={(e) => setEmail(e.target.value)} placeholder="email@example.com" />
               </div>
-              <button type="submit" className="login-btn">Gửi yêu cầu</button>
+              <button type="submit" className={styles['login-btn']}>Gửi yêu cầu</button>
             </form>
+            <div className={styles['form-footer']}>
+              <a href="/login">Quay lại Đăng nhập</a>
+            </div>
           </div>
         </div>
       </div>

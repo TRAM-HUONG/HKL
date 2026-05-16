@@ -1,10 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Quicksand:wght@500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght=400;600;800&family=Quicksand:wght=500;700&display=swap');
 
 /* Áp dụng cho toàn bộ nội dung */
 body, input, textarea, select, .ql-editor {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
     line-height: 1.6; /* Giúp các dấu có không gian hiển thị, không bị đè */
 }
+
 .chitiet-container {
     max-width: 1000px;
     margin: 40px auto;
@@ -12,7 +13,6 @@ body, input, textarea, select, .ql-editor {
     background: linear-gradient(135deg, #fff5f5 0%, #fdfcf0 35%, #f0fff4 70%, #f0f5ff 100%);
     border-radius: 20px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
-    font-family: 'Segoe UI', Roboto, sans-serif;
 }
 
 .chitiet-content {
@@ -251,6 +251,7 @@ body, input, textarea, select, .ql-editor {
     background: #ffe3e3;
     color: #ff8e8e;
 }
+
 /* CSS cho phần Đánh giá */
 .chitiet-reviews-section {
     margin-top: 40px;
@@ -262,8 +263,7 @@ body, input, textarea, select, .ql-editor {
 .chitiet-reviews-section h3 {
     font-size: 1.1rem;
     color: #4a4a4a;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #fff;
+    border-bottom: 2px solid transparent;
     display: inline-block;
     padding-bottom: 5px;
 }
@@ -290,81 +290,178 @@ body, input, textarea, select, .ql-editor {
 }
 
 .reviewer-stars {
-    color: #ffd8a8; /* Màu cam đào pastel từ hình của bạn */
-    font-size: 0.8rem;
+    color: #ffcc00; 
+    font-size: 0.9rem;
+    margin-left: 8px;
 }
 
 .review-content {
     color: #666;
     font-size: 0.95rem;
     line-height: 1.5;
+    margin: 8px 0;
 }
 
-.no-review {
-    color: #999;
-    font-style: italic;
-    text-align: center;
+/* Đồng bộ style cho Form viết đánh giá */
+.review-form-box {
+    background: #ffffff !important; 
+    border: 1px dashed #ffadad !important;
 }
-.review-form {
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 30px;
-    border: 1px dashed #ffc9c9;
-}
-
-.star-rating-input {
-    font-size: 1.5rem;
-    cursor: pointer;
+.review-form-box h4 {
+    color: #4a4a4a;
     margin-bottom: 10px;
 }
-
-.review-form textarea {
-    width: 100%;
-    height: 80px;
-    padding: 10px;
+.review-form-box textarea {
+    border: 1px solid #ddd !important;
     border-radius: 8px;
-    border: 1px solid #ddd;
-    margin-bottom: 10px;
-    font-family: inherit;
+    background: #fff !important;
+    color: #333 !important;
 }
 
-.btn-send-review {
-    background: #ff9999;
-    color: white;
-    border: none;
-    padding: 8px 20px;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: 0.3s;
+/* Phản hồi phản cảm/độc giả */
+.author-reply {
+    margin-top: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
 }
 
-.btn-send-review:hover {
-    background: #ff7777;
-}
-
-.login-hint {
-    background: #f9f9f9;
-    padding: 15px;
-    border-radius: 8px;
-    text-align: center;
-    color: #666;
-}
-/* Màu cho sao đã chọn (Sáng) */
+/* Sao đánh giá */
 .star-active {
-    color: #ffcc00; /* Màu vàng */
-    text-shadow: 0 0 5px rgba(255, 204, 0, 0.5);
-    cursor: pointer;
+    color: #ffcc00;
+    text-shadow: 0 0 5px rgba(255, 204, 0, 0.3);
 }
 
-/* Màu cho sao chưa chọn (Tối) */
 .star-inactive {
-    color: #555; /* Màu xám tối */
-    cursor: pointer;
+    color: #cccccc;
 }
 
-/* Hiệu ứng khi di chuột qua */
+.star-selector span {
+    display: inline-block;
+    transition: transform 0.2s;
+}
 .star-selector span:hover {
     transform: scale(1.2);
-    transition: transform 0.2s;
+}
+
+/* ==========================================================================
+   MOBILES & TABLETS RESPONSIVE (MEDIA QUERIES)
+   ========================================================================== */
+
+/* 1. Dành cho các thiết bị Tablet và Màn hình nhỏ (Dưới 992px) */
+@media screen and (max-width: 992px) {
+    .chitiet-container {
+        margin: 20px 15px;
+        padding: 20px;
+    }
+
+    .chitiet-content {
+        gap: 25px;
+    }
+
+    .chitiet-left {
+        flex: 0 0 220px; /* Thu nhỏ bớt chiều rộng ảnh truyện */
+    }
+
+    .chitiet-title {
+        font-size: 1.6rem;
+    }
+}
+
+/* 2. Dành cho các thiết bị Smartphone/Mobile (Dưới 768px) */
+@media screen and (max-width: 768px) {
+    .chitiet-content {
+        flex-direction: column; /* Chuyển bố cục từ hàng ngang thành hàng dọc */
+        align-items: center;
+        gap: 20px;
+    }
+
+    .chitiet-left {
+        flex: none;
+        width: 100%;
+        max-width: 240px; /* Giới hạn kích thước ảnh trên mobile tránh bị quá to */
+    }
+
+    .chitiet-info {
+        width: 100%;
+    }
+
+    .chitiet-title {
+        text-align: center;
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+
+    .chitiet-stats-wrapper {
+        justify-content: center; /* Căn giữa các huy hiệu chỉ số trên mobile */
+        gap: 8px;
+    }
+
+    .chitiet-meta {
+        background: rgba(255, 255, 255, 0.4);
+        padding: 15px;
+        border-radius: 12px;
+    }
+
+    .chitiet-actions {
+        flex-direction: column; /* Hai nút "Đọc ngay" và "Mua trọn bộ" xếp chồng lên nhau */
+        gap: 10px !important;
+    }
+
+    .read-now-btn {
+        margin-top: 10px;
+        width: 100%; /* Nút bấm full chiều rộng màn hình mobile cho dễ click */
+        padding: 12px 20px;
+        text-align: center;
+    }
+
+    /* Modal danh sách chương */
+    .modal-content {
+        width: 95%;
+        max-height: 90vh;
+    }
+
+    .chuong-grid {
+        grid-template-columns: 1fr; /* Grid biến thành 1 cột duy nhất trên điện thoại */
+        gap: 10px;
+    }
+
+    .modal-header {
+        padding: 15px;
+    }
+
+    .modal-body {
+        padding: 12px;
+    }
+
+    /* Phần Đánh giá */
+    .reviews-header-flex {
+        flex-direction: column; /* Đẩy nút "Viết đánh giá" xuống dưới tiêu đề */
+        align-items: flex-start !important;
+        gap: 12px;
+    }
+
+    .write-review-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .author-reply {
+        margin-left: 10px !important; /* Thu hẹp lề thụt đầu dòng của phản hồi tác giả */
+    }
+}
+
+/* 3. Tối ưu cho màn hình cực nhỏ (Dưới 480px) */
+@media screen and (max-width: 480px) {
+    .chitiet-container {
+        padding: 15px;
+        border-radius: 12px;
+    }
+
+    .chitiet-title {
+        font-size: 1.3rem;
+    }
+
+    .rating-bar, .chapter-badge, .category-badge, .price-badge {
+        font-size: 0.8rem !important;
+        padding: 6px 12px !important;
+    }
 }

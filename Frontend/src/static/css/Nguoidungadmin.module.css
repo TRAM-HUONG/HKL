@@ -312,3 +312,114 @@ span[style*="background: '#ff4d4f'"], span[style*="#ff4d4f"] {
     font-weight: bold !important;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
 }
+
+/* ==========================================================================
+   HỆ THỐNG RESPONSIVE CHO LỚP PHỦ CHỮ NỔI MOBILE & TABLET
+   ========================================================================== */
+
+/* 1. Thiết bị màn hình Medium / Tablets (Dưới 992px) */
+@media screen and (max-width: 992px) {
+    .admin-glass-content {
+        margin: 15px;
+        padding: 25px;
+    }
+
+    .user-grid, 
+    div[style*="display: grid"], 
+    div[style*="display: flex"][style*="flex-wrap: wrap"] {
+        /* Chuyển sang cấu trúc 2 cột cân đối cho Tablet */
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 20px !important;
+    }
+}
+
+/* 2. Thiết bị di động phổ thông / Smartphones (Dưới 768px) */
+@media screen and (max-width: 768px) {
+    .admin-glass-content {
+        padding: 20px 15px;
+        margin: 10px;
+        border-radius: 12px;
+    }
+
+    /* Thu nhỏ cỡ chữ dập nổi hoàng gia tránh lỗi tràn khung chữ */
+    .page-title, h2.font-bold {
+        font-size: 1.5rem;
+        padding-left: 10px;
+        margin-bottom: 20px;
+    }
+
+    /* Bọc bảo vệ Table: Ngăn bảng dữ liệu bẻ cong toàn trang */
+    .admin-table-wrapper, .table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch; /* Tạo cảm giác cuộn lướt êm ái trên iOS */
+    }
+
+    .admin-table, table.admin-table {
+        min-width: 600px; /* Duy trì kích thước hiển thị an toàn khi lướt ngang */
+    }
+
+    /* Ép các nhóm nút bấm hoặc thanh tìm kiếm dãn full màn hình dọc */
+    input[type="text"][placeholder*="Tìm"] {
+        width: 100% !important;
+        box-sizing: border-box;
+    }
+}
+
+/* 3. Tối ưu hóa chuyên biệt cho Smartphone màn hình dọc (Dưới 480px) */
+@media screen and (max-width: 480px) {
+    .admin-glass-content {
+        padding: 15px 12px;
+        margin: 6px;
+    }
+
+    .page-title, h2.font-bold {
+        font-size: 1.25rem;
+        letter-spacing: 0.5px;
+        border-left-width: 3px;
+    }
+
+    /* Ép Grid thẻ người dùng (Cả Độc giả lẫn Tác giả) về 1 cột dọc duy nhất */
+    .user-grid, 
+    div[style*="display: grid"], 
+    div[style*="display: flex"][style*="flex-wrap: wrap"] {
+        grid-template-columns: 1fr !important;
+        gap: 15px !important;
+    }
+
+    .user-card, 
+    div[style*="gridTemplateColumns"] > div, 
+    div[style*="flex-wrap: wrap"] > div {
+        padding: 15px !important;
+        border-radius: 8px !important;
+    }
+
+    /* Phẳng hóa nhẹ lực giật nảy (translateY) khi ngón tay lướt chạm thẻ trên Mobile */
+    .user-card:hover, 
+    div[style*="gridTemplateColumns"] > div:hover, 
+    div[style*="flex-wrap: wrap"] > div:hover {
+        transform: translateY(-2px) !important;
+    }
+
+    /* Dãn rộng nút xóa trên mobile để dễ ấn trúng */
+    .btn-delete, 
+    button[style*="background-color: rgb(255, 77, 79)"], 
+    button[style*="backgroundColor: '#ff4d4f'"] {
+        width: 100%;
+        text-align: center;
+        padding: 10px 16px !important; /* Tăng diện tích chạm cảm ứng */
+    }
+}
+
+/* 4. Dành cho các thiết bị di động siêu nhỏ / Đời cũ (Dưới 360px) */
+@media screen and (max-width: 360px) {
+    .page-title, h2.font-bold {
+        font-size: 1.1rem;
+    }
+
+    .user-card p, 
+    div[style*="gridTemplateColumns"] > div p, 
+    div[style*="flex-wrap: wrap"] > div p {
+        font-size: 0.85rem !important;
+    }
+}

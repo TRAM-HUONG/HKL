@@ -1,33 +1,30 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../layout/layout.jsx';
-import "../../static/css/Login.css"; 
+import styles from "../../static/css/Login.module.css"; 
 
 const Register = () => {
-  // Đảm bảo ban đầu các giá trị là chuỗi rỗng để không hiện thông tin sẵn[cite: 1]
   const [formData, setFormData] = useState({
     tendn: '',
     mk: '',
-    confirmMk: '', // Trường xác nhận mật khẩu
+    confirmMk: '', 
     email: '',
     sdt: '',
     ngaysinh: '',
     role: 'reader'
   });
 
-  const [showPassword, setShowPassword] = useState(false); // Trạng thái ẩn/hiện mật khẩu[cite: 2]
+  const [showPassword, setShowPassword] = useState(false); 
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    // Kiểm tra độ dài mật khẩu >= 6 ký tự[cite: 1]
     if (formData.mk.length < 6) {
       alert("Mật khẩu phải có ít nhất 6 chữ cái trở lên!");
       return;
     }
 
-    // Kiểm tra mật khẩu nhập lại có khớp không[cite: 1]
     if (formData.mk !== formData.confirmMk) {
       alert("Mật khẩu xác nhận không khớp!");
       return;
@@ -37,7 +34,6 @@ const Register = () => {
       const response = await fetch("http://localhost:5000/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        // Chỉ gửi những trường mà server cần (bỏ confirmMk)
         body: JSON.stringify({
           tendn: formData.tendn,
           mk: formData.mk,
@@ -51,8 +47,7 @@ const Register = () => {
       const data = await response.json();
 
       if (response.ok) {
-        // Thông báo yêu cầu check Mailtrap thay vì đăng nhập ngay[cite: 2]
-        alert(" Một email xác nhận đã được gửi. Vui lòng kiểm tra hộp thư của bạn để kích hoạt tài khoản.");
+        alert("Một email xác nhận đã được gửi. Vui lòng kiểm tra hộp thư của bạn để kích hoạt tài khoản.");
         navigate("/login");
       } else {
         alert(data.error);
@@ -64,25 +59,25 @@ const Register = () => {
 
   return (
     <Layout>
-      <div className="login-container">
-        <div className="book">
-          {/* Trang trái: Giới thiệu giống Login.jsx[cite: 2] */}
-          <div className="book-page left-page">
-            <div className="intro-content">
+      <div className={styles['login-container']}>
+        <div className={styles['book']}>
+          {/* Trang trái: Giới thiệu */}
+          <div className={`${styles['book-page']} ${styles['left-page']}`}>
+            <div className={styles['intro-content']}>
               <h1>Gia Nhập HKL</h1>
-              <div className="divider"></div>
+              <div className={styles['divider']}></div>
               <p>Hành trình mới đang chờ bạn.</p>
-              <p className="description">Mở ra cánh cửa thế giới truyện chữ đầy màu sắc.</p>
-              <div className="book-footer">© 2026 HKL Project</div>
+              <p className={styles['description']}>Mở ra cánh cửa thế giới truyện chữ đầy màu sắc.</p>
+              <div className={styles['book-footer']}>© 2026 HKL Project</div>
             </div>
           </div>
 
-          {/* Trang phải: Form đăng ký[cite: 2, 3] */}
-          <div className="book-page right-page">
-            <form onSubmit={handleRegister} className="login-form">
+          {/* Trang phải: Form đăng ký */}
+          <div className={`${styles['book-page']} ${styles['right-page']}`} style={{ padding: '25px 50px' }}>
+            <form onSubmit={handleRegister} className={styles['login-form']}>
               <h2>Đăng Ký</h2>
               
-              <div className="input-group">
+              <div className={styles['input-group']}>
                 <label>Tên đăng nhập *</label>
                 <input 
                   type="text" 
@@ -93,8 +88,8 @@ const Register = () => {
                 />
               </div>
 
-              <div className="input-group password-field" style={{ position: 'relative' }}>
-                <label>Mật khẩu * ({'>'}= 6 ký tự)</label>
+              <div className={styles['input-group']} style={{ position: 'relative' }}>
+                <label>Mật khẩu * (&gt;= 6 ký tự)</label>
                 <input 
                   type={showPassword ? "text" : "password"} 
                   value={formData.mk}
@@ -110,7 +105,7 @@ const Register = () => {
                 </span>
               </div>
 
-              <div className="input-group">
+              <div className={styles['input-group']}>
                 <label>Xác nhận mật khẩu *</label>
                 <input 
                   type={showPassword ? "text" : "password"} 
@@ -121,7 +116,7 @@ const Register = () => {
                 />
               </div>
 
-              <div className="input-group">
+              <div className={styles['input-group']}>
                 <label>Email *</label>
                 <input 
                   type="email" 
@@ -133,7 +128,7 @@ const Register = () => {
               </div>
 
               <div style={{ display: 'flex', gap: '10px' }}>
-                <div className="input-group" style={{ flex: 1 }}>
+                <div className={styles['input-group']} style={{ flex: 1 }}>
                   <label>Số điện thoại</label>
                   <input 
                     type="text" 
@@ -142,7 +137,7 @@ const Register = () => {
                     onChange={(e) => setFormData({...formData, sdt: e.target.value})} 
                   />
                 </div>
-                <div className="input-group" style={{ flex: 1 }}>
+                <div className={styles['input-group']} style={{ flex: 1 }}>
                   <label>Ngày sinh</label>
                   <input 
                     type="date" 
@@ -152,7 +147,7 @@ const Register = () => {
                 </div>
               </div>
 
-              <div className="input-group">
+              <div className={styles['input-group']}>
                 <label>Bạn tham gia với vai trò?</label>
                 <select 
                   style={selectStyle}
@@ -164,11 +159,11 @@ const Register = () => {
                 </select>
               </div>
 
-              <button type="submit" className="login-btn">
-                TẠO TÀI KHOẢN
+              <button type="submit" className={styles['login-btn']}>
+                Tạo Tài Khoản
               </button>
 
-              <div className="form-footer">
+              <div className={styles['form-footer']}>
                 <span>Đã có tài khoản?</span>
                 <a href="/login">Đăng nhập</a>
               </div>
@@ -180,25 +175,25 @@ const Register = () => {
   );
 };
 
-// Styles bổ trợ cho icon con mắt và select[cite: 3]
-// Sửa lại style này trong file Register.jsx
 const eyeIconStyle = {
   position: 'absolute',
   right: '15px',
-  top: '38px', // Căn chỉnh lại cho vừa với chiều cao input mới
+  top: '36px', 
   cursor: 'pointer',
   fontSize: '1.2rem',
   opacity: 0.7,
-  zIndex: 10 // Đảm bảo icon luôn nằm trên input
+  zIndex: 10 
 };
 
 const selectStyle = {
   width: '100%',
   padding: '12px',
-  borderRadius: '12px',
-  background: 'rgba(255, 255, 255, 0.5)',
-  border: '1px solid rgba(255,255,255,0.5)',
-  color: '#5d4037',
+  borderRadius: '4px',
+  background: '#ffffff',
+  border: '2px solid #caa34b',
+  color: '#1a0f0f',
+  fontFamily: 'Playfair Display, serif',
+  fontWeight: '700',
   fontSize: '1rem'
 };
 

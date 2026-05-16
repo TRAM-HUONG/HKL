@@ -56,7 +56,6 @@
     text-transform: uppercase !important;
     margin: 0 !important;
     letter-spacing: 1.5px !important;
-    /* Đổ bóng kép giúp chữ tiêu đề nổi bật hẳn trên nền ảnh sáng phía sau */
     text-shadow: 1px 1px 0px #ffffff, 2px 2px 4px rgba(0, 0, 0, 0.15) !important;
     -webkit-text-fill-color: #6b1111 !important;
     opacity: 1 !important;
@@ -149,7 +148,7 @@
 }
 
 /* ==========================================================================
-   ĐỊNH DẠNG BẢNG DANH SÁCH GIỐNG TRANG SÁCH CỔ
+   ĐỊNH DẠNG BẢNG DANH SÁCH GIỐNG TRANG SÁCH CỔ (PC MÀN HÌNH LỚN)
    ========================================================================== */
 .admin-table {
     width: 100%;
@@ -256,7 +255,7 @@
 }
 
 /* ==========================================================================
-   GIAO DIỆN CHI TIẾT TÁC PHẨM (VIEW APPROVE) - SIÊU ĐẬM, CHỐNG MỜ NHÒE
+   GIAO DIỆN CHI TIẾT TÁC PHẨM (VIEW APPROVE)
    ========================================================================== */
 .admin-detail-wrapper {
     display: flex;
@@ -264,7 +263,6 @@
     margin-top: 25px;
     width: 100%;
     padding: 25px;
-    /* Phủ lớp nền giấy da dê dày dặn đè lên hình nền background xanh, loại bỏ hiện tượng mờ chữ */
     background-color: rgba(253, 248, 240, 0.96) !important;
     border: 1px solid #b89047;
     border-radius: 4px;
@@ -280,7 +278,7 @@
     height: 400px;
     object-fit: cover;
     border-radius: 4px;
-    border: 4px double #3a2b1f; /* Viền gỗ mun kép siêu đậm định hình poster */
+    border: 4px double #3a2b1f; 
     box-shadow: 5px 8px 25px rgba(0, 0, 0, 0.35);
 }
 
@@ -289,7 +287,6 @@
     min-width: 0;
 }
 
-/* Tên truyện lớn - Chữ siêu đậm, đổ bóng trắng chống mờ nhòe */
 .detail-info h2.story-title {
     font-family: 'Georgia', 'Times New Roman', serif !important;
     font-size: 32px !important;
@@ -303,7 +300,6 @@
     -webkit-text-fill-color: #6b1111 !important;
 }
 
-/* Lưới thông tin: Chữ nâu đen sồi tối, ép đậm chữ */
 .info-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -315,8 +311,8 @@
 .info-grid p {
     margin: 0;
     color: #1a110b !important; 
-    font-weight: 900 !important; /* Tăng độ dày chữ để dễ đọc */
-    text-shadow: 0.5px 0.5px 0px #ffffff; /* Đổ bóng nhẹ phía sau */
+    font-weight: 900 !important; 
+    text-shadow: 0.5px 0.5px 0px #ffffff; 
 }
 
 .info-grid p strong {
@@ -325,7 +321,6 @@
     font-size: 16px;
 }
 
-/* Huy hiệu trạng thái - Đổ khối màu đặc, không lo bị chìm */
 .status-badge-pending {
     margin-left: 10px;
     color: #ffffff !important;
@@ -352,7 +347,7 @@
     font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    box-shadow: 0 2px 5px rgba(26, 67, 50, 0.2);
+    box-shadow: 0 2px 5px rgba(26, 67, 50, 0.25);
     display: inline-block;
 }
 
@@ -362,7 +357,6 @@
     margin: 25px 0;
 }
 
-/* Khung tóm tắt nội dung truyện - Trắng tinh, chữ đen đậm tuyệt đối */
 .description-box h3 {
     font-family: 'Georgia', serif;
     font-size: 19px;
@@ -376,18 +370,17 @@
     font-family: 'Georgia', serif;
     font-size: 16px;
     line-height: 1.8;
-    background-color: #ffffff !important; /* Đưa về nền trắng tinh */
-    color: #111111 !important; /* Chữ đen siêu đậm, đọc cực rõ */
+    background-color: #ffffff !important; 
+    color: #111111 !important; 
     font-weight: 700 !important;
     padding: 25px;
     border-radius: 4px;
-    border: 2px solid #3a2b1f; /* Viền gỗ đậm bảo vệ bao quanh */
-    border-left: 6px solid #b89047; /* Phào chỉ vàng dọc làm điểm nhấn */
+    border: 2px solid #3a2b1f; 
+    border-left: 6px solid #b89047; 
     white-space: pre-wrap;
     box-shadow: inset 0 2px 6px rgba(0,0,0,0.06);
 }
 
-/* Nhóm cụm nút bấm của trang chi tiết */
 .detail-actions-btn-group {
     margin-top: 35px;
     display: flex;
@@ -412,7 +405,7 @@
     font-size: 13px;
     font-weight: bold;
     padding: 9px 16px;
-    border-radius: 2px; /* Thiết kế phẳng vuông vắn cổ kính */
+    border-radius: 2px; 
     cursor: pointer;
     box-sizing: border-box;
     display: inline-flex;
@@ -425,7 +418,6 @@
     letter-spacing: 0.5px;
 }
 
-/* Nút Duyệt / Xem */
 .btn-view { 
     background-color: #1a4332 !important; 
     color: #fdf8f0 !important; 
@@ -439,7 +431,6 @@
 }
 .btn-view-blue:hover { background-color: #3b629b !important; }
 
-/* Nút Từ chối / Gỡ bỏ */
 .btn-reject-custom, .btn-delete { 
     background-color: #6b1111 !important; 
     color: #fdf8f0 !important; 
@@ -447,7 +438,6 @@
 }
 .btn-reject-custom:hover, .btn-delete:hover { background-color: #8b1a1a !important; }
 
-/* Các nút phân trang */
 .btn-page { 
     background-color: #fffcf7 !important; 
     border: 1px solid #9c7c44 !important; 
@@ -462,7 +452,6 @@
     cursor: not-allowed; 
 }
 
-/* Các nút điều hướng */
 .btn-back-minimal { 
     background-color: transparent !important; 
     color: #3a2b1f !important; 
@@ -478,7 +467,6 @@
 }
 .btn-back:hover { background-color: #f5ebd7 !important; }
 
-/* Nút Phê Duyệt Lớn trên trang chi tiết */
 .btn-approve-now {
     background-color: #1a4332 !important;
     color: #fdf8f0 !important;
@@ -489,9 +477,8 @@
 }
 .btn-approve-now:hover { background-color: #2d6a4f !important; }
 
-/* Nút Đóng cửa sổ lớn trên trang chi tiết */
 .btn-close-window {
-    background-color: #5a4535 !important; /* Tông màu gỗ mun tối quý phái */
+    background-color: #5a4535 !important; 
     color: #fdf8f0 !important;
     font-size: 14px !important;
     padding: 14px 35px !important;
@@ -506,13 +493,15 @@
 }
 
 /* ==========================================================================
-   HỖ TRỢ THÍCH ỨNG TRÊN DI ĐỘNG & MÁY TÍNH BẢNG (RESPONSIVE)
+   LÀM LẠI HOÀN TOÀN: HỆ THỐNG RESPONSIVE CHO DI ĐỘNG & MÁY TÍNH BẢNG
    ========================================================================== */
+
+/* 1. Màn hình Máy tính bảng lớn & Laptop nhỏ (Dưới 992px) */
 @media (max-width: 992px) {
     .admin-two-columns-wrapper,
     .admin-detail-wrapper {
         flex-direction: column;
-        gap: 35px;
+        gap: 30px;
     }
     .column-middle-line {
         display: none; 
@@ -526,22 +515,254 @@
     }
     .info-grid {
         grid-template-columns: 1fr;
+        gap: 15px;
     }
 }
 
+/* 2. Màn hình Mobile & Máy tính bảng phổ thông (Dưới 768px) */
 @media (max-width: 768px) {
-    .admin-page-center-container .admin-glass-content { padding: 20px 15px; margin: 10px; }
-    .admin-header-flex, .admin-header { flex-direction: column; align-items: flex-start; gap: 15px; }
-    .search-box { width: 100%; }
-    .admin-header-flex h1.main-title, .admin-header h1 { font-size: 22px !important; }
-    .table-responsive-wrapper {
-        width: 100%;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
+    /* Tối ưu lại container nền giấy */
+    .admin-page-center-container .admin-glass-content { 
+        padding: 20px 15px; 
+        margin: 10px; 
+        border-width: 2px !important;
     }
-    .admin-table { min-width: 550px; }
-    .action-btns { flex-direction: column; gap: 6px; }
-    .action-btns button { width: 100%; }
-    .detail-actions-btn-group { flex-direction: column; gap: 12px; }
-    .detail-actions-btn-group button { width: 100%; }
+    
+    /* Chuyển đổi Header sang dạng cột dọc */
+    .admin-header-flex, .admin-header { 
+        flex-direction: column !important; 
+        align-items: stretch !important; 
+        gap: 15px; 
+        padding-bottom: 20px;
+    }
+    
+    .admin-header-flex h1.main-title, .admin-header h1 { 
+        font-size: 22px !important; 
+        text-align: center;
+    }
+
+    /* Kéo giãn thanh tìm kiếm ôm trọn màn hình */
+    .search-box { 
+        width: 100% !important; 
+    }
+
+    /* -------------------------------------------------------------
+       BIẾN ĐỔI TABLE THÀNH LAYOUT THẺ SÁCH DỌC (BOOK CARDS) TRÊN MOBILE
+       ------------------------------------------------------------- */
+    .admin-table {
+        display: block; /* Hủy cơ chế hiển thị dạng bảng truyền thống */
+        border: none !important;
+        background-color: transparent !important;
+    }
+
+    /* Ẩn tiêu đề cột (Th) vì không phù hợp trên giao diện dọc */
+    .admin-table thead {
+        display: none;
+    }
+
+    .admin-table tbody {
+        display: block;
+    }
+
+    /* Tái cấu trúc mỗi hàng (Tr) thành một hộp sách da dê cổ điển */
+    .admin-table tr {
+        display: grid;
+        grid-template-columns: 70px 1fr; /* Cột trái chứa ảnh bìa, cột phải chứa thông tin */
+        grid-template-areas: 
+            "poster badge"
+            "poster title"
+            "poster author"
+            "poster date"
+            "actions actions";
+        background-color: #fffcf7 !important;
+        border: 1px solid #9c7c44 !important;
+        border-radius: 4px;
+        padding: 15px;
+        margin-bottom: 15px;
+        gap: 8px 15px;
+        box-shadow: 0 4px 10px rgba(58, 43, 31, 0.05);
+    }
+
+    .admin-table tbody tr:nth-child(even) {
+        background-color: #fbf5eb !important;
+    }
+
+    /* Thiết lập vị trí hiển thị cho từng ô dữ liệu (Td) */
+    .admin-table td {
+        display: block;
+        padding: 0 !important;
+        border: none !important;
+        width: 100% !important;
+    }
+
+    /* Định vị các trường dữ liệu theo lưới Area đã định nghĩa */
+    .admin-table tr td:nth-child(1) { grid-area: badge; font-size: 13px; }
+    .admin-table tr td:nth-child(2) { 
+        grid-area: poster; 
+        display: flex;
+        align-items: flex-start;
+    }
+    .admin-table tr td:nth-child(3) { grid-area: title; }
+    .admin-table tr td:nth-child(4) { 
+        grid-area: author; 
+        font-size: 13px;
+        color: #5a4535;
+        /* Thêm tiền tố nhận diện dữ liệu */
+        display: flex;
+    }
+    .admin-table tr td:nth-child(4)::before {
+        content: "Tác giả: ";
+        font-weight: bold;
+        color: #3a2b1f;
+        margin-right: 4px;
+    }
+    .admin-table tr td:nth-child(5) { 
+        grid-area: date; 
+        font-size: 12px;
+        color: #7f8c8d;
+    }
+    .admin-table tr td:nth-child(6) { grid-area: actions; }
+
+    /* Phóng to ảnh bìa truyện trong thẻ */
+    .table-poster {
+        width: 70px;
+        height: 100px;
+        border-radius: 3px;
+    }
+
+    /* -------------------------------------------------------------
+       TỐI ƯU CỤM NÚT HÀNH ĐỘNG DỄ CHẠM (TOUCH TARGETS)
+       ------------------------------------------------------------- */
+    .action-btns { 
+        grid-area: actions;
+        display: flex;
+        flex-direction: row; /* Trải ngang 2 nút Duyệt/Từ chối cân xứng */
+        gap: 10px; 
+        margin-top: 10px;
+        padding-top: 12px;
+        border-top: 1px dashed #e1d7c6;
+    }
+
+    .action-btns button { 
+        flex: 1; /* Hai nút có độ rộng bằng nhau 50-50 */
+        width: 100%;
+        padding: 11px 16px; /* Tăng diện tích chạm bấm */
+        font-size: 13px;
+    }
+
+    /* Nhóm nút trong trang xem chi tiết */
+    .detail-actions-btn-group { 
+        flex-direction: column; 
+        gap: 12px; 
+    }
+    .detail-actions-btn-group button { 
+        width: 100% !important; 
+        padding: 14px 20px !important;
+    }
+}
+
+/* 3. Tối ưu sâu cho điện thoại màn hình dọc (Dưới 480px) */
+@media (max-width: 480px) {
+    .admin-page-center-container {
+        padding: 5px 0;
+    }
+
+    .admin-page-center-container .admin-glass-content {
+        padding: 15px 10px;
+        margin: 5px;
+    }
+
+    .admin-header-flex h1.main-title, 
+    .admin-header h1 {
+        font-size: 18px !important;
+        letter-spacing: 0.5px !important;
+    }
+
+    .admin-glass-content h2.section-title-pending,
+    .admin-glass-content h2.section-title-published {
+        font-size: 14px !important;
+        padding: 8px 10px !important;
+        margin-bottom: 12px !important;
+    }
+
+    /* Giao diện trang xem chi tiết duyệt truyện */
+    .admin-detail-wrapper {
+        padding: 12px;
+        gap: 20px;
+    }
+
+    .detail-poster img {
+        width: 100%;
+        max-width: 180px; 
+        height: auto;
+        aspect-ratio: 280 / 400; 
+    }
+
+    .detail-info h2.story-title {
+        font-size: 22px !important;
+        text-align: center;
+        margin-bottom: 15px !important;
+    }
+
+    .info-grid {
+        font-size: 14px;
+    }
+
+    .info-grid p, 
+    .info-grid p strong {
+        font-size: 14px !important;
+    }
+
+    .description-content {
+        padding: 15px;
+        font-size: 14px;
+        line-height: 1.6;
+        border-left-width: 4px; 
+    }
+
+    /* Căn chỉnh lại thanh phân trang */
+    .pagination-wrapper {
+        gap: 8px;
+        flex-wrap: wrap; 
+    }
+
+    .pagination-info {
+        font-size: 13px;
+        width: 100%;
+        text-align: center;
+        order: -1; /* Đẩy chỉ số trang lên trên đầu cụm nút */
+        margin-bottom: 4px;
+    }
+    
+    .btn-back-minimal {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* 4. Dòng smartphone siêu nhỏ (Dưới 360px) */
+@media (max-width: 360px) {
+    .admin-header-flex h1.main-title, 
+    .admin-header h1 {
+        font-size: 16px !important;
+    }
+
+    .admin-table tr {
+        grid-template-columns: 60px 1fr; /* Thu nhỏ bớt cột ảnh bìa */
+        padding: 10px;
+    }
+
+    .table-poster {
+        width: 60px;
+        height: 85px;
+    }
+
+    .detail-info h2.story-title {
+        font-size: 19px !important;
+    }
+    
+    .btn-page {
+        padding: 5px 8px;
+        font-size: 11px;
+    }
 }

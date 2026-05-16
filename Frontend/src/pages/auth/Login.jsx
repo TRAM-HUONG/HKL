@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Layout from '../layout/layout.jsx';
-import "../../static/css/Login.css";
-
+import styles from "../../static/css/Login.module.css";
 
 const Login = () => {
   const [tendn, setTendn] = useState('');
   const [mk, setMk] = useState('');
+  const [showPassword, setShowPassword] = useState(false); // Thêm trạng thái ẩn/hiện mật khẩu
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -37,27 +37,27 @@ const Login = () => {
 
   return (
     <Layout>
-      <div className="login-container">
-        <div className="book">
+      <div className={styles['login-container']}>
+        <div className={styles['book']}>
           {/* Trang trái: Giới thiệu */}
-          <div className="book-page left-page">
-            <div className="intro-content">
+          <div className={`${styles['book-page']} ${styles['left-page']}`}>
+            <div className={styles['intro-content']}>
               <h1>HKL Story</h1>
-              <div className="divider"></div>
+              <div className={styles['divider']}></div>
               <p>Chào mừng bạn đến với thế giới của những con chữ.</p>
-              <p className="description">
+              <p className={styles['description']}>
                 Nơi hội tụ những bộ truyện chữ đặc sắc, từ tiên hiệp, kiếm hiệp đến ngôn tình hiện đại. 
                 Hãy đăng nhập để lưu lại lịch sử đọc và theo dõi những chương mới nhất.
               </p>
-              <div className="book-footer">© 2026 HKL Project</div>
+              <div className={styles['book-footer']}>© 2026 HKL Project</div>
             </div>
           </div>
 
           {/* Trang phải: Form đăng nhập */}
-          <div className="book-page right-page">
-            <form onSubmit={handleLogin} className="login-form">
+          <div className={`${styles['book-page']} ${styles['right-page']}`}>
+            <form onSubmit={handleLogin} className={styles['login-form']}>
               <h2>Đăng Nhập</h2>
-              <div className="input-group">
+              <div className={styles['input-group']}>
                 <label>Tên đăng nhập</label>
                 <input 
                   type="text" 
@@ -66,32 +66,51 @@ const Login = () => {
                   required 
                 />
               </div>
-              <div className="input-group">
+              
+              {/* CẬP NHẬT: Ô nhập mật khẩu có icon bật tắt */}
+              <div className={styles['input-group']} style={{ position: 'relative' }}>
                 <label>Mật khẩu</label>
                 <input 
-                  type="password" 
+                  type={showPassword ? "text" : "password"} 
                   placeholder="••••••••" 
                   onChange={(e) => setMk(e.target.value)}
                   required 
                 />
+                <span 
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={eyeIconStyle}
+                >
+                  {showPassword ? "👁️" : "🙈"}
+                </span>
               </div>
-              <button type="submit" className="login-btn">
+
+              <button type="submit" className={styles['login-btn']}>
                 Mở Trang Sách
               </button>
-              
             </form>
-            <div className="form-footer">
-  <div style={{ marginBottom: '10px' }}>
-    <a href="/forgot-password" style={{ fontSize: '14px', color: '#5d4037' }}>Quên mật khẩu?</a>
-  </div>
-  <span>Chưa có tài khoản?</span>
-  <a href="/register">Đăng ký ngay</a>
-</div>
+            <div className={styles['form-footer']}>
+              <div style={{ marginBottom: '10px' }}>
+                <a href="/forgot-password" style={{ fontSize: '14px', color: '#800000' }}>Quên mật khẩu?</a>
+              </div>
+              <span>Chưa có tài khoản?</span>
+              <a href="/register">Đăng ký ngay</a>
+            </div>
           </div>
         </div>
       </div>
     </Layout>
   );
+};
+
+// Style inline bổ trợ căn chỉnh icon con mắt cho ô mật khẩu đăng nhập
+const eyeIconStyle = {
+  position: 'absolute',
+  right: '15px',
+  top: '36px', 
+  cursor: 'pointer',
+  fontSize: '1.2rem',
+  opacity: 0.7,
+  zIndex: 10 
 };
 
 export default Login;

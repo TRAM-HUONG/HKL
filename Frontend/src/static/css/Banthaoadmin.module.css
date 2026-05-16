@@ -227,9 +227,97 @@
     cursor: not-allowed;
 }
 
-/* Responsive cho thiết bị nhỏ hơn */
-@media (max-width: 1200px) {
+/* ==========================================================================
+   HỆ THỐNG RESPONSIVE HOÀNG GIA CHO MOBILE & TABLET
+   ========================================================================== */
+
+/* 1. Màn hình Laptop nhỏ & Tablet lớn (Dưới 1200px) */
+@media screen and (max-width: 1200px) {
     .bento-grid-split, .detail-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* Ép grid 2 cột về 1 cột dọc */
+        gap: 35px;
+    }
+
+    .admin-glass-content {
+        padding: 30px;
+        margin: 10px;
+        border-width: 6px !important; /* Giảm nhẹ độ dày viền kép */
+    }
+
+    .info-card {
+        position: static; /* Hủy tính năng dính (sticky) để cuộn tự nhiên theo dòng */
+    }
+}
+
+/* 2. Màn hình Tablet nhỏ (Dưới 768px) */
+@media screen and (max-width: 768px) {
+    .admin-glass-content {
+        padding: 20px 15px;
+        border-width: 4px !important; /* Thu gọn viền giấy da */
+        box-shadow: 0 0 20px rgba(0,0,0,0.3) !important;
+    }
+
+    .admin-header h1, .detail-header h1 {
+        font-size: 1.6rem; /* Thu nhỏ tiêu đề phông chữ hoàng gia */
+        text-align: center;
+    }
+
+    .subtitle {
+        text-align: center;
+        font-size: 0.9rem;
+    }
+
+    /* Kỹ thuật chống vỡ bảng: Tạo thanh cuộn ngang độc lập cho Table */
+    .table-container {
+        padding: 10px;
+        overflow-x: auto; 
+        -webkit-overflow-scrolling: touch; /* Giúp vuốt cuộn mượt trên iOS */
+    }
+
+    .custom-admin-table th, .custom-admin-table td {
+        padding: 10px 8px; /* Giảm độ rộng các ô */
+        font-size: 0.85rem;
+    }
+
+    /* Khung đọc văn bản (Chi tiết truyện/Chương) */
+    .reader-paper {
+        padding: 25px 15px; /* Giảm padding lớn 50px tránh ép chữ thành một mẩu */
+        font-size: 1.1rem;
+        line-height: 1.8;
+    }
+}
+
+/* 3. Màn hình Smartphone/Mobile (Dưới 480px) */
+@media screen and (max-width: 480px) {
+    .admin-glass-content {
+        border-width: 3px double #af8a3d !important; /* Thu nhỏ tối đa để lấy khoảng trống cho nội dung */
+    }
+
+    .admin-header h1, .detail-header h1 {
+        font-size: 1.3rem;
+    }
+
+    /* Tối ưu hóa ô tìm kiếm và các nút bấm điều hướng */
+    .search-input {
+        width: 100%;
+        box-sizing: border-box;
+        margin-bottom: 15px;
+    }
+
+    /* Biến đổi các nhóm nút hành động thành hàng dọc trải dài */
+    .btn-approve, .btn-delete, .btn-back-outline {
+        width: 100%;
+        box-sizing: border-box;
+        display: block;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+    
+    /* Vùng phân trang */
+    .pagination-wrapper {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 5px;
     }
 }

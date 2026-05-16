@@ -207,8 +207,15 @@
     font-size: 2.8rem;
     font-weight: 800;
     margin-bottom: 20px;
-    background: linear-gradient(to right, #1e00ff, #058391); /* Chữ gradient cho sang */
-    -webkit-text-fill-color: transparent;
+    
+    /* Đổ màu Gradient xanh hoàng gia chìm nổi */
+    background: linear-gradient(to right, #117a65, #16a085); 
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent; /* Giữ nguyên thuộc tính này để kích hoạt gradient */
+    
+    /* Đổ bóng chữ để tạo khối nổi 3D cổ điển */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); 
 }
 
 .contact-item-group p {

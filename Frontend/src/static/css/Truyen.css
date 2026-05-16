@@ -113,3 +113,82 @@
 .card-link {
     text-decoration: none !important;
 }
+
+/* ==========================================================================
+   HỆ THỐNG RESPONSIVE CHO MOBILE & TABLET
+   ========================================================================== */
+
+/* 1. Dành cho màn hình Tablet (Dưới 768px đến 481px) */
+@media screen and (max-width: 768px) {
+    .truyen-grid {
+        grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); /* Thu nhỏ chiều rộng tối thiểu của card */
+        gap: 20px; /* Giảm bớt khoảng cách giữa các card */
+        padding: 15px;
+    }
+
+    .img-wrapper {
+        height: 230px; /* Hạ bớt chiều cao ảnh để giữ đúng tỷ lệ (Tỷ lệ truyện tranh/truyện chữ) */
+    }
+
+    .truyen-item-card {
+        border-radius: 20px; /* Giảm nhẹ bo góc cho bớt thô trên màn hình nhỏ */
+        padding: 10px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+    }
+    
+    /* Giảm lực bay nhảy (hover) trên mobile/tablet tránh bị giật hoặc che khuất phần tử khác */
+    .truyen-item-card:hover {
+        transform: translateY(-6px) scale(1.01);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    }
+}
+
+/* 2. Dành cho điện thoại thông dụng (Dưới 480px) */
+@media screen and (max-width: 480px) {
+    .truyen-grid {
+        /* Fix cứng 2 cột đều tăm tắp trên điện thoại, giao diện tiêu chuẩn của các web truyện hiện nay */
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 12px; 
+        padding: 10px;
+    }
+
+    .truyen-item-card {
+        border-radius: 16px;
+        padding: 8px;
+    }
+
+    .img-wrapper {
+        height: 190px; /* Thu nhỏ chiều cao ảnh tương ứng với giao diện 2 cột */
+        border-radius: 12px;
+    }
+
+    .card-content {
+        margin-top: 10px;
+        padding: 8px 4px;
+        border-radius: 10px;
+    }
+
+    .truyen-title {
+        font-size: 0.95rem; /* Giảm cỡ chữ tiêu đề */
+        height: 2.4rem; /* Cân bằng lại chiều cao vùng chứa chữ */
+        line-height: 1.2rem;
+        margin-bottom: 3px;
+    }
+
+    .truyen-author {
+        font-size: 0.7rem; /* Giảm chữ tên tác giả */
+        letter-spacing: 0.5px;
+    }
+}
+
+/* 3. Dành cho các thiết bị màn hình siêu nhỏ hoặc máy đời cũ (Dưới 360px) */
+@media screen and (max-width: 360px) {
+    .truyen-grid {
+        grid-template-columns: 1fr; /* Nếu màn hình quá bé, đổi thành 1 cột để ảnh không bị bóp méo */
+        gap: 15px;
+    }
+    
+    .img-wrapper {
+        height: 280px; /* Trả lại chiều cao chuẩn khi hiển thị 1 cột đơn lẻ */
+    }
+}
