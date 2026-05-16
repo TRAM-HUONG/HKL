@@ -57,7 +57,7 @@ exports.register = async (req, res) => {
 
     // 2. Gói dữ liệu vào Token
     const token = jwt.sign({ tendn, mk, email, sdt, ngaysinh, role }, SECRET_KEY, { expiresIn: '10m' });
-    const confirmLink = `https://hkl-backend-v3uu.onrender.com/api/auth/confirm-registration?token=${token}`;
+    const confirmLink = `http://localhost:5000/api/auth/confirm-registration?token=${token}`;
 
   
     await transporter.sendMail({
