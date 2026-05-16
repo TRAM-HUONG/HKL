@@ -1,207 +1,436 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Quicksand:wght@500;700&display=swap');
+/* ==========================================================================
+   HỆ THỐNG PHÔNG CHỮ & BIẾN MÀU GIẤY DA CỔ ĐIỂN HOÀNG GIA LỘNG LẪY
+   ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Playfair+Display:ital,wght=0,500;0,700;0,900;1,400&display=swap');
 
-/* Áp dụng cho toàn bộ nội dung */
-body, input, textarea, select, .ql-editor {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
-    line-height: 1.6; /* Giúp các dấu có không gian hiển thị, không bị đè */
-}/* Container chính với nền chuyển động dải màu pastel */
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  perspective: 2000px;
-  padding: 20px;
-  /* Pha trộn các màu từ ảnh bạn gửi vào background */
-  background: linear-gradient(-45deg, #FFB7B2, #FFDAC1, #E2F0CB, #B5EAD7, #C7CEEA);
-  background-size: 400% 400%;
-  animation: gradientBG 15s ease infinite;
+:root {
+    /* Bảng màu Hoàng Gia Tương Phản Cao - Rõ Ràng & Sắc Nét */
+    --parchment-bg: #fdfaf2;        /* Nền màu giấy da cổ sáng nhã nhặn */
+    --parchment-dark: #f3ebd4;      /* Màu da đậm cho tiêu đề cột/vùng chọn */
+    --royal-red: #800000;          /* Đỏ thẫm nhung quý tộc cho các nhãn/thành phần nhấn */
+    --bright-red: #cc0000;         /* Đỏ tươi quyền lực cho Toàn bộ Tiêu đề chính/Nút xóa */
+    --gold-solid: #caa34b;         /* Vàng kim cổ điển nguyên bản */
+    --gold-bright: #f1c40f;        /* Vàng kim lấp lánh cho Xu/Vương miện */
+    --text-dark: #1a0f0f;          /* Chữ đen thẫm ánh nâu tăng độ tương phản đọc */
+    
+    /* Hiệu ứng chuyển động mượt mà hoàng tộc */
+    --royal-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --royal-shadow: 0 10px 30px rgba(26, 15, 15, 0.15);
 }
 
-@keyframes gradientBG {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* KHỬ SẠCH VỆT NỀN ĐÈ HOẶC TRÙNG LẶP */
+.table-header, 
+.page-header, 
+.admin-form-glass div {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
-/* Hiệu ứng cuốn sách 3D */
-.book {
-  display: flex;
-  width: 1000px;
-  min-height: 750px; /* Tăng chiều cao tối thiểu để chứa đủ các field */
-  height: auto;      /* Cho phép chiều cao co giãn theo nội dung form */
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 30px 60px rgba(0,0,0,0.2);
-  border-radius: 15px; /* Tăng bo góc cho mềm mại hơn */
-  margin: 20px 0;    /* Thêm khoảng cách trên dưới */
-}
-/* Các trang sách chung */
-.book-page {
-  flex: 1;
-  padding: 30px 50px; /* Giảm padding một chút để tiết kiệm diện tích dọc */
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* Giúp nội dung luôn nằm giữa trang sách */
-  position: relative;
-  backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.7);
+/* ==========================================================================
+   KHUNG CHỨA TRANG CHÍNH (MAIN CONTAINER)
+   ========================================================================== */
+.admin-glass-content {
+    width: 100% !important;
+    max-width: 1200px !important;
+    margin: 40px auto !important;
+    padding: 50px 40px !important;
+    background: var(--parchment-bg) !important;
+    border: 3px double var(--gold-solid) !important; /* Viền kép hoàng gia */
+    border-radius: 8px !important;
+    box-shadow: var(--royal-shadow) !important;
+    font-family: 'Playfair Display', 'Times New Roman', serif !important;
+    box-sizing: border-box !important;
+    position: relative;
+    z-index: 1;
 }
 
-.input-group {
-  margin-bottom: 15px; /* Giảm từ 25px xuống 15px */
+/* Khung viền góc hoa văn cổ điển chìm tạo nét lộng lẫy */
+.admin-glass-content::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 1px solid rgba(202, 163, 75, 0.6) !important;
+    pointer-events: none;
+    z-index: -1;
 }
 
-.input-group label {
-  margin-bottom: 5px;  /* Giảm khoảng cách giữa label và input */
-  font-size: 0.9rem;   /* Thu nhỏ font label một chút cho gọn */
+/* ==========================================================================
+   HỆ THỐNG TIÊU ĐỀ HOÀNG GIA (TITLES) - ĐỒNG BỘ ĐỎ RỰC RỠ
+   ========================================================================== */
+.page-title,
+.admin-glass-content h2,
+.table-header h2 {
+    font-family: 'Cinzel Decorative', 'Georgia', serif !important;
+    font-size: 2.4rem !important;
+    font-weight: 900 !important;
+    color: var(--bright-red) !important; /* Đỏ tươi rực rỡ, lộng lẫy */
+    text-transform: uppercase !important;
+    letter-spacing: 2px !important;
+    margin: 0 0 10px 0 !important;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: none !important;
 }
 
-.input-group input, .input-group select {
-  padding: 10px 15px;  /* Giảm padding bên trong input */
+.page-subtitle {
+    font-family: 'Playfair Display', serif !important;
+    color: var(--royal-red) !important;
+    font-style: italic !important;
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+    margin: 0 !important;
+    opacity: 0.9;
 }
 
-/* Trang trái - Giới thiệu (Tông màu Hồng/Cam pastel) */
-.left-page {
-  border-radius: 15px 0 0 15px;
-  border-right: 2px solid rgba(255, 255, 255, 0.3);
-  background: linear-gradient(135deg, rgba(255, 183, 178, 0.8), rgba(255, 218, 193, 0.8));
-  color: #5d4037;
-  text-align: center;
+.page-header,
+.table-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 35px !important;
+    width: 100% !important;
+    border-bottom: 2px dashed var(--gold-solid) !important; /* Đường cắt tơ lụa cổ điển */
+    padding-bottom: 20px !important;
 }
 
-.left-page h1 {
-  font-family: 'Georgia', serif;
-  font-size: 3.5rem;
-  margin-bottom: 20px;
-  text-shadow: 2px 2px 4px rgba(255,255,255,0.5);
-  background: linear-gradient(to right, #ff7eb3, #ff758c);
-
-  -webkit-text-fill-color: transparent;
+/* ==========================================================================
+   THANH TÌM KIẾM QUÝ TỘC SẮC NÉT
+   ========================================================================== */
+.search-input,
+.admin-glass-content input[type="text"] {
+    padding: 12px 20px !important;
+    border: 2px solid var(--gold-solid) !important;
+    border-radius: 4px !important; /* Vuông vức quý phái */
+    background: #ffffff !important;
+    color: var(--text-dark) !important;
+    font-family: 'Playfair Display', serif !important;
+    font-weight: 700 !important;
+    font-size: 1rem !important;
+    outline: none !important;
+    width: 320px !important;
+    box-shadow: inset 0 2px 5px rgba(44, 26, 26, 0.05) !important;
+    transition: var(--royal-transition) !important;
+    backdrop-filter: none !important; /* Bỏ blur mờ ảo, lấy nét rõ ràng */
 }
 
-.divider {
-  width: 80px;
-  height: 4px;
-  background: #B5EAD7; /* Màu xanh pastel từ ảnh */
-  margin: 0 auto 30px;
-  border-radius: 2px;
+.search-input:focus,
+.admin-glass-content input[type="text"]:focus {
+    border-color: var(--bright-red) !important;
+    box-shadow: 0 0 8px rgba(204, 0, 0, 0.2) !important;
 }
 
-.description {
-  font-size: 1.2rem;
-  line-height: 1.8;
-  font-style: italic;
-  color: #4a4a4a;
+/* Placeholder dễ đọc hơn */
+.search-input::placeholder,
+.admin-glass-content input::placeholder {
+    color: #7f8c8d !important;
+    font-style: italic;
+    font-weight: 500;
 }
 
-/* Trang phải - Form đăng nhập (Tông màu Xanh/Tím pastel) */
-.right-page {
-  border-radius: 0 15px 15px 0;
-  background: linear-gradient(135deg, rgba(181, 234, 215, 0.8), rgba(199, 206, 234, 0.8));
+/* ==========================================================================
+   HỆ THỐNG NÚT BẤM (BUTTONS) ĐẬM CHẤT SẮC PHONG
+   ========================================================================== */
+.btn-add, 
+.btn-submit, 
+.admin-glass-content button[type="submit"] {
+    background: var(--royal-red) !important;
+    color: #ffffff !important;
+    font-family: 'Playfair Display', serif !important;
+    font-weight: 900 !important;
+    font-size: 1rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    padding: 12px 26px !important;
+    border: 2px solid var(--gold-solid) !important; /* Viền vàng bọc lụa đỏ */
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    box-shadow: 0 4px 10px rgba(128, 0, 0, 0.3) !important;
+    transition: var(--royal-transition) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center;
+    gap: 8px !important;
 }
 
-.login-form h2 {
-  text-align: center;
-  font-size: 2.2rem;
-  color: #5d4037;
-  margin-bottom: 40px;
+.btn-add:hover, 
+.btn-submit:hover, 
+.admin-glass-content button[type="submit"]:hover {
+    background: var(--bright-red) !important;
+    border-color: #ffffff !important;
+    box-shadow: 0 6px 15px rgba(204, 0, 0, 0.4) !important;
+    transform: translateY(-2px);
 }
 
-.input-group {
-  margin-bottom: 25px;
+.btn-cancel {
+    background: #ffffff !important;
+    color: var(--text-dark) !important;
+    border: 2px solid #bdc3c7 !important;
+    border-radius: 4px !important;
+    font-family: 'Playfair Display', serif !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    padding: 12px 26px !important;
+    cursor: pointer !important;
+    transition: var(--royal-transition) !important;
 }
 
-.input-group label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 600;
-  color: #5d4037;
+.btn-cancel:hover {
+    background: #f2f4f4 !important;
+    border-color: var(--text-dark) !important;
+    transform: translateY(-2px);
 }
 
-.input-group input {
-  width: 100%;
-  padding: 15px;
-  border: 1px solid rgba(255,255,255,0.5);
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.5);
-  font-size: 1rem;
-  transition: all 0.3s;
-  box-sizing: border-box;
+/* ==========================================================================
+   BẢNG VÀNG THÔNG TIN (PREMIUM TABLES) - RÕ RÀNG & LỘNG LẪY
+   ========================================================================== */
+.table-container, 
+.table-wrapper,
+.admin-table-wrapper {
+    background: #ffffff !important;
+    border: 2px solid var(--gold-solid) !important;
+    border-radius: 4px !important;
+    padding: 4px !important;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05) !important;
+    margin-top: 15px !important;
+    overflow: hidden;
 }
 
-.input-group input:focus {
-  outline: none;
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 0 15px rgba(181, 234, 215, 0.5);
-  transform: translateY(-2px);
+.premium-table, 
+.admin-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    background: #ffffff !important;
 }
 
-/* Nút bấm "Mở trang sách" huyền ảo */
-.login-btn {
-  width: 100%;
-  padding: 18px;
-  background: linear-gradient(90deg, #FFB7B2, #C7CEEA);
-  border: none;
-  border-radius: 12px;
-  color: #fff;
-  font-weight: bold;
-  font-size: 1.2rem;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  cursor: pointer;
-  transition: all 0.4s;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-  margin-top: 20px;
+/* Tiêu đề cột của triều đình */
+.premium-table th, 
+.admin-table th {
+    font-family: 'Playfair Display', serif !important;
+    background: var(--parchment-dark) !important;
+    color: var(--royal-red) !important; /* Đỏ nhung nổi bật hẳn */
+    font-weight: 900 !important;
+    font-size: 1.1rem !important;
+    padding: 16px !important;
+    border-bottom: 3px solid var(--gold-solid) !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.login-btn:hover {
-  transform: scale(1.03);
-  box-shadow: 0 15px 30px rgba(199, 206, 234, 0.6);
-  background: linear-gradient(90deg, #C7CEEA, #FFB7B2);
+/* Ô dữ liệu bảng tôn vinh nét chữ rõ ràng */
+.premium-table td, 
+.admin-table td {
+    padding: 16px !important;
+    border-bottom: 1px solid var(--parchment-dark) !important;
+    font-family: 'Playfair Display', serif !important;
+    font-size: 1.1rem !important;
+    font-weight: 700 !important; /* Đậm nét sắc sảo */
+    color: var(--text-dark) !important;
 }
 
-.form-footer {
-  margin-top: 30px;
-  text-align: center;
-  color: #5d4037;
+/* Định dạng mã băm #ID */
+.premium-table td strong, 
+.admin-table td strong {
+    color: #566573 !important;
+    font-family: 'Playfair Display', serif !important;
+    font-weight: 900;
 }
 
-.form-footer a {
-  color: #ff7eb3;
-  text-decoration: none;
-  font-weight: bold;
-  margin-left: 8px;
-  transition: color 0.3s;
+.premium-table tbody tr:hover, 
+.admin-table tbody tr:hover {
+    background-color: #fbf7eb !important; /* Đổi màu nhẹ khi di chuột */
 }
 
-.form-footer a:hover {
-  color: #5d4037;
-  text-decoration: underline;
+/* Các nút Sửa/Xóa quy chuẩn trong dòng dữ liệu */
+.btn-edit {
+    background: #ffffff !important;
+    color: var(--gold-solid) !important;
+    border: 2px solid var(--gold-solid) !important;
+    font-family: 'Playfair Display', serif !important;
+    font-weight: 800 !important;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    padding: 6px 14px !important;
+    margin-right: 8px !important;
+    cursor: pointer !important;
+    transition: var(--royal-transition) !important;
 }
 
-/* Trang trí trang sách giống thật */
-.book::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  width: 30px;
-  height: 100%;
-  background: linear-gradient(to right, 
-    rgba(0,0,0,0.05), 
-    rgba(0,0,0,0.1) 50%, 
-    rgba(0,0,0,0.05));
-  z-index: 10;
-  transform: translateX(-50%);
+.btn-edit:hover {
+    background: var(--gold-solid) !important;
+    color: #ffffff !important;
 }
 
-/* Hiệu ứng Responsive */
-@media (max-width: 1050px) {
-  .book {
-    width: 100%;
-    height: auto; /* Quan trọng: để auto để các trang xếp chồng lên nhau */
-    flex-direction: column;
-  }
-  /* Các chỉnh sửa khác giữ nguyên như cũ */
+.btn-delete {
+    background: #ffffff !important;
+    color: var(--bright-red) !important;
+    border: 2px solid var(--bright-red) !important;
+    font-family: 'Playfair Display', serif !important;
+    font-weight: 800 !important;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    padding: 6px 14px !important;
+    cursor: pointer !important;
+    transition: var(--royal-transition) !important;
+}
+
+.btn-delete:hover {
+    background: var(--bright-red) !important;
+    color: #ffffff !important;
+}
+
+/* ==========================================================================
+   BẢO VỆ MÀU TIỀN TỆ & TIÊU ĐIỂM (KIÊN CỐ KHÔNG PHAI)
+   ========================================================================== */
+/* Giá tiền tài lộc Ngọc Lục Bảo */
+.text-success {
+    color: #117a65 !important;
+    -webkit-text-fill-color: #117a65 !important;
+    font-weight: 900 !important;
+    font-size: 1.15rem !important;
+}
+
+/* Đại diện Linh thạch Xu (Vàng kim sáng chói lộng lẫy) */
+.text-info {
+    color: var(--gold-bright) !important;
+    -webkit-text-fill-color: var(--gold-bright) !important;
+    text-shadow: 1px 1px 0px rgba(44, 26, 26, 0.2);
+    font-weight: 900 !important;
+    font-size: 1.2rem !important;
+}
+
+/* Xu tổn hao (Đỏ tươi sắc nét) */
+.text-danger {
+    color: var(--bright-red) !important;
+    -webkit-text-fill-color: var(--bright-red) !important;
+    font-weight: 900 !important;
+}
+
+/* ==========================================================================
+   HỆ THỐNG BIỂU MẪU (ADMIN FORM GLASS)
+   ========================================================================== */
+.admin-form-glass {
+    background: #ffffff !important;
+    border: 2px solid var(--gold-solid) !important;
+    padding: 40px !important;
+    box-shadow: 0 4px 25px rgba(0,0,0,0.03) !important;
+    margin-top: 25px !important;
+    border-radius: 4px;
+}
+
+.form-group {
+    margin-bottom: 24px !important;
+}
+
+/* Nhãn trường điền thông tin - Đồng bộ Đỏ nhung hoàng gia */
+.form-group label {
+    display: block !important;
+    font-family: 'Playfair Display', serif !important;
+    font-weight: 900 !important;
+    color: var(--royal-red) !important;
+    margin-bottom: 10px !important;
+    font-size: 1.1rem !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-group input, 
+.form-group select {
+    width: 100% !important;
+    padding: 14px 18px !important;
+    border: 2px solid var(--gold-solid) !important;
+    background: #ffffff !important;
+    color: var(--text-dark) !important;
+    font-family: 'Playfair Display', serif !important;
+    font-size: 1.05rem !important;
+    font-weight: 700 !important;
+    outline: none !important;
+    box-sizing: border-box !important;
+    transition: var(--royal-transition) !important;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--bright-red) !important;
+    box-shadow: 0 0 8px rgba(128,0,0,0.1) !important;
+}
+
+/* ==========================================================================
+   PILL TRẠNG THÁI (STATUS PILLS)
+   ========================================================================== */
+.status-pill {
+    padding: 6px 14px !important;
+    font-size: 0.9rem !important;
+    font-weight: 800 !important;
+    text-transform: uppercase;
+    display: inline-block !important;
+    border-radius: 2px;
+}
+
+.status-pill.TRON_GOI {
+    background: var(--parchment-dark) !important;
+    color: var(--royal-red) !important;
+    border: 2px solid var(--gold-solid) !important;
+}
+
+.status-pill.CHUONG_LE {
+    background: #ebeded !important;
+    color: #566573 !important;
+    border: 2px solid #bdc3c7 !important;
+}
+
+/* ==========================================================================
+   ĐA MÀN HÌNH CHUẨN ĐIỆN THOẠI (RESPONSIVE)
+   ========================================================================== */
+@media (max-width: 768px) {
+    .admin-glass-content {
+        margin: 15px !important;
+        padding: 25px 15px !important;
+    }
+
+    .page-header, .table-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 20px !important;
+    }
+
+    .search-input,
+    .admin-glass-content input[type="text"] {
+        width: 100% !important;
+    }
+
+    .premium-table thead, .admin-table thead {
+        display: none !important;
+    }
+
+    .premium-table tr, .admin-table tr {
+        display: block !important;
+        border: 2px solid var(--gold-solid) !important;
+        margin-bottom: 20px !important;
+        padding: 15px !important;
+        background: #ffffff !important;
+    }
+
+    .premium-table td, .admin-table td {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        text-align: right !important;
+        padding: 12px 5px !important;
+        border-bottom: 1px solid var(--parchment-dark) !important;
+    }
+
+    .premium-table td::before, .admin-table td::before {
+        content: attr(data-label) !important;
+        font-weight: 800 !important;
+        color: var(--royal-red) !important;
+        float: left !important;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+    }
 }

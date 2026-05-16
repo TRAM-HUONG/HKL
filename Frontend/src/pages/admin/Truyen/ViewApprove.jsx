@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import "../../../static/css/Truyenadmin.css"; 
+import styles from "../../../static/css/Truyenadmin.module.css"; 
 import Layout from "../../layout/layout.jsx";
 
 const ViewApprove = () => {
@@ -41,72 +41,59 @@ const ViewApprove = () => {
         }
     };
 
-    if (loading) return <div className="admin-glass-content">Đang tải dữ liệu...</div>;
-    if (!data) return <div className="admin-glass-content">Không tìm thấy thông tin truyện.</div>;
+    if (loading) return <div className={styles['admin-glass-content']}>Đang tải dữ liệu...</div>;
+    if (!data) return <div className={styles['admin-glass-content']}>Không tìm thấy thông tin truyện.</div>;
 
     return (
         <Layout>
-            <div className="admin-page-center-container">
-        <div className="admin-glass-content">
-            <header className="admin-header">
+        <div className={styles['admin-glass-content']}>
+            <header className={styles['admin-header']}>
                 <h1>CHI TIẾT TÁC PHẨM</h1>
-                <button className="btn-back" onClick={() => navigate(-1)}>⬅ Quay lại</button>
+                <button className={styles['btn-back']} onClick={() => navigate(-1)}>⬅ Quay lại</button>
             </header>
 
-            <div className="admin-main-wrapper" style={{ display: 'flex', gap: '40px', marginTop: '20px' }}>
+            <div className={styles['admin-detail-wrapper']}>
                 {/* Phần bên trái: Ảnh bìa (Trường HINHANH) */}
-                <div className="detail-poster">
+                <div className={styles['detail-poster']}>
                     <img 
                         src={`http://localhost:5000/images/${data.hinh_anh}`} 
                         alt="cover" 
-                        style={{ width: '280px', borderRadius: '12px', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}
                         onError={(e) => e.target.src = "https://via.placeholder.com/280x400"}
                     />
                 </div>
 
                 {/* Phần bên phải: Thông tin chi tiết */}
-                <div className="detail-info" style={{ flex: 1, color: '#ff0000' }}>
-                    <h2 className="section-title-published">{data.ten_truyen}</h2>
+                <div className={styles['detail-info']}>
+                    <h2 className={styles['story-title']}>{data.ten_truyen}</h2>
                     
-                    <div className="info-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', fontSize: '1.1rem' }}>
+                    <div className={styles['info-grid']}>
                         <p><strong>✍️ Tác giả:</strong> {data.ten_tac_gia || "Ẩn danh"}</p>
                         <p><strong>🏷️ Thể loại:</strong> {data.ten_the_loai || "Chưa phân loại"}</p>
                         <p><strong>🏢 Nhà xuất bản:</strong> {data.nha_xuat_ban || "Tự do"}</p>
                         <p><strong>📅 Ngày gửi:</strong> {new Date(data.ngay_dang).toLocaleDateString('vi-VN')}</p>
                         <p><strong>📡 Trạng thái:</strong> 
-                            <span style={{ 
-                                marginLeft: '8px', 
-                                color: data.trang_thai === 'Đợi duyệt' ? '#ffcc00' : '#28a745',
-                                fontWeight: 'bold'
-                            }}>
+                            <span className={data.trang_thai === 'Đợi duyệt' ? styles['status-badge-pending'] : styles['status-badge-published']}>
                                 {data.trang_thai}
                             </span>
                         </p>
                     </div>
 
-                    <hr style={{ border: '0.5px solid rgba(255,255,255,0.1)', margin: '25px 0' }} />
+                    <hr className={styles['detail-divider']} />
 
-                    <div className="description-box">
-                        <h3 style={{ color: '#ffcc00', marginBottom: '10px' }}>📖 Mô tả nội dung:</h3>
-                        <p style={{ 
-                            lineHeight: '1.7', 
-                            backgroundColor: 'rgba(0,0,0,0.2)', 
-                            padding: '20px', 
-                            borderRadius: '10px',
-                            whiteSpace: 'pre-wrap' 
-                        }}>
+                    <div className={styles['description-box']}>
+                        <h3>📖 Mô tả nội dung:</h3>
+                        <p className={styles['description-content']}>
                             {data.mo_ta || "Không có mô tả chi tiết cho tác phẩm này."}
                         </p>
                     </div>
 
-                    {/* PHẦN ĐIỀU KHIỂN NÚT PHÊ DUYỆT[cite: 4] */}
-                    <div style={{ marginTop: '30px', display: 'flex', gap: '15px' }}>
-                        {/* CHỈ HIỆN NÚT NẾU TRẠNG THÁI LÀ 'Đợi duyệt'[cite: 4] */}
+                    {/* PHẦN ĐIỀU KHIỂN NÚT PHÊ DUYỆT */}
+                    <div className={styles['detail-actions-btn-group']}>
+                        {/* CHỈ HIỆN NÚT NẾU TRẠNG THÁI LÀ 'Đợi duyệt' */}
                         {data.trang_thai === 'Đợi duyệt' && (
                             <button 
                                 onClick={handleApprove} 
-                                className="btn-view" 
-                                style={{ padding: '12px 30px', backgroundColor: '#28a745', fontSize: '1rem' }}
+                                className={styles['btn-approve-now']}
                             >
                                 ✅ PHÊ DUYỆT NGAY
                             </button>
@@ -114,15 +101,13 @@ const ViewApprove = () => {
                         
                         <button 
                             onClick={() => navigate(-1)} 
-                            className="btn-delete" 
-                            style={{ padding: '12px 30px', backgroundColor: '#6c757d', fontSize: '1rem' }}
+                            className={styles['btn-close-window']}
                         >
                             Đóng cửa sổ
                         </button>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
         </Layout>
     );

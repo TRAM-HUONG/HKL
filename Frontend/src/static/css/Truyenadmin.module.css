@@ -1,0 +1,547 @@
+/* ==========================================================================
+   HỆ THỐNG CONTAINER PHONG CÁCH CỔ ĐIỂN TÂY ÂU (CLASSIC ROYAL) - CHỮ SIÊU ĐẬM
+   ========================================================================== */
+.admin-page-center-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #f4eae1; /* Nền giấy mộc cổ điển toàn trang */
+    padding: 10px 0;
+}
+
+.admin-page-center-container .admin-glass-content {
+    width: 100%;
+    max-width: 1400px; 
+    margin: 20px auto;
+    padding: 35px;
+    box-sizing: border-box;
+    background: #fdf8f0 !important; /* Màu giấy da dê / sách cổ */
+    border: 3px double #b89047 !important; /* Viền kép vàng đồng sang trọng */
+    border-radius: 4px; /* Góc bo nhẹ theo dạng khung tranh cổ */
+    box-shadow: 0 10px 25px rgba(58, 43, 31, 0.15) !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    font-family: 'Georgia', 'Times New Roman', serif !important; /* Hệ chữ có chân cổ điển */
+}
+
+/* Header dùng cho trang danh sách */
+.admin-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #b89047;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+    gap: 20px;
+}
+
+/* Header dùng cho trang chi tiết tác phẩm */
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #b89047;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+}
+
+.admin-glass-content h1.main-title,
+.admin-header h1 {
+    font-family: 'Georgia', 'Times New Roman', serif !important;
+    font-size: 26px !important;
+    font-weight: 900 !important; /* Tăng độ đậm tối đa */
+    color: #6b1111 !important; /* Màu đỏ Bordeaux quý tộc */
+    text-transform: uppercase !important;
+    margin: 0 !important;
+    letter-spacing: 1.5px !important;
+    /* Đổ bóng kép giúp chữ tiêu đề nổi bật hẳn trên nền ảnh sáng phía sau */
+    text-shadow: 1px 1px 0px #ffffff, 2px 2px 4px rgba(0, 0, 0, 0.15) !important;
+    -webkit-text-fill-color: #6b1111 !important;
+    opacity: 1 !important;
+}
+
+/* Ô tìm kiếm phong cách thư viện cổ */
+.search-box {
+    position: relative;
+    width: 350px;
+}
+
+.search-input-custom {
+    width: 100%;
+    padding: 11px 35px 11px 14px;
+    font-family: 'Georgia', serif;
+    font-size: 14px;
+    font-style: italic;
+    border: 1px solid #9c7c44;
+    border-radius: 2px;
+    background-color: #fffcf7 !important;
+    color: #3a2b1f !important;
+    box-sizing: border-box;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.search-input-custom:focus {
+    outline: none;
+    border-color: #6b1111;
+    background-color: #ffffff !important;
+}
+
+.search-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9c7c44;
+    font-size: 16px;
+}
+
+/* ==========================================================================
+   HỆ THỐNG FLEX CHIA GIAO DIỆN LÀM ĐÔI THÀNH 2 BÊN (APPROVE LIST)
+   ========================================================================== */
+.admin-two-columns-wrapper {
+    display: flex;
+    gap: 40px; 
+    width: 100%;
+}
+
+.column-left, .column-right {
+    flex: 1; 
+    min-width: 0; 
+}
+
+/* Đường kẻ dọc ngăn cách mang họa tiết sọc đứt cổ điển */
+.column-middle-line {
+    width: 1px;
+    background-color: transparent;
+    border-left: 1px dashed #9c7c44;
+    align-self: stretch;
+}
+
+/* TIÊU ĐỀ DANH MỤC TRUYỆN MỖI BÊN - CHỮ SIÊU RÕ NÉT */
+.admin-glass-content h2.section-title-pending {
+    font-family: 'Georgia', serif !important;
+    font-size: 17px !important;
+    font-weight: 900 !important;
+    color: #6b1111 !important; 
+    background-color: #f5eae4 !important; /* Nền hồng bordeaux nhạt */
+    margin: 0 0 18px 0 !important;
+    border-left: 5px solid #6b1111 !important;
+    padding: 10px 14px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px;
+    -webkit-text-fill-color: #6b1111 !important;
+}
+
+.admin-glass-content h2.section-title-published {
+    font-family: 'Georgia', serif !important;
+    font-size: 17px !important;
+    font-weight: 900 !important;
+    color: #1a4332 !important; /* Xanh rêu cổ kính */
+    background-color: #e6eee9 !important; /* Nền xanh nhạt */
+    margin: 0 0 18px 0 !important;
+    border-left: 5px solid #1a4332 !important;
+    padding: 10px 14px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px;
+    -webkit-text-fill-color: #1a4332 !important;
+}
+
+/* ==========================================================================
+   ĐỊNH DẠNG BẢNG DANH SÁCH GIỐNG TRANG SÁCH CỔ
+   ========================================================================== */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fffcf7 !important;
+    border: 1px solid #9c7c44;
+    margin-bottom: 20px;
+}
+
+.admin-table th {
+    background-color: #3a2b1f !important; /* Màu nâu gỗ sồi tối hoàng gia */
+    color: #fdf8f0 !important; 
+    font-family: 'Georgia', serif;
+    font-weight: bold !important;
+    font-size: 13px !important;
+    padding: 14px 10px !important;
+    text-transform: uppercase;
+    border: 1px solid #3a2b1f;
+    text-align: left;
+    letter-spacing: 0.5px;
+}
+
+.admin-table td {
+    padding: 12px 10px;
+    font-size: 14px;
+    border-bottom: 1px solid #e1d7c6;
+    color: #111111 !important; 
+    font-weight: 700 !important; /* Chữ đậm rõ ràng */
+    vertical-align: middle;
+}
+
+.admin-table tbody tr:nth-child(even) {
+    background-color: #fbf5eb !important;
+}
+
+.admin-table tbody tr:hover {
+    background-color: #f5ebd7 !important;
+}
+
+.id-badge {
+    font-family: monospace;
+    font-weight: bold;
+    color: #6b1111;
+    background-color: #f5eae4;
+    padding: 3px 6px;
+    border: 1px solid #6b1111;
+    border-radius: 2px;
+}
+
+.table-poster {
+    width: 44px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 2px;
+    border: 1px solid #9c7c44;
+    box-shadow: 1px 2px 5px rgba(0,0,0,0.15);
+}
+
+.text-highlight {
+    color: #3a2b1f !important;
+    font-weight: bold !important;
+    font-size: 14px;
+    word-break: break-word;
+}
+
+/* ==========================================================================
+   HỆ THỐNG PHÂN TRANG & LOADING
+   ========================================================================== */
+.pagination-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.pagination-info {
+    font-weight: bold;
+    color: #5a4535;
+    font-style: italic;
+}
+
+.loading-container { 
+    text-align: center; 
+    padding: 50px; 
+    color: #3a2b1f; 
+    font-weight: bold;
+    font-style: italic;
+}
+
+.spinner {
+    width: 45px; 
+    height: 45px; 
+    border: 3px solid #e1d7c6; 
+    border-top: 3px solid #6b1111; 
+    border-radius: 50%; 
+    animation: spin 1s linear infinite; 
+    margin: 0 auto 15px;
+}
+
+@keyframes spin { 
+    0% { transform: rotate(0deg); } 
+    100% { transform: rotate(360deg); } 
+}
+
+/* ==========================================================================
+   GIAO DIỆN CHI TIẾT TÁC PHẨM (VIEW APPROVE) - SIÊU ĐẬM, CHỐNG MỜ NHÒE
+   ========================================================================== */
+.admin-detail-wrapper {
+    display: flex;
+    gap: 45px;
+    margin-top: 25px;
+    width: 100%;
+    padding: 25px;
+    /* Phủ lớp nền giấy da dê dày dặn đè lên hình nền background xanh, loại bỏ hiện tượng mờ chữ */
+    background-color: rgba(253, 248, 240, 0.96) !important;
+    border: 1px solid #b89047;
+    border-radius: 4px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.detail-poster {
+    flex-shrink: 0;
+}
+
+.detail-poster img {
+    width: 280px;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 4px double #3a2b1f; /* Viền gỗ mun kép siêu đậm định hình poster */
+    box-shadow: 5px 8px 25px rgba(0, 0, 0, 0.35);
+}
+
+.detail-info {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Tên truyện lớn - Chữ siêu đậm, đổ bóng trắng chống mờ nhòe */
+.detail-info h2.story-title {
+    font-family: 'Georgia', 'Times New Roman', serif !important;
+    font-size: 32px !important;
+    font-weight: 900 !important; 
+    color: #6b1111 !important; 
+    margin: 0 0 25px 0 !important;
+    border-bottom: 2px solid #b89047;
+    padding-bottom: 12px;
+    letter-spacing: 0.5px;
+    text-shadow: 1px 1px 1px #ffffff !important; 
+    -webkit-text-fill-color: #6b1111 !important;
+}
+
+/* Lưới thông tin: Chữ nâu đen sồi tối, ép đậm chữ */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px 30px;
+    font-size: 16px;
+    margin-bottom: 25px;
+}
+
+.info-grid p {
+    margin: 0;
+    color: #1a110b !important; 
+    font-weight: 900 !important; /* Tăng độ dày chữ để dễ đọc */
+    text-shadow: 0.5px 0.5px 0px #ffffff; /* Đổ bóng nhẹ phía sau */
+}
+
+.info-grid p strong {
+    font-weight: 900 !important;
+    color: #3a2b1f !important;
+    font-size: 16px;
+}
+
+/* Huy hiệu trạng thái - Đổ khối màu đặc, không lo bị chìm */
+.status-badge-pending {
+    margin-left: 10px;
+    color: #ffffff !important;
+    background-color: #6b1111 !important; 
+    padding: 4px 14px;
+    border-radius: 3px;
+    font-weight: bold;
+    border: 1px solid #6b1111;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 5px rgba(107, 17, 17, 0.2);
+    display: inline-block;
+}
+
+.status-badge-published {
+    margin-left: 10px;
+    color: #ffffff !important;
+    background-color: #1a4332 !important; 
+    padding: 4px 14px;
+    border-radius: 3px;
+    font-weight: bold;
+    border: 1px solid #1a4332;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 5px rgba(26, 67, 50, 0.2);
+    display: inline-block;
+}
+
+.detail-divider {
+    border: 0;
+    border-top: 2px dashed #b89047;
+    margin: 25px 0;
+}
+
+/* Khung tóm tắt nội dung truyện - Trắng tinh, chữ đen đậm tuyệt đối */
+.description-box h3 {
+    font-family: 'Georgia', serif;
+    font-size: 19px;
+    font-weight: 900;
+    color: #3a2b1f;
+    margin: 0 0 15px 0;
+    text-shadow: 0.5px 0.5px 0px #ffffff;
+}
+
+.description-content {
+    font-family: 'Georgia', serif;
+    font-size: 16px;
+    line-height: 1.8;
+    background-color: #ffffff !important; /* Đưa về nền trắng tinh */
+    color: #111111 !important; /* Chữ đen siêu đậm, đọc cực rõ */
+    font-weight: 700 !important;
+    padding: 25px;
+    border-radius: 4px;
+    border: 2px solid #3a2b1f; /* Viền gỗ đậm bảo vệ bao quanh */
+    border-left: 6px solid #b89047; /* Phào chỉ vàng dọc làm điểm nhấn */
+    white-space: pre-wrap;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.06);
+}
+
+/* Nhóm cụm nút bấm của trang chi tiết */
+.detail-actions-btn-group {
+    margin-top: 35px;
+    display: flex;
+    gap: 20px;
+}
+
+/* ==========================================================================
+   HỆ THỐNG NÚT BẤM (BUTTONS) HOÀNG GIA - VỮNG CHÃI
+   ========================================================================== */
+.action-btns {
+    display: flex;
+    gap: 8px;
+}
+
+.action-btns button, 
+.btn-page, 
+.btn-back-minimal, 
+.btn-back, 
+.btn-approve-now, 
+.btn-close-window {
+    font-family: 'Georgia', serif;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 9px 16px;
+    border-radius: 2px; /* Thiết kế phẳng vuông vắn cổ kính */
+    cursor: pointer;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Nút Duyệt / Xem */
+.btn-view { 
+    background-color: #1a4332 !important; 
+    color: #fdf8f0 !important; 
+    border: 1px solid #1a4332 !important;
+}
+.btn-view:hover { background-color: #2d6a4f !important; }
+
+.btn-view-blue { 
+    background-color: #2b4c7e !important; 
+    color: #ffffff !important; 
+}
+.btn-view-blue:hover { background-color: #3b629b !important; }
+
+/* Nút Từ chối / Gỡ bỏ */
+.btn-reject-custom, .btn-delete { 
+    background-color: #6b1111 !important; 
+    color: #fdf8f0 !important; 
+    border: 1px solid #6b1111 !important;
+}
+.btn-reject-custom:hover, .btn-delete:hover { background-color: #8b1a1a !important; }
+
+/* Các nút phân trang */
+.btn-page { 
+    background-color: #fffcf7 !important; 
+    border: 1px solid #9c7c44 !important; 
+    color: #3a2b1f; 
+    padding: 5px 12px; 
+}
+.btn-page:hover:not(:disabled) { background-color: #b89047 !important; color: #ffffff !important; }
+.btn-page:disabled { 
+    background-color: #e1d7c6 !important; 
+    color: #a69c8a; 
+    border-color: #cbd5e1 !important;
+    cursor: not-allowed; 
+}
+
+/* Các nút điều hướng */
+.btn-back-minimal { 
+    background-color: transparent !important; 
+    color: #3a2b1f !important; 
+    border: 1px solid #3a2b1f !important; 
+    padding: 10px 20px !important;
+}
+.btn-back-minimal:hover { background-color: #3a2b1f !important; color: #fdf8f0 !important; }
+
+.btn-back {
+    background-color: #fffcf7 !important;
+    color: #5a4535 !important;
+    border: 1px solid #9c7c44 !important;
+}
+.btn-back:hover { background-color: #f5ebd7 !important; }
+
+/* Nút Phê Duyệt Lớn trên trang chi tiết */
+.btn-approve-now {
+    background-color: #1a4332 !important;
+    color: #fdf8f0 !important;
+    font-size: 14px !important;
+    padding: 14px 35px !important;
+    border: 1px solid #1a4332 !important;
+    box-shadow: 0 4px 12px rgba(26, 67, 50, 0.25);
+}
+.btn-approve-now:hover { background-color: #2d6a4f !important; }
+
+/* Nút Đóng cửa sổ lớn trên trang chi tiết */
+.btn-close-window {
+    background-color: #5a4535 !important; /* Tông màu gỗ mun tối quý phái */
+    color: #fdf8f0 !important;
+    font-size: 14px !important;
+    padding: 14px 35px !important;
+    border: 1px solid #5a4535 !important;
+}
+.btn-close-window:hover { background-color: #735945 !important; }
+
+.admin-footer-actions {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px dashed #9c7c44;
+}
+
+/* ==========================================================================
+   HỖ TRỢ THÍCH ỨNG TRÊN DI ĐỘNG & MÁY TÍNH BẢNG (RESPONSIVE)
+   ========================================================================== */
+@media (max-width: 992px) {
+    .admin-two-columns-wrapper,
+    .admin-detail-wrapper {
+        flex-direction: column;
+        gap: 35px;
+    }
+    .column-middle-line {
+        display: none; 
+    }
+    .detail-poster {
+        text-align: center;
+    }
+    .detail-poster img {
+        width: 240px;
+        height: 340px;
+    }
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-page-center-container .admin-glass-content { padding: 20px 15px; margin: 10px; }
+    .admin-header-flex, .admin-header { flex-direction: column; align-items: flex-start; gap: 15px; }
+    .search-box { width: 100%; }
+    .admin-header-flex h1.main-title, .admin-header h1 { font-size: 22px !important; }
+    .table-responsive-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .admin-table { min-width: 550px; }
+    .action-btns { flex-direction: column; gap: 6px; }
+    .action-btns button { width: 100%; }
+    .detail-actions-btn-group { flex-direction: column; gap: 12px; }
+    .detail-actions-btn-group button { width: 100%; }
+}

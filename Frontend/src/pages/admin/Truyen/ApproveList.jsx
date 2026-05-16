@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import "../../../static/css/Truyenadmin.css"; 
+import styles from "../../../static/css/Truyenadmin.module.css"; 
 import Layout from "../../layout/layout.jsx";
 
 const ApproveList = () => {
@@ -76,10 +76,10 @@ const ApproveList = () => {
         const totalPages = Math.ceil(totalItems / itemsPerPage);
         if (totalPages <= 1) return null;
         return (
-            <div className="pagination-wrapper">
-                <button disabled={currentPage === 1} onClick={() => setPage(p => p - 1)} className="btn-page"> Trước </button>
-                <span className="pagination-info">Trang {currentPage} / {totalPages}</span>
-                <button disabled={currentPage === totalPages} onClick={() => setPage(p => p + 1)} className="btn-page"> Sau </button>
+            <div className={styles['pagination-wrapper']}>
+                <button disabled={currentPage === 1} onClick={() => setPage(p => p - 1)} className={styles['btn-page']}> Trước </button>
+                <span className={styles['pagination-info']}>Trang {currentPage} / {totalPages}</span>
+                <button disabled={currentPage === totalPages} onClick={() => setPage(p => p + 1)} className={styles['btn-page']}> Sau </button>
             </div>
         );
     };
@@ -90,57 +90,55 @@ const ApproveList = () => {
         
         return (
             <>
-                <div className="table-responsive-wrapper">
-                    <table className="admin-table">
-                        <thead>
-                            <tr>
-                                <th>Mã</th>
-                                <th>Ảnh</th>
-                                <th>Tên Truyện</th>
-                                <th>Tác Giả</th>
-                                <th>{isPending ? "Ngày Gửi" : "Ngày Đăng"}</th>
-                                <th>Thao Tác</th>
+                <table className={styles['admin-table']}>
+                    <thead>
+                        <tr>
+                            <th>Mã</th>
+                            <th>Ảnh</th>
+                            <th>Tên Truyện</th>
+                            <th>Tác Giả</th>
+                            <th>{isPending ? "Ngày Gửi" : "Ngày Đăng"}</th>
+                            <th>Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {currentData.length > 0 ? currentData.map(s => (
+                            <tr key={s.mat}>
+                                <td><span className={styles['id-badge']}>#{s.mat}</span></td>
+                                <td>
+                                    <img 
+                                        src={`http://localhost:5000/images/${s.hinhanh}`} 
+                                        className={styles['table-poster']}
+                                        alt="cover" 
+                                        onError={(e) => { e.target.src = "https://via.placeholder.com/50x70?text=No+Cover"; }}
+                                    />
+                                </td>
+                                <td><strong className={styles['text-highlight']}>{s.tent}</strong></td>
+                                <td>{s.ten_tac_gia}</td>
+                                <td>{new Date(s.ngaydang).toLocaleDateString('vi-VN')}</td>
+                                <td>
+                                    <div className={styles['action-btns']}>
+                                        {isPending ? (
+                                            <>
+                                                <button className={styles['btn-view']} onClick={() => navigate(`/admin/truyen/view/${s.mat}`)}>👁 Duyệt</button>
+                                                <button className={styles['btn-reject-custom']} onClick={() => handleReject(s.mat)}>🚫 Từ chối</button>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <button className={styles['btn-view-blue']} onClick={() => navigate(`/admin/truyen/view/${s.mat}`)}>👁 Chi tiết</button>
+                                                <button className={styles['btn-delete']} onClick={() => handleDelete(s.mat)}>🗑 Gỡ bỏ</button>
+                                            </>
+                                        )}
+                                    </div>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {currentData.length > 0 ? currentData.map(s => (
-                                <tr key={s.mat}>
-                                    <td><span className="id-badge">#{s.mat}</span></td>
-                                    <td>
-                                        <img 
-                                            src={`http://localhost:5000/images/${s.hinhanh}`} 
-                                            className="table-poster"
-                                            alt="cover" 
-                                            onError={(e) => { e.target.src = "https://via.placeholder.com/50x70?text=No+Cover"; }}
-                                        />
-                                    </td>
-                                    <td><strong className="text-highlight">{s.tent}</strong></td>
-                                    <td>{s.ten_tac_gia}</td>
-                                    <td>{new Date(s.ngaydang).toLocaleDateString('vi-VN')}</td>
-                                    <td>
-                                        <div className="action-btns">
-                                            {isPending ? (
-                                                <>
-                                                    <button className="btn-view" onClick={() => navigate(`/admin/truyen/view/${s.mat}`)}>👁 Duyệt</button>
-                                                    <button className="btn-reject-custom" onClick={() => handleReject(s.mat)}>🚫 Từ chối</button>
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <button className="btn-view-blue" onClick={() => navigate(`/admin/truyen/view/${s.mat}`)}>👁 Chi tiết</button>
-                                                    <button className="btn-delete" onClick={() => handleDelete(s.mat)}>🗑 Gỡ bỏ</button>
-                                                </>
-                                            )}
-                                        </div>
-                                    </td>
-                                </tr>
-                            )) : (
-                                <tr>
-                                    <td colSpan="6" className="no-data">Không tìm thấy kết quả phù hợp</td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                </div>
+                        )) : (
+                            <tr>
+                                <td colSpan="6" className="no-data">Không tìm thấy kết quả phù hợp</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
                 {renderPagination(filteredData.length, currentPage, setPage)}
             </>
         );
@@ -148,54 +146,54 @@ const ApproveList = () => {
 
     return (
         <Layout>
-            <div className="admin-page-center-container">
-                <div className="admin-glass-content">
-                    <header className="admin-header-flex">
-                        <h1 className="main-title">QUẢN LÝ KHO TRUYỆN</h1>
-                        
-                        <div className="search-box">
-                            <input 
-                                type="text" 
-                                className="search-input-custom"
-                                placeholder="Nhập mã hoặc tên truyện cần tìm..." 
-                                value={searchTerm}
-                                onChange={(e) => {
-                                    setSearchTerm(e.target.value);
-                                    setPagePending(1);
-                                    setPagePublished(1);
-                                }}
-                            />
-                            <span className="search-icon">🔍</span>
-                        </div>
-                    </header>
-
-                    <div className="admin-main-wrapper">
-                        {loading ? (
-                            <div className="loading-container">
-                                <div className="spinner"></div>
-                                <p>Đang tải dữ liệu hệ thống...</p>
-                            </div>
-                        ) : (
-                            <>
-                                <section className="section-manage">
-                                    <h2 className="section-title-pending">⏳ TRUYỆN ĐANG CHỜ DUYỆT ({filterData(pendingStories).length})</h2>
-                                    {renderTable(pendingStories, true, pagePending, setPagePending)}
-                                </section>
-
-                                <section className="section-manage">
-                                    <h2 className="section-title-published">✅ TRUYỆN ĐÃ XUẤT BẢN ({filterData(publishedStories).length})</h2>
-                                    {renderTable(publishedStories, false, pagePublished, setPagePublished)}
-                                </section>
-                            </>
-                        )}
+            <div className={styles['admin-glass-content']}>
+                <header className={styles['admin-header-flex']}>
+                    <h1 className={styles['main-title']}>QUẢN LÝ KHO TRUYỆN</h1>
+                    
+                    <div className={styles['search-box']}>
+                        <input 
+                            type="text" 
+                            className={styles['search-input-custom']}
+                            placeholder="Nhập mã hoặc tên truyện cần tìm..." 
+                            value={searchTerm}
+                            onChange={(e) => {
+                                setSearchTerm(e.target.value);
+                                setPagePending(1);
+                                setPagePublished(1);
+                            }}
+                        />
+                        <span className={styles['search-icon']}>🔍</span>
                     </div>
+                </header>
 
-                    <footer className="admin-footer-actions">
-                        <button className="btn-back-minimal" onClick={() => navigate('/admin')}>
-                            ⬅ Quay lại Dashboard
-                        </button>
-                    </footer>
+                <div className="admin-main-wrapper">
+                    {loading ? (
+                        <div className={styles['loading-container']}>
+                            <div className={styles['spinner']}></div>
+                            <p>Đang tải dữ liệu hệ thống...</p>
+                        </div>
+                    ) : (
+                        <>
+                            <section className="section-manage">
+                                <h2 className={styles['section-title-pending']}>⏳ TRUYỆN ĐANG CHỜ DUYỆT ({filterData(pendingStories).length})</h2>
+                                {renderTable(pendingStories, true, pagePending, setPagePending)}
+                            </section>
+
+                            <div className="divider-glass"></div>
+
+                            <section className="section-manage">
+                                <h2 className={styles['section-title-published']}>✅ TRUYỆN ĐÃ XUẤT BẢN ({filterData(publishedStories).length})</h2>
+                                {renderTable(publishedStories, false, pagePublished, setPagePublished)}
+                            </section>
+                        </>
+                    )}
                 </div>
+
+                <footer className={styles['admin-footer-actions']}>
+                    <button className={styles['btn-back-minimal']} onClick={() => navigate('/admin')}>
+                        ⬅ Quay lại Dashboard
+                    </button>
+                </footer>
             </div>
         </Layout>
     );

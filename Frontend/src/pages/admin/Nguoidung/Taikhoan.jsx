@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Layout from "../../layout/layout.jsx";
-import "../../../static/css/Nguoidungadmin.css"; 
+import styles from "../../../static/css/Nguoidungadmin.module.css"; 
 
 const Taikhoan = () => {
     const [data, setData] = useState([]);
@@ -38,10 +38,9 @@ const Taikhoan = () => {
 
     return (
         <Layout>
-            <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-            <div className="p-4 admin-glass-content">
+            <div className={styles['admin-glass-content']}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                    <h2 className="text-2xl font-bold">Quản lý Tài khoản</h2>
+                    <h2 className={styles['page-title']}>Quản lý Tài khoản</h2>
 
                     {/* 3. THANH TÌM KIẾM */}
                     <input 
@@ -49,24 +48,16 @@ const Taikhoan = () => {
                         placeholder="Tìm mã TK hoặc tên đăng nhập..." 
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        style={{
-                            padding: '10px 15px',
-                            borderRadius: '20px',
-                            border: '1px solid rgba(255, 255, 255, 0.3)',
-                            background: 'rgba(255, 255, 255, 0.1)',
-                            color: '#fff',
-                            width: '320px',
-                            outline: 'none',
-                            backdropFilter: 'blur(5px)'
-                        }}
+                        className={styles['search-input']}
+                        style={{ width: '320px' }}
                     />
                 </div>
 
-                <div className="table-wrapper">
-                    <table className="admin-table" border="1" width="100%" style={{ borderCollapse: 'collapse', textAlign: 'center', color: '#fff' }}>
+                <div className={styles['admin-table-wrapper']}>
+                    <table className={styles['admin-table']}>
                         <thead>
-                            <tr style={{ background: 'rgba(255, 255, 255, 0.1)' }}>
-                                <th style={{ padding: '12px' }}>Mã TK</th>
+                            <tr>
+                                <th>Mã TK</th>
                                 <th>Tên DN</th>
                                 <th>Vai trò</th>
                                 <th>Email</th>
@@ -77,33 +68,21 @@ const Taikhoan = () => {
                         <tbody>
                             {filteredData.length > 0 ? (
                                 filteredData.map(item => (
-                                    <tr key={item.matk} style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                                        <td style={{ padding: '12px' }}><strong>#{item.matk}</strong></td>
+                                    <tr key={item.matk}>
+                                        <td><strong className={styles['id-badge']}>#{item.matk}</strong></td>
                                         <td>{item.tendn}</td>
                                         <td>
-                                            <span style={{ 
-                                                padding: '4px 8px', 
-                                                borderRadius: '4px', 
-                                                fontSize: '0.8rem',
-                                                background: item.vai_tro === 'ADMIN' ? '#ff4d4f' : 'rgba(255,255,255,0.1)' 
-                                            }}>
+                                            <span className={`${styles['role-badge']} ${item.vai_tro === 'ADMIN' ? styles['role-admin'] : ''}`}>
                                                 {item.vai_tro}
                                             </span>
                                         </td>
                                         <td>{item.email}</td>
-                                        <td style={{ color: '#ffcc00' }}>{item.so_du} xu</td>
+                                        <td className={styles['balance-text']}>{item.so_du} xu</td>
                                         <td>
                                             <button 
                                                 onClick={() => handleDelete(item.matk)}
-                                                style={{ 
-                                                    backgroundColor: '#ff4d4f', 
-                                                    color: 'white', 
-                                                    border: 'none', 
-                                                    padding: '6px 12px', 
-                                                    cursor: 'pointer', 
-                                                    borderRadius: '4px',
-                                                    fontSize: '0.85rem'
-                                                }}
+                                                className={styles['btn-delete']}
+                                                style={{ marginTop: 0 }}
                                             >
                                                 Xóa
                                             </button>
@@ -120,7 +99,6 @@ const Taikhoan = () => {
                         </tbody>
                     </table>
                 </div>
-            </div>
             </div>
         </Layout>
     );

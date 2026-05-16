@@ -1,0 +1,314 @@
+/* ==========================================================================
+   1. KHAI BÁO BIẾN MÀU PHONG CÁCH CỔ ĐIỂN CHỮ NỔI (EMBOSSED ANTIQUE)
+   ========================================================================== */
+:root {
+    /* Bảng màu cổ điển hoàng gia */
+    --color-gold: #D4AF37;
+    --color-dark-gold: #AA7C11;
+    --color-bronze: #A87C43;
+    --color-vintage-cream: #F4EFEA;
+    --color-deep-burgundy: #2C1619;
+    --color-slate-shadow: #1a1a24;
+    
+    /* Màu nền chính dạng giả lập chất liệu da/giấy cổ cao cấp */
+    --bg-classic-gradient: radial-gradient(circle at top center, #2d3244 0%, #151821 100%);
+    
+    /* Thiết lập đổ bóng tạo khối nổi (Embossed Shadows) */
+    --emboss-surface: rgba(40, 46, 62, 0.7);
+    --shadow-light: rgba(255, 255, 255, 0.06);
+    --shadow-dark: rgba(0, 0, 0, 0.45);
+}
+
+/* ==========================================================================
+   2. BACKGROUND TỔNG THỂ
+   ========================================================================== */
+body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg-classic-gradient);
+    background-attachment: fixed;
+    min-height: 100vh;
+    font-family: 'Georgia', 'Times New Roman', Times, serif;
+    color: #E2E8F0;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   3. CONTAINER CHÍNH CHẠM KHẮC NỔI (ENGRAVED GLASS)
+   ========================================================================== */
+.admin-glass-content {
+    background: var(--emboss-surface);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    
+    /* Viền tạo hiệu ứng vát góc 3D sống động */
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    border-right: 1px solid rgba(0, 0, 0, 0.4);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    
+    border-radius: 16px;
+    padding: 35px;
+    margin: 25px;
+    
+    /* Đổ bóng tầng kép giúp khung tách biệt hẳn khỏi hình nền */
+    box-shadow: 
+        inset 1px 1px 2px var(--shadow-light),
+        0 15px 35px var(--shadow-dark);
+}
+
+/* Chữ tiêu đề đúc khuôn dập nổi vàng */
+.page-title, h2.font-bold {
+    font-family: 'Palatino', 'Georgia', serif;
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    
+    /* Hiệu ứng đổ bóng chữ tạo độ sâu 3D */
+    text-shadow: 
+        -1px -1px 1px rgba(255,255,255,0.1),
+        1px 1px 1px #000,
+        2px 2px 4px rgba(0,0,0,0.8);
+    
+    border-left: 4px double var(--color-gold);
+    padding-left: 15px;
+    margin-bottom: 25px;
+}
+
+/* ==========================================================================
+   4. LAYOUT GRID & FLEX ĐỒNG BỘ
+   ========================================================================== */
+/* Đồng bộ cấu trúc hiển thị 3 cột cho cả Độc giả và Tác giả */
+.user-grid, 
+div[style*="display: grid"], 
+div[style*="display: flex"][style*="flex-wrap: wrap"] {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)) !important;
+    gap: 25px !important;
+    margin-top: 25px !important;
+}
+
+/* ==========================================================================
+   5. STYLE THẺ NGƯỜI DÙNG KHẮC NỔI CỔ ĐIỂN (CHUNG CHO ĐỘC GIẢ & TÁC GIẢ)
+   ========================================================================== */
+.user-card, 
+div[style*="gridTemplateColumns"] > div, 
+div[style*="flex-wrap: wrap"] > div {
+    background: rgba(26, 29, 41, 0.65) !important;
+    
+    /* Tạo hiệu ứng góc vát nổi */
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-right: 2px solid rgba(0, 0, 0, 0.5) !important;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.5) !important;
+    
+    padding: 22px !important;
+    border-radius: 12px !important;
+    min-width: unset !important; /* Loại bỏ ép cứng cũ để giãn đều theo Grid */
+    
+    box-shadow: 
+        inset 0 1px 1px rgba(255,255,255,0.05),
+        0 8px 20px rgba(0,0,0,0.3) !important;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+
+/* Hiệu ứng phản hồi khi di chuột - Thẻ nổi cao hơn hẳn */
+.user-card:hover, 
+div[style*="gridTemplateColumns"] > div:hover, 
+div[style*="flex-wrap: wrap"] > div:hover {
+    transform: translateY(-4px) !important;
+    background: rgba(33, 38, 54, 0.8) !important;
+    border-top: 1px solid rgba(212, 175, 55, 0.4) !important;
+    box-shadow: 
+        inset 0 1px 2px rgba(212, 175, 55, 0.1),
+        0 12px 28px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Định dạng dòng chữ trong thẻ */
+.user-card p, 
+div[style*="gridTemplateColumns"] > div p, 
+div[style*="flex-wrap: wrap"] > div p {
+    margin: 10px 0 !important;
+    font-size: 0.95rem !important;
+    color: #D1D5DB !important;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.07) !important;
+    padding-bottom: 6px !important;
+}
+
+/* Nhãn trường thông tin (strong) chữ vàng đúc */
+.user-card strong, 
+div[style*="gridTemplateColumns"] > div strong, 
+div[style*="flex-wrap: wrap"] > div strong {
+    color: var(--color-gold) !important;
+    font-weight: 600;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+/* Định dạng mã số đặc biệt */
+span[style*="color: rgb(255, 204, 0)"], 
+span[style*="color: #ffcc00"] {
+    color: #F3E5AB !important; /* Vàng lụa cổ kính */
+    font-weight: bold;
+    font-family: monospace;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 2px 6px;
+    border-radius: 4px;
+    box-shadow: inset 1px 1px 2px rgba(0,0,0,0.6);
+}
+
+/* ==========================================================================
+   6. STYLE BẢNG TÀI KHOẢN QUÝ TỘC (VIỀN ĐÚC)
+   ========================================================================== */
+.admin-table-wrapper, .table-wrapper {
+    overflow-x: auto;
+    border-radius: 12px;
+    box-shadow: 
+        inset 0 2px 5px rgba(0,0,0,0.5),
+        0 4px 15px rgba(0,0,0,0.2);
+    border: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.admin-table, table.admin-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    background: rgba(18, 20, 28, 0.6) !important;
+    color: #E2E8F0 !important;
+}
+
+/* Tiêu đề bảng - hiệu ứng dập nổi sẫm màu */
+.admin-table th, table.admin-table th {
+    background: linear-gradient(to bottom, #232735, #161922) !important;
+    color: var(--color-gold) !important;
+    padding: 16px 12px !important;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    border-bottom: 2px solid var(--color-dark-gold) !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+}
+
+/* Các ô dữ liệu trong bảng */
+.admin-table td, table.admin-table td {
+    padding: 14px 12px !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+    font-size: 0.95rem;
+    transition: background 0.2s;
+}
+
+.admin-table tr:hover, table.admin-table tr:hover {
+    background: rgba(255, 255, 255, 0.03) !important;
+}
+
+/* ==========================================================================
+   7. NÚT BẤM ĐÚC KHỐI CHỮ NỔI (BUTTONS)
+   ========================================================================== */
+.btn-delete, 
+button[style*="background-color: rgb(255, 77, 79)"], 
+button[style*="backgroundColor: '#ff4d4f'"] {
+    background: linear-gradient(135deg, #8B1E22 0%, #5C1114 100%) !important;
+    
+    /* Đổ bóng vát khối 3D cho nút bấm */
+    border-top: 1px solid rgba(255, 100, 100, 0.4) !important;
+    border-left: 1px solid rgba(255, 100, 100, 0.4) !important;
+    border-right: 2px solid rgba(0, 0, 0, 0.6) !important;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.6) !important;
+    
+    color: #FFF2F2 !important;
+    padding: 7px 16px !important;
+    border-radius: 6px !important;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: inherit;
+    font-size: 0.85rem !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
+    transition: all 0.2s ease !important;
+}
+
+/* Hiệu ứng nhấn nút - Nút lún xuống (Chìm vào trong) */
+.btn-delete:hover, 
+button[style*="background-color: rgb(255, 77, 79)"]:hover, 
+button[style*="backgroundColor: '#ff4d4f'"]:hover {
+    background: linear-gradient(135deg, #A7282C 0%, #73181B 100%) !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.4) !important;
+    transform: translateY(1px);
+}
+
+.btn-delete:active, 
+button[style*="background-color: rgb(255, 77, 79)"]:active, 
+button[style*="backgroundColor: '#ff4d4f'"]:active {
+    border-top: 2px solid rgba(0, 0, 0, 0.7) !important;
+    border-left: 2px solid rgba(0, 0, 0, 0.7) !important;
+    border-right: 1px solid rgba(255,255,255,0.1) !important;
+    border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+    box-shadow: inset 1px 2px 4px rgba(0,0,0,0.8) !important;
+    transform: translateY(2px);
+}
+
+/* ==========================================================================
+   8. INPUT THANH TÌM KIẾM KHẮC CHÌM (INSET ENGRAVED)
+   ========================================================================== */
+input[type="text"][placeholder*="Tìm"] {
+    background: rgba(14, 16, 23, 0.6) !important;
+    
+    /* Đảo ngược đổ bóng để tạo hiệu ứng thanh gõ chìm hẳn xuống bề mặt */
+    border-top: 1.5px solid rgba(0, 0, 0, 0.6) !important;
+    border-left: 1.5px solid rgba(0, 0, 0, 0.6) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    
+    color: #FFFFFF !important;
+    border-radius: 30px !important;
+    font-family: inherit;
+    font-size: 0.9rem;
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5) !important;
+    transition: all 0.3s ease;
+}
+
+input[type="text"][placeholder*="Tìm"]:focus {
+    border-top: 1.5px solid var(--color-dark-gold) !important;
+    border-left: 1.5px solid var(--color-dark-gold) !important;
+    box-shadow: 
+        inset 2px 2px 5px rgba(0, 0, 0, 0.6),
+        0 0 8px rgba(212, 175, 55, 0.2) !important;
+}
+
+input[type="text"][placeholder*="Tìm"]::placeholder {
+    color: #6B7280 !important;
+    font-style: italic;
+}
+
+/* ==========================================================================
+   9. BADGE VAI TRÒ KHẮC NỔI
+   ========================================================================== */
+.role-badge, span[style*="background: item.vai_tro"] {
+    font-weight: bold !important;
+    letter-spacing: 0.5px;
+    border-radius: 6px !important;
+    padding: 4px 10px !important;
+    box-shadow: 
+        inset 1px 1px 1px rgba(255,255,255,0.2),
+        1px 2px 4px rgba(0,0,0,0.4) !important;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+    border: 1px solid rgba(0,0,0,0.2) !important;
+}
+
+/* Màu vai trò ADMIN quý tộc sẫm */
+span[style*="background: '#ff4d4f'"], span[style*="#ff4d4f"] {
+    background: linear-gradient(135deg, #7A181C, #4A0D10) !important;
+    color: #FFC5C5 !important;
+}
+
+/* ==========================================================================
+   10. ĐỊNH DẠNG SỐ DƯ (XU VÀNG)
+   ========================================================================== */
+.balance-text, td[style*="color: rgb(255, 204, 0)"], td[style*="color: #ffcc00"] {
+    color: #E6B800 !important;
+    font-weight: bold !important;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
+}

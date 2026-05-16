@@ -1,0 +1,235 @@
+/* --- HỆ THỐNG BIẾN MÀU HOÀNG GIA CỔ ĐIỂN --- */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Playfair+Display:ital,wght@0,700;1,400&family=EB+Garamond:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;700&display=swap');
+
+:root {
+    --royal-gold: linear-gradient(135deg, #bf953f 0%, #fcf6ba 25%, #b38728 50%, #fbf5b7 75%, #aa771c 100%);
+    --parchment: #fdfaf2;
+    --royal-red: #800000;
+    --deep-ink: #1a1a1a;
+    --gold-border: 2px solid #af8a3d;
+}
+
+/* Container chính cô lập toàn bộ trang */
+
+/* Hiệu ứng Giấy da lồng lộn */
+.admin-glass-content {
+    background: var(--parchment) !important;
+    border: 8px double #af8a3d !important;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5), inset 0 0 100px rgba(175, 138, 61, 0.15) !important;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px;
+    position: relative;
+    color: var(--deep-ink);
+}
+
+/* --- HEADER --- */
+.admin-header, .detail-header {
+    border-bottom: 3px double var(--royal-red);
+    padding-bottom: 20px;
+    margin-bottom: 40px;
+}
+
+.admin-header h1, .detail-header h1 {
+    font-family: 'Cinzel Decorative', cursive;
+    color: var(--royal-red);
+    font-size: 2.2rem;
+    margin: 0;
+}
+
+.subtitle {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: #555;
+    margin-top: 5px;
+}
+
+/* --- BỐ CỤC GRID (DÀNH CHO DANH SÁCH) --- */
+.bento-grid-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Chia đôi hai cột bằng nhau */
+    gap: 30px;
+    align-items: start;
+}
+
+/* --- BỐ CỤC GRID (DÀNH CHO CHI TIẾT) --- */
+.detail-grid {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 40px;
+}
+
+/* --- BẢNG DANH SÁCH CỔ ĐIỂN --- */
+.table-container {
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid #d4c4a8;
+    border-radius: 4px;
+    padding: 20px;
+}
+
+.custom-admin-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+}
+
+.custom-admin-table th {
+    font-family: 'Cinzel', serif;
+    background: var(--royal-red);
+    color: #fcf6ba;
+    padding: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.8rem;
+}
+
+.custom-admin-table td {
+    background: white;
+    padding: 15px;
+    border-top: 1px solid #af8a3d;
+    border-bottom: 1px solid #af8a3d;
+    font-weight: 600;
+}
+
+/* --- TRẠNG THÁI (FIX LỖI NGẮT DÒNG) --- */
+.status-badge {
+    display: inline-block;      /* Ép badge nằm trên một hàng */
+    white-space: nowrap;        /* Chống xuống hàng tuyệt đối */
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    min-width: 100px;           /* Đảm bảo độ dài tối thiểu */
+    text-align: center;
+}
+
+.status-badge.active {
+    background: #e6ffed;
+    color: #1e7e34;
+    border: 1px solid #1e7e34;
+}
+
+.status-badge.pending {
+    background: #fff9db;
+    color: #856404;
+    border: 1px solid #856404;
+}
+
+/* --- KHUNG ĐỌC VĂN BẢN (CHI TIẾT) --- */
+.reader-paper {
+    background: #fff;
+    padding: 50px;
+    box-shadow: 10px 10px 30px rgba(0,0,0,0.05);
+    border-left: 6px solid var(--royal-red);
+    line-height: 2;
+    font-size: 1.25rem;
+    text-align: justify;
+}
+
+.reader-header h2 {
+    font-family: 'Playfair Display', serif;
+    color: var(--royal-red);
+    text-align: center;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+/* --- SIDEBAR & THÔNG TIN --- */
+.info-card {
+    background: #fff;
+    border: var(--gold-border);
+    padding: 25px;
+    position: sticky;
+    top: 20px;
+}
+
+.info-card h3 {
+    font-family: 'Cinzel', serif;
+    color: var(--royal-red);
+    border-bottom: 1px solid #af8a3d;
+    padding-bottom: 10px;
+}
+
+.info-item {
+    margin: 15px 0;
+}
+
+.info-item label {
+    display: block;
+    color: #8a6d29;
+    font-weight: bold;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
+
+/* --- NÚT BẤM HOÀNG GIA --- */
+.btn-approve, .btn-approve-large {
+    background: var(--royal-gold);
+    border: 1px solid #8a6d29;
+    color: #332a12;
+    font-family: 'Cinzel', serif;
+    font-weight: 900;
+    padding: 12px 25px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-transform: uppercase;
+}
+
+.btn-approve-large {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.btn-delete {
+    background: var(--royal-red);
+    color: white;
+    border: none;
+    padding: 12px 15px;
+    font-family: 'Cinzel', serif;
+    cursor: pointer;
+}
+
+.btn-back-outline {
+    background: transparent;
+    border: 1px solid #af8a3d;
+    color: #af8a3d;
+    width: 100%;
+    padding: 12px;
+    font-family: 'Cinzel', serif;
+    cursor: pointer;
+}
+
+.btn-approve:hover, .btn-approve-large:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(175, 138, 61, 0.4);
+}
+
+/* --- TÌM KIẾM & PHÂN TRANG --- */
+.search-input {
+    border: 2px solid #af8a3d;
+    padding: 10px 15px;
+    font-family: 'EB Garamond', serif;
+    outline: none;
+}
+
+.btn-page {
+    background: white;
+    border: 1px solid #af8a3d;
+    color: #af8a3d;
+    padding: 5px 12px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-page:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+/* Responsive cho thiết bị nhỏ hơn */
+@media (max-width: 1200px) {
+    .bento-grid-split, .detail-grid {
+        grid-template-columns: 1fr;
+    }
+}

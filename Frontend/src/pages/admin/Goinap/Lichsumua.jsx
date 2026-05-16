@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Layout from "../../layout/layout.jsx";
 import axios from 'axios';
-import "../../../static/css/Goinapadmin.css"; 
+import styles from "../../../static/css/Goinapadmin.module.css"; 
 
 const Lichsumua = () => {
     const [data, setData] = useState([]);
@@ -32,8 +32,8 @@ const Lichsumua = () => {
 
     return (
         <Layout>
-            <div className="admin-glass-content">
-                <div className="table-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+            <div className={styles['admin-glass-content']}>
+                <div className={styles['table-header']} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                     <h2 style={{ margin: 0 }}>🛒 Lịch Sử Giao Dịch Nội Dung</h2>
 
                     {/* THANH TÌM KIẾM */}
@@ -55,8 +55,8 @@ const Lichsumua = () => {
                     />
                 </div>
 
-                <div className="table-wrapper">
-                    <table className="admin-table">
+                <div className={styles['table-wrapper']}>
+                    <table className={styles['admin-table']}>
                         <thead>
                             <tr>
                                 <th>Mã Mua</th>

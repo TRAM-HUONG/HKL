@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Layout from "../../layout/layout.jsx";
-import "../../../static/css/Banthaoadmin.css"; 
+import styles from "../../../static/css/Banthaoadmin.module.css"; 
 
 const DanhSachBanthao = () => {
     const [drafts, setDrafts] = useState([]);
@@ -46,7 +46,6 @@ const DanhSachBanthao = () => {
         }
     };
 
-    // --- LOGIC TÌM KIẾM ---
     const filteredDrafts = drafts.filter(item => {
         const searchLower = searchTerm.trim().toLowerCase();
         if (!searchLower) return true;
@@ -73,10 +72,10 @@ const DanhSachBanthao = () => {
         if (totalPages <= 1) return null;
 
         return (
-            <div className="pagination-controls" style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginTop: '20px' }}>
-                <button disabled={currentPage === 1} onClick={() => setPage(p => p - 1)} className="btn-page"> ← </button>
+            <div className={styles['pagination-controls']} style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginTop: '20px' }}>
+                <button disabled={currentPage === 1} onClick={() => setPage(p => p - 1)} className={styles['btn-page']}> ← </button>
                 <span style={{ alignSelf: 'center', color: '#64748b', fontSize: '0.85rem', fontWeight: '500' }}> {currentPage} / {totalPages} </span>
-                <button disabled={currentPage === totalPages} onClick={() => setPage(p => p + 1)} className="btn-page"> → </button>
+                <button disabled={currentPage === totalPages} onClick={() => setPage(p => p + 1)} className={styles['btn-page']}> → </button>
             </div>
         );
     };
@@ -102,13 +101,13 @@ const DanhSachBanthao = () => {
                 <td style={{ fontWeight: '500' }}>{item.ten_chuong}</td>
                 <td style={{ color: '#7c3aed', fontWeight: '600' }}>{item.ten_tac_gia}</td>
                 <td>
-                    <span className={`status-badge ${item.trangthai === 'Đã Duyệt' ? 'active' : 'pending'}`}>
+                    <span className={`${styles['status-badge']} ${item.trangthai === 'Đã Duyệt' ? styles.active : styles.pending}`}>
                         {item.trangthai}
                     </span>
                 </td>
-                <td className="actions">
-                    <button className="btn-approve" onClick={() => navigate(`/admin/ban-thao/detail/${item.mabt}`)}> Xem </button>
-                    <button className="btn-delete" style={{ marginLeft: '6px' }} onClick={() => handleDelete(item.mabt)}> Xóa </button>
+                <td className={styles.actions}>
+                    <button className={styles['btn-approve']} onClick={() => navigate(`/admin/ban-thao/detail/${item.mabt}`)}> Xem </button>
+                    <button className={styles['btn-delete']} style={{ marginLeft: '6px' }} onClick={() => handleDelete(item.mabt)}> Xóa </button>
                 </td>
             </tr>
         ));
@@ -116,20 +115,20 @@ const DanhSachBanthao = () => {
 
     return (
         <Layout>
-            <div className="detail-page-wrapper">
-                <div className="admin-glass-content detail-page">
+            <div className={styles['detail-page-wrapper']}>
+                <div className={`${styles['admin-glass-content']} ${styles['detail-page']}`}>
                     
-                    {/* THANH ĐẦU TRANG: TIÊU ĐỀ & Ô TÌM KIẾM CĂN ĐỀU HAI BÊN */}
-                    <header className="admin-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px' }}>
+                    {/* THANH ĐẦU TRANG */}
+                    <header className={styles['admin-header']} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px' }}>
                         <h1 style={{ margin: 0 }}>
                             WORKSPACE <span style={{ fontWeight: '300', color: '#64748b' }}>| QUẢN LÝ BẢN THẢO</span>
                         </h1>
                         
-                        <div className="search-box">
+                        <div className={styles['search-box']}>
                             <input 
                                 type="text" 
                                 placeholder="Tìm tên truyện, chương hoặc mã số..." 
-                                className="search-input"
+                                className={styles['search-input']}
                                 value={searchTerm}
                                 onChange={(e) => {
                                     setSearchTerm(e.target.value);
@@ -146,16 +145,16 @@ const DanhSachBanthao = () => {
                             Đang tải danh sách dữ liệu...
                         </div>
                     ) : (
-                        /* BỐ CỤC LƯỚI HAI BÊN CĂN GIỮA ĐỀU NHAU TỰ ĐỘNG THEO CSS GỐC */
-                        <div className="bento-grid-split">
+                        /* BỐ CỤC LƯỚI HAI BÊN */
+                        <div className={styles['bento-grid-split']}>
                             
                             {/* BÊN TRÁI: DANH SÁCH CHỜ DUYỆT */}
-                            <div className="table-container">
+                            <div className={styles['table-container']}>
                                 <h2 style={{ color: '#b45309', display: 'flex', alignItems: 'center', gap: '10px', margin: '0 0 20px 0' }}>
                                     <span style={{ width: '12px', height: '12px', background: '#f59e0b', borderRadius: '50%', display: 'inline-block' }}></span>
                                     Chờ Kiểm Duyệt ({pendingDrafts.length})
                                 </h2>
-                                <table className="custom-admin-table">
+                                <table className={styles['custom-admin-table']}>
                                     <thead>
                                         <tr>
                                             <th style={{ textAlign: 'left' }}>Truyện</th>
@@ -173,12 +172,12 @@ const DanhSachBanthao = () => {
                             </div>
 
                             {/* BÊN PHẢI: DANH SÁCH ĐÃ DUYỆT */}
-                            <div className="table-container">
+                            <div className={styles['table-container']}>
                                 <h2 style={{ color: '#1e3a8a', display: 'flex', alignItems: 'center', gap: '10px', margin: '0 0 20px 0' }}>
                                     <span style={{ width: '12px', height: '12px', background: '#10b981', borderRadius: '50%', display: 'inline-block' }}></span>
                                     Đã Xuất Bản ({approvedDrafts.length})
                                 </h2>
-                                <table className="custom-admin-table">
+                                <table className={styles['custom-admin-table']}>
                                     <thead>
                                         <tr>
                                             <th style={{ textAlign: 'left' }}>Truyện</th>

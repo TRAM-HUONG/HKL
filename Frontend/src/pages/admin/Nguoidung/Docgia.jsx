@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Layout from "../../layout/layout.jsx";
-import "../../../static/css/Nguoidungadmin.css"; 
+import styles from "../../../static/css/Nguoidungadmin.module.css"; 
 
 const Docgia = () => {
     const [readers, setReaders] = useState([]);
@@ -45,10 +45,9 @@ const Docgia = () => {
 
     return (
         <Layout>
-            <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-                <div className="p-4 admin-glass-content">
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                        <h2 className="text-2xl font-bold">Danh sách Độc giả</h2>
+            <div className={styles['admin-glass-content']}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                    <h2 className={styles['page-title']}>Danh sách Độc giả</h2>
 
                     {/* THANH TÌM KIẾM */}
                     <input 
@@ -56,32 +55,23 @@ const Docgia = () => {
                         placeholder="Tìm theo tên hoặc mã độc giả..." 
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        style={{
-                            padding: '10px 15px',
-                            borderRadius: '20px',
-                            border: '1px solid rgba(255, 255, 255, 0.3)',
-                            background: 'rgba(255, 255, 255, 0.1)',
-                            color: '#fff',
-                            width: '300px',
-                            outline: 'none',
-                            backdropFilter: 'blur(5px)'
-                        }}
+                        className={styles['search-input']}
                     />
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
+                <div className={styles['user-grid']}>
                     {filteredReaders.length > 0 ? (
                         filteredReaders.map(r => (
-                            <div key={r.madg} className="border p-4 shadow rounded" style={{ border: '1px solid rgba(255,255,255,0.1)', padding: '15px', background: 'rgba(255,255,255,0.05)' }}>
-                                <p><strong>Mã ĐG:</strong> <span style={{color: '#ffcc00'}}>#{r.madg}</span></p>
+                            <div key={r.madg} className={styles['user-card']}>
+                                <p><strong>Mã ĐG:</strong> <span className={styles['id-badge']}>#{r.madg}</span></p>
                                 <p><strong>Tên:</strong> {r.tendg}</p>
                                 <p><strong>Mã TK:</strong> {r.matk}</p>
                                 <p><strong>Email:</strong> {r.email}</p>
-                                <p><strong>Số dư:</strong> {r.so_du} xu</p>
-                                <div className="mt-2">
+                                <p><strong>Số dư:</strong> <span className={styles['balance-text']}>{r.so_du} xu</span></p>
+                                <div style={{ marginTop: '10px' }}>
                                     <button 
                                         onClick={() => deleteReader(r.matk)} 
-                                        style={{ backgroundColor: '#ff4d4f', color: 'white', border: 'none', padding: '5px 10px', cursor: 'pointer', borderRadius: '4px' }}
+                                        className={styles['btn-delete']}
                                     >
                                         Xóa
                                     </button>
@@ -94,7 +84,6 @@ const Docgia = () => {
                         </div>
                     )}
                 </div>
-            </div>
             </div>
         </Layout>
     );

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Layout from "../../layout/layout.jsx";
-import "../../../static/css/Goinapadmin.css"; 
+import styles from "../../../static/css/Goinapadmin.module.css"; 
 
 const GoiNapList = () => {
     const [packages, setPackages] = useState([]);
@@ -54,11 +54,11 @@ const GoiNapList = () => {
 
     return (
         <Layout>
-            <div className="admin-glass-content">
-                <div className="page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+            <div className={styles['admin-glass-content']}>
+                <div className={styles['page-header']} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                     <div>
-                        <h2 className="page-title">💎 DANH SÁCH GÓI NẠP</h2>
-                        <p className="page-subtitle">Quản lý linh thạch hệ thống</p>
+                        <h2 className={styles['page-title']}>💎 DANH SÁCH GÓI NẠP</h2>
+                        <p className={styles['page-subtitle']}>Quản lý linh thạch hệ thống</p>
                     </div>
 
                     {/* THANH TÌM KIẾM */}
@@ -79,14 +79,14 @@ const GoiNapList = () => {
                                 backdropFilter: 'blur(5px)'
                             }}
                         />
-                        <button className="btn-submit" style={{width: 'auto', padding: '10px 20px', margin: 0}} onClick={() => navigate('/admin/goi-nap/create')}>
+                        <button className={styles['btn-submit']} style={{width: 'auto', padding: '10px 20px', margin: 0}} onClick={() => navigate('/admin/goi-nap/create')}>
                             ➕ Thêm Gói Mới
                         </button>
                     </div>
                 </div>
 
-                <div className="table-container">
-                    <table className="premium-table">
+                <div className={styles['table-container']}>
+                    <table className={styles['premium-table']}>
                         <thead>
                             <tr>
                                 <th>Mã Gói</th>
@@ -107,8 +107,8 @@ const GoiNapList = () => {
                                         <td>{Number(pkg.so_tien_vnd).toLocaleString()} ₫</td>
                                         <td style={{color: '#f1c40f', fontWeight: 'bold'}}>{pkg.so_xu_nhan} Xu</td>
                                         <td>
-                                            <button className="btn-edit" onClick={() => navigate(`/admin/goi-nap/edit/${pkg.magoi}`)}>Sửa</button>
-                                            <button className="btn-delete" onClick={() => handleDelete(pkg.magoi)}>Xóa</button>
+                                            <button className={styles['btn-edit']} onClick={() => navigate(`/admin/goi-nap/edit/${pkg.magoi}`)}>Sửa</button>
+                                            <button className={styles['btn-delete']} onClick={() => handleDelete(pkg.magoi)}>Xóa</button>
                                         </td>
                                     </tr>
                                 ))
