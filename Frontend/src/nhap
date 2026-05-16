@@ -1,5 +1,5 @@
 # Nếu đang chạy ở máy (development) thì dùng localhost, 
-  ? 'http://localhost:5000' 
+  ? 'https://hkl-backend-v3uu.onrender.com' 
 # Nếu đã lên Render thì dùng link backend của Render
   : 'https://hkl-backend-v3uu.onrender.com';
 # Khoi tao githup
