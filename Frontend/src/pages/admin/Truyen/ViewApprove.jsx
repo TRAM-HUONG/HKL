@@ -46,6 +46,7 @@ const ViewApprove = () => {
 
     return (
         <Layout>
+            <div className="admin-page-center-container">
         <div className="admin-glass-content">
             <header className="admin-header">
                 <h1>CHI TIẾT TÁC PHẨM</h1>
@@ -64,8 +65,8 @@ const ViewApprove = () => {
                 </div>
 
                 {/* Phần bên phải: Thông tin chi tiết */}
-                <div className="detail-info" style={{ flex: 1, color: '#fff' }}>
-                    <h2 style={{ fontSize: '2.2rem', color: '#ffcc00', marginBottom: '15px' }}>{data.ten_truyen}</h2>
+                <div className="detail-info" style={{ flex: 1, color: '#ff0000' }}>
+                    <h2 className="section-title-published">{data.ten_truyen}</h2>
                     
                     <div className="info-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', fontSize: '1.1rem' }}>
                         <p><strong>✍️ Tác giả:</strong> {data.ten_tac_gia || "Ẩn danh"}</p>
@@ -121,6 +122,7 @@ const ViewApprove = () => {
                     </div>
                 </div>
             </div>
+        </div>
         </div>
         </Layout>
     );

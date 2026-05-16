@@ -7,7 +7,7 @@ import "../../../static/css/Banthaoadmin.css";
 const DanhSachBanthao = () => {
     const [drafts, setDrafts] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [searchTerm, setSearchTerm] = useState(""); // Lưu từ khóa tìm kiếm
+    const [searchTerm, setSearchTerm] = useState(""); 
     const navigate = useNavigate();
 
     const [pagePending, setPagePending] = useState(1);
@@ -47,25 +47,19 @@ const DanhSachBanthao = () => {
     };
 
     // --- LOGIC TÌM KIẾM ---
-    // --- LOGIC TÌM KIẾM CHUẨN ---
-const filteredDrafts = drafts.filter(item => {
-    // Chuyển từ khóa tìm kiếm về chữ thường và xóa khoảng trắng thừa
-    const searchLower = searchTerm.trim().toLowerCase();
-    
-    // Nếu không nhập gì thì hiện tất cả
-    if (!searchLower) return true;
+    const filteredDrafts = drafts.filter(item => {
+        const searchLower = searchTerm.trim().toLowerCase();
+        if (!searchLower) return true;
 
-    // Ép kiểu các trường dữ liệu về String để so sánh
-    const maBT = item.mabt ? String(item.mabt).toLowerCase() : "";
-    const tenTruyen = item.ten_truyen ? String(item.ten_truyen).toLowerCase() : "";
-    const tenChuong = item.ten_chuong ? String(item.ten_chuong).toLowerCase() : "";
+        const maBT = item.mabt ? String(item.mabt).toLowerCase() : "";
+        const tenTruyen = item.ten_truyen ? String(item.ten_truyen).toLowerCase() : "";
+        const tenChuong = item.ten_chuong ? String(item.ten_chuong).toLowerCase() : "";
 
-    // Kiểm tra xem từ khóa có nằm trong bất kỳ trường nào không
-    return maBT.includes(searchLower) || 
-           tenTruyen.includes(searchLower) || 
-           tenChuong.includes(searchLower);
-});
-    // Lọc theo trạng thái từ danh sách đã search
+        return maBT.includes(searchLower) || 
+               tenTruyen.includes(searchLower) || 
+               tenChuong.includes(searchLower);
+    });
+
     const pendingDrafts = filteredDrafts.filter(item => item.trangthai !== 'Đã Duyệt');
     const approvedDrafts = filteredDrafts.filter(item => item.trangthai === 'Đã Duyệt');
 
@@ -81,7 +75,7 @@ const filteredDrafts = drafts.filter(item => {
         return (
             <div className="pagination-controls" style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginTop: '20px' }}>
                 <button disabled={currentPage === 1} onClick={() => setPage(p => p - 1)} className="btn-page"> ← </button>
-                <span style={{ alignSelf: 'center', color: '#94a3b8', fontSize: '0.8rem' }}> {currentPage} / {totalPages} </span>
+                <span style={{ alignSelf: 'center', color: '#64748b', fontSize: '0.85rem', fontWeight: '500' }}> {currentPage} / {totalPages} </span>
                 <button disabled={currentPage === totalPages} onClick={() => setPage(p => p + 1)} className="btn-page"> → </button>
             </div>
         );
@@ -90,17 +84,23 @@ const filteredDrafts = drafts.filter(item => {
     const renderTableContent = (data, currentPage) => {
         const currentItems = getPaginatedData(data, currentPage);
         if (data.length === 0) {
-            return (<tr><td colSpan="5" style={{ textAlign: 'center', color: '#94a3b8', padding: '20px' }}> Không tìm thấy bản thảo nào </td></tr>);
+            return (
+                <tr>
+                    <td colSpan="5" style={{ textAlign: 'center', color: '#64748b', padding: '30px', fontStyle: 'italic' }}> 
+                        Không tìm thấy bản thảo nào 
+                    </td>
+                </tr>
+            );
         }
 
         return currentItems.map((item) => (
             <tr key={item.mabt}>
-                <td style={{ fontWeight: '600', color: '#fff' }}>
-                    <small style={{ display: 'block', color: '#64748b', fontSize: '0.7rem' }}>#{item.mabt}</small>
+                <td style={{ fontWeight: '700' }}>
+                    <small style={{ display: 'block', color: '#94a3b8', fontSize: '0.75rem', fontWeight: '500' }}>#{item.mabt}</small>
                     {item.ten_truyen}
                 </td>
-                <td>{item.ten_chuong}</td>
-                <td style={{ color: '#C688EB' }}>{item.ten_tac_gia}</td>
+                <td style={{ fontWeight: '500' }}>{item.ten_chuong}</td>
+                <td style={{ color: '#7c3aed', fontWeight: '600' }}>{item.ten_tac_gia}</td>
                 <td>
                     <span className={`status-badge ${item.trangthai === 'Đã Duyệt' ? 'active' : 'pending'}`}>
                         {item.trangthai}
@@ -108,7 +108,7 @@ const filteredDrafts = drafts.filter(item => {
                 </td>
                 <td className="actions">
                     <button className="btn-approve" onClick={() => navigate(`/admin/ban-thao/detail/${item.mabt}`)}> Xem </button>
-                    <button className="btn-delete" onClick={() => handleDelete(item.mabt)}> Xóa </button>
+                    <button className="btn-delete" style={{ marginLeft: '6px' }} onClick={() => handleDelete(item.mabt)}> Xóa </button>
                 </td>
             </tr>
         ));
@@ -116,86 +116,88 @@ const filteredDrafts = drafts.filter(item => {
 
     return (
         <Layout>
-            <div className="admin-glass-content">
-                <header className="admin-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
-                    <h1 style={{ color: '#6C7EE1', margin: 0 }}>WORKSPACE <span style={{ fontWeight: '300', color: '#fff' }}>| QUẢN LÝ BẢN THẢO</span></h1>
+            <div className="detail-page-wrapper">
+                <div className="admin-glass-content detail-page">
                     
-                    {/* THANH TÌM KIẾM */}
-                    <div className="search-box" style={{ position: 'relative' }}>
-                        <input 
-                            type="text" 
-                            placeholder="Tìm tên truyện, chương hoặc mã số..." 
-                            className="search-input"
-                            value={searchTerm}
-                            onChange={(e) => {
-                                setSearchTerm(e.target.value);
-                                setPagePending(1); // Reset trang khi tìm kiếm
-                                setPageApproved(1);
-                            }}
-                            style={{
-                                padding: '10px 15px',
-                                borderRadius: '12px',
-                                border: '1px solid rgba(255,255,255,0.1)',
-                                background: 'rgba(255,255,255,0.05)',
-                                color: '#f20000',
-                                width: '300px',
-                                outline: 'none'
-                            }}
-                        />
-                    </div>
-                </header>
-
-                {loading ? (
-                    <div style={{ textAlign: 'center', color: '#fff' }}>Đang tải...</div>
-                ) : (
-                    <div className="bento-grid-split">
-                        {/* BÊN TRÁI: CHỜ DUYỆT */}
-                        <div className="table-container">
-                            <h2 style={{ color: '#FFC4A4' }}>
-                                <span style={{ width: '12px', height: '12px', background: '#FFC4A4', borderRadius: '50%', display: 'inline-block', marginRight: '8px' }}></span>
-                                Chờ Duyệt ({pendingDrafts.length})
-                            </h2>
-                            <table className="custom-admin-table">
-                                <thead>
-                                    <tr>
-                                        <th>Truyện</th>
-                                        <th>Chương</th>
-                                        <th>Tác giả</th>
-                                        <th>STT</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {renderTableContent(pendingDrafts, pagePending)}
-                                </tbody>
-                            </table>
-                            {renderPagination(pendingDrafts.length, pagePending, setPagePending)}
+                    {/* THANH ĐẦU TRANG: TIÊU ĐỀ & Ô TÌM KIẾM CĂN ĐỀU HAI BÊN */}
+                    <header className="admin-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px' }}>
+                        <h1 style={{ margin: 0 }}>
+                            WORKSPACE <span style={{ fontWeight: '300', color: '#64748b' }}>| QUẢN LÝ BẢN THẢO</span>
+                        </h1>
+                        
+                        <div className="search-box">
+                            <input 
+                                type="text" 
+                                placeholder="Tìm tên truyện, chương hoặc mã số..." 
+                                className="search-input"
+                                value={searchTerm}
+                                onChange={(e) => {
+                                    setSearchTerm(e.target.value);
+                                    setPagePending(1); 
+                                    setPageApproved(1);
+                                }}
+                                style={{ width: '320px' }}
+                            />
                         </div>
+                    </header>
 
-                        {/* BÊN PHẢI: ĐÃ DUYỆT */}
-                        <div className="table-container">
-                            <h2 style={{ color: '#92B9E3' }}>
-                                <span style={{ width: '12px', height: '12px', background: '#92B9E3', borderRadius: '50%', display: 'inline-block', marginRight: '8px' }}></span>
-                                Đã Duyệt ({approvedDrafts.length})
-                            </h2>
-                            <table className="custom-admin-table">
-                                <thead>
-                                    <tr>
-                                        <th>Truyện</th>
-                                        <th>Chương</th>
-                                        <th>Tác giả</th>
-                                        <th>STT</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {renderTableContent(approvedDrafts, pageApproved)}
-                                </tbody>
-                            </table>
-                            {renderPagination(approvedDrafts.length, pageApproved, setPageApproved)}
+                    {loading ? (
+                        <div style={{ textAlign: 'center', color: '#0f172a', padding: '100px', fontWeight: '600' }}>
+                            Đang tải danh sách dữ liệu...
                         </div>
-                    </div>
-                )}
+                    ) : (
+                        /* BỐ CỤC LƯỚI HAI BÊN CĂN GIỮA ĐỀU NHAU TỰ ĐỘNG THEO CSS GỐC */
+                        <div className="bento-grid-split">
+                            
+                            {/* BÊN TRÁI: DANH SÁCH CHỜ DUYỆT */}
+                            <div className="table-container">
+                                <h2 style={{ color: '#b45309', display: 'flex', alignItems: 'center', gap: '10px', margin: '0 0 20px 0' }}>
+                                    <span style={{ width: '12px', height: '12px', background: '#f59e0b', borderRadius: '50%', display: 'inline-block' }}></span>
+                                    Chờ Kiểm Duyệt ({pendingDrafts.length})
+                                </h2>
+                                <table className="custom-admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th style={{ textAlign: 'left' }}>Truyện</th>
+                                            <th style={{ textAlign: 'left' }}>Chương</th>
+                                            <th style={{ textAlign: 'left' }}>Tác giả</th>
+                                            <th style={{ textAlign: 'left' }}>Trạng thái</th>
+                                            <th style={{ textAlign: 'left' }}>Hành động</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {renderTableContent(pendingDrafts, pagePending)}
+                                    </tbody>
+                                </table>
+                                {renderPagination(pendingDrafts.length, pagePending, setPagePending)}
+                            </div>
+
+                            {/* BÊN PHẢI: DANH SÁCH ĐÃ DUYỆT */}
+                            <div className="table-container">
+                                <h2 style={{ color: '#1e3a8a', display: 'flex', alignItems: 'center', gap: '10px', margin: '0 0 20px 0' }}>
+                                    <span style={{ width: '12px', height: '12px', background: '#10b981', borderRadius: '50%', display: 'inline-block' }}></span>
+                                    Đã Xuất Bản ({approvedDrafts.length})
+                                </h2>
+                                <table className="custom-admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th style={{ textAlign: 'left' }}>Truyện</th>
+                                            <th style={{ textAlign: 'left' }}>Chương</th>
+                                            <th style={{ textAlign: 'left' }}>Tác giả</th>
+                                            <th style={{ textAlign: 'left' }}>Trạng thái</th>
+                                            <th style={{ textAlign: 'left' }}>Hành động</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {renderTableContent(approvedDrafts, pageApproved)}
+                                    </tbody>
+                                </table>
+                                {renderPagination(approvedDrafts.length, pageApproved, setPageApproved)}
+                            </div>
+
+                        </div>
+                    )}
+                </div>
             </div>
         </Layout>
     );

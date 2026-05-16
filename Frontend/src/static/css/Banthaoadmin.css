@@ -1,402 +1,391 @@
-/* --- BIẾN MÀU CỐ ĐỊNH (KHÔNG DÙNG OPACITY CHO TEXT) --- */
+/* --- BIẾN MÀU HOÀNG GIA / FANTASY --- */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;900&family=Playfair+Display:ital,wght@0,700;1,400&display=swap');
+
 :root {
-    --color-primary: #6C7EE1;   /* Xanh đậm */
-    --color-secondary: #92B9E3;  /* Xanh nhạt */
-    --color-accent-1: #FFC4A4;   /* Cam */
-    --color-accent-2: #FBA2D0;   /* Hồng */
-    --color-accent-3: #C688EB;   /* Tím */
-    --bg-deep: #121420;          /* Nền tối sâu để khử mờ */
-    --card-solid: #1e2132;       /* Nền card đặc, không mờ */
-    --border-light: rgba(255, 255, 255, 0.1);
+    --gold-gradient: linear-gradient(135deg, #bf953f 0%, #fcf6ba 25%, #b38728 50%, #fbf5b7 75%, #aa771c 100%);
+    --magic-purple: linear-gradient(135deg, #2e1065 0%, #3b0764 50%, #581c87 100%);
+    --crystal-white: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    
+    --color-primary: #8b5cf6;    /* Tím hoàng gia */
+    --color-secondary: #b45309;  /* Vàng đồng tối */
+    --text-dark: #1e1b4b;        /* Tím than đậm đen */
+    --border-gold: #d97706;
 }
 
+/* NỀN TRẮNG SANG TRỌNG HOÀNG CUNG - ĐÈ HOÀN TOÀN LÊN LAYOUT GỐC */
 .admin-glass-content {
-    padding: 30px;
-    background: var(--bg-deep);
+    width: 100vw;
     min-height: 100vh;
+    background: radial-gradient(circle at top, #ffffff 0%, #f1f5f9 100%) !important;
+    padding: 40px 60px;
+    box-sizing: border-box;
+    font-family: 'Playfair Display', serif;
 }
 
-/* --- GRID CHIA ĐÔI (RESPONSIVE) --- */
+/* HEADER CỰC KỲ LỒNG LỘN */
+.admin-header {
+    width: 100%;
+    max-width: 1500px;
+    margin: 0 auto 40px auto;
+    text-align: center;
+    border-bottom: 3px double #d97706;
+    padding-bottom: 20px;
+}
+
+.admin-header h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 3rem !important;
+    font-weight: 900;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.15));
+    letter-spacing: 4px;
+    margin: 0;
+}
+
+.admin-header h1 span {
+    background: linear-gradient(to right, #6366f1, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 1.8rem;
+}
+
+/* --- TRANG DANH SÁCH (BENTO GRID SANG TRỌNG) --- */
 .bento-grid-split {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Mặc định chia 2 cột trên Desktop */
-    gap: 20px;
-}
-
-/* Khi màn hình nhỏ hơn 1024px (Tablet & Mobile) */
-@media (max-width: 1024px) {
-    .bento-grid-split {
-        grid-template-columns: 1fr; /* Xếp chồng 1 cột */
-    }
-    .admin-glass-content {
-        padding: 15px; /* Giảm padding trên mobile cho rộng chỗ */
-    }
-}
-
-.table-container {
-    background: var(--card-solid);
-    border: 1px solid var(--border-light);
-    border-radius: 16px;
-    padding: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    overflow-x: auto; /* Cho phép cuộn ngang nếu bảng quá rộng trên mobile */
-}
-
-.table-container h2 {
-    font-size: 1.2rem;
-    font-weight: 700;
-    margin-bottom: 25px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border-light);
-}
-
-/* --- TABLE SẮC NÉT --- */
-.custom-admin-table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 500px; /* Đảm bảo bảng không bị co rúm quá mức */
-}
-
-.custom-admin-table th {
-    color: var(--color-secondary);
-    font-size: 0.8rem;
-    padding: 12px;
-    text-align: left;
-    border-bottom: 2px solid var(--border-light);
-}
-
-.custom-admin-table td {
-    padding: 15px 12px;
-    color: #ffffff !important;
-    font-size: 0.9rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.custom-admin-table tbody tr:hover {
-    background: rgba(255, 255, 255, 0.05);
-}
-
-/* --- NÚT BẤM (RESPONSIVE) --- */
-.actions {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap; /* Tự xuống dòng nếu nút quá dài trên mobile */
-}
-
-.btn-approve, .btn-delete {
-    font-weight: 600;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 0.2s;
-    white-space: nowrap; /* Không cho chữ trong nút xuống dòng */
-}
-
-.btn-approve {
-    background: var(--color-primary) !important;
-    color: #ffffff !important;
-}
-
-.btn-delete {
-    background: #cf4444 !important;
-    color: white !important;
-}
-
-/* --- MOBILE OPTIMIZATION (Dưới 600px) --- */
-@media (max-width: 600px) {
-    .table-container h2 {
-        font-size: 1rem;
-    }
-    
-    .custom-admin-table td, .custom-admin-table th {
-        padding: 10px 8px;
-        font-size: 0.8rem;
-    }
-
-    .btn-approve, .btn-delete {
-        padding: 6px 10px;
-        font-size: 0.75rem;
-    }
-}
-
-/* Badge trạng thái */
-.status-badge {
-    padding: 4px 10px;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    font-weight: bold;
-}
-
-.status-badge.active { background: #22c55e; color: #fff; }
-.status-badge.pending { background: #eab308; color: #fff; }
-/* --- CSS DÀNH RIÊNG CHO TRANG CHI TIẾT (ChiTietBanthao.jsx) --- */
-
-.detail-page {
-    max-width: 1400px;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    max-width: 1500px;
     margin: 0 auto;
 }
 
-.detail-header {
-    text-align: center;
-    border-left: none;
-    padding-left: 0;
-    margin-bottom: 40px;
+.table-container {
+    background: var(--crystal-white);
+    border: 2px solid transparent;
+    border-image: var(--gold-gradient) 1;
+    border-radius: 4px; /* Phong cách khung tranh cổ điển không bo tròn nhiều */
+    padding: 30px;
+    box-shadow: 0 20px 40px rgba(181, 137, 59, 0.1);
+    position: relative;
 }
 
-.header-badge {
-    display: inline-block;
-    background: var(--color-primary);
-    color: white;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    margin-bottom: 10px;
+/* Thêm góc trang trí cho khung vàng */
+.table-container::before {
+    content: '✦';
+    position: absolute;
+    top: -10px; left: -10px;
+    color: #b38728;
+    font-size: 1.5rem;
 }
 
-.subtitle {
-    color: var(--color-secondary);
-    font-size: 0.9rem;
-    margin-top: 5px;
-}
-
-/* --- GRID CHIA ĐÔI: SIDEBAR & READER --- */
-.detail-grid {
-    display: grid;
-    grid-template-columns: 350px 1fr; /* Sidebar cố định, Reader co giãn */
-    gap: 30px;
-    align-items: start;
-}
-
-/* Sidebar bên trái */
-.info-sidebar {
-    position: sticky;
-    top: 20px;
-}
-
-.info-card {
-    background: var(--card-solid);
-    border: 1px solid var(--border-light);
-    border-radius: 20px;
-    padding: 25px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-}
-
-.info-card h3 {
-    color: var(--color-accent-1);
-    margin-bottom: 20px;
-    font-size: 1.1rem;
+.table-container h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    font-weight: 900;
     text-transform: uppercase;
+    letter-spacing: 2px;
+    border-bottom: 1px dashed #cbd5e1;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
 }
 
-.info-item {
-    margin-bottom: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+/* BẢNG ĐẸP SẮC NÉT */
+.custom-admin-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px; /* Tạo khoảng cách giữa các hàng để đổ bóng từng hàng */
 }
 
-.info-item label {
-    color: var(--color-secondary);
-    font-size: 0.85rem;
+.custom-admin-table th {
+    font-family: 'Cinzel', serif;
+    color: #475569;
+    font-weight: bold;
+    font-size: 0.9rem;
+    padding: 12px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.custom-admin-table tbody tr {
+    background: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+    transition: 0.3s;
+}
+
+.custom-admin-table tbody tr:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(139, 92, 246, 0.1);
+    background: #f8fafc;
+}
+
+.custom-admin-table td {
+    padding: 16px 12px;
+    color: var(--text-dark) !important;
+    font-size: 1rem;
     font-weight: 600;
 }
 
-.info-item span {
-    color: #ffffff;
-    font-size: 1rem;
-    word-break: break-word;
+/* NÚT BẤM HIỆU ỨNG LẤP LÁNH HOÀNG GIA */
+.btn-approve, .btn-approve-large {
+    background: var(--gold-gradient) !important;
+    color: #1e1b4b !important;
+    font-family: 'Cinzel', serif;
+    font-weight: 900;
+    border: 1px solid #b38728 !important;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+    box-shadow: 0 4px 15px rgba(179, 135, 40, 0.3);
+    cursor: pointer;
+    transition: 0.3s;
 }
 
-/* Nút bấm trong Sidebar */
+.btn-approve:hover, .btn-approve-large:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 6px 20px rgba(179, 135, 40, 0.5);
+    transform: scale(1.03);
+}
+
+.btn-delete {
+    background: linear-gradient(135deg, #ef4444 0%, #991b1b 100%) !important;
+    color: white !important;
+    font-family: 'Cinzel', serif;
+    font-weight: bold;
+    border: none;
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.2);
+}
+
+.btn-delete:hover {
+    filter: brightness(1.2);
+}
+
+/* SEARCH INPUT QUÝ TỘC */
+.search-input {
+    background: #ffffff !important;
+    color: var(--text-dark) !important;
+    border: 2px solid #cbd5e1 !important;
+    border-radius: 30px !important; /* Bo tròn hẳn quý phái */
+    padding: 12px 25px !important;
+    font-style: italic;
+}
+
+.search-input:focus {
+    border-color: #b38728 !important;
+    box-shadow: 0 0 15px rgba(179, 135, 40, 0.2) !important;
+}
+
+/* --- TRANG CHI TIẾT BIẾN THÀNH CUỘN THƯ CỔ (SCROLL FANTASY) --- */
+.detail-page {
+    width: 100%;
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+.detail-header h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 3.2rem;
+    font-weight: 900;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 6px;
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 50px;
+    align-items: start;
+    width: 100%;
+}
+
+/* SIDEBAR BIẾN THÀNH CUỘN THƯ CỔ KÍNH */
+.info-sidebar {
+    position: sticky;
+    top: 30px;
+}
+
+.info-card {
+    background: #fefae0; /* Màu giấy da cổ */
+    border-left: 15px solid #b38728; /* Viền trục cuộn thư */
+    border-right: 15px solid #b38728;
+    border-top: 4px solid #aa771c;
+    border-bottom: 4px solid #aa771c;
+    border-radius: 8px;
+    padding: 35px 25px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15), inset 0 0 40px rgba(179, 135, 40, 0.2);
+    position: relative;
+}
+
+/* Hiệu ứng trục cuộn thư tròn ở đầu và cuối card */
+.info-card::before, .info-card::after {
+    content: '';
+    position: absolute;
+    left: -20px; right: -20px;
+    height: 12px;
+    background: var(--gold-gradient);
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+.info-card::before { top: -8px; }
+.info-card::after { bottom: -8px; }
+
+.info-card h3 {
+    font-family: 'Cinzel', serif;
+    color: #78350f;
+    font-weight: 900;
+    font-size: 1.3rem;
+    text-align: center;
+    letter-spacing: 1px;
+    border-bottom: 2px double #b38728;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+}
+
+.info-item {
+    margin-bottom: 20px;
+}
+
+.info-item label {
+    font-family: 'Cinzel', serif;
+    color: #9a3412;
+    font-size: 0.85rem;
+    font-weight: 900;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.info-item span {
+    color: #451a03;
+    font-weight: bold;
+    font-size: 1.15rem;
+}
+
 .action-buttons-vertical {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    margin-top: 30px;
+    gap: 15px;
+    margin-top: 40px;
 }
 
 .btn-approve-large {
-    background: var(--color-primary);
-    color: white;
-    border: none;
-    padding: 15px;
-    border-radius: 12px;
-    font-weight: 800;
-    cursor: pointer;
-    transition: 0.3s;
-    letter-spacing: 1px;
-}
-
-.btn-approve-large:hover {
-    filter: brightness(1.2);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(108, 126, 225, 0.4);
+    padding: 18px;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    border-radius: 30px !important;
 }
 
 .btn-back-outline {
     background: transparent;
-    color: #ffffff;
-    border: 1px solid var(--border-light);
-    padding: 12px;
-    border-radius: 12px;
+    color: #78350f;
+    border: 2px solid #b38728;
+    padding: 14px;
+    border-radius: 30px;
+    font-family: 'Cinzel', serif;
+    font-weight: bold;
     cursor: pointer;
     transition: 0.2s;
 }
 
 .btn-back-outline:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: #b38728;
+    color: #ffffff;
 }
 
-/* Cột nội dung đọc bên phải (Giấy đọc truyện) */
+/* --- KHU VỰC ĐỌC TRUYỆN SIÊU RỘNG RÃI, TRÁNG LỆ --- */
 .content-reader {
-    background: #f8fafc; /* Màu nền giấy sáng để đọc chữ đen cho rõ */
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
     border-radius: 24px;
-    padding: 40px;
-    min-height: 80vh;
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
+    padding: 60px 80px; /* Tăng khoảng cách lề cực rộng */
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+}
+
+/* Hoa văn viền khung sách ẩn hiện sang trọng */
+.content-reader::after {
+    content: '';
+    position: absolute;
+    top: 20px; bottom: 20px; left: 20px; right: 20px;
+    border: 1px solid rgba(179, 135, 40, 0.15);
+    pointer-events: none;
+    border-radius: 16px;
 }
 
 .reader-paper {
-    max-width: 800px;
+    width: 100%;
+    max-width: 1050px; /* Mở rộng tối đa chiều ngang để chữ dàn trải siêu rộng */
     margin: 0 auto;
-    color: #1e293b; /* Chữ tối trên nền sáng là rõ nhất */
 }
 
 .reader-header h2 {
-    font-size: 1.8rem;
-    font-weight: 800;
-    margin-bottom: 10px;
-    color: #0f172a;
+    font-family: 'Playfair Display', serif;
+    font-size: 2.6rem; /* Tên chương siêu to vương giả */
+    font-weight: 900;
+    color: var(--text-dark);
+    text-align: center;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
 }
 
 .reader-header hr {
     border: none;
-    border-top: 2px solid #e2e8f0;
-    margin-bottom: 30px;
+    height: 3px;
+    background: var(--gold-gradient);
+    max-width: 300px;
+    margin: 0 auto 50px auto;
 }
 
+/* Thân bài đọc chương truyện font cực nghệ, thưa dễ đọc */
 .reader-body {
-    line-height: 1.8;
-    font-size: 1.15rem;
-    white-space: pre-wrap; /* Quan trọng: Giữ xuống dòng của nội dung */
+    line-height: 2.2; /* Dòng thưa chuẩn phong cách đọc truyện VIP */
+    font-size: 1.35rem; /* Kích thước chữ hoàn hảo để không mỏi mắt */
+    color: #2d3748;
     text-align: justify;
+    font-family: 'Playfair Display', serif;
 }
 
-/* --- RESPONSIVE CHO TRANG CHI TIẾT --- */
+/* Đảm bảo định dạng văn bản Rich Text (nếu dùng Quill) */
+.ql-editor p {
+    margin-bottom: 24px !important;
+    text-indent: 30px; /* Lùi đầu dòng mỗi đoạn văn cực đẹp */
+}
 
-@media (max-width: 1024px) {
+/* Badge trạng thái phát sáng lung linh */
+.status-badge {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    display: inline-block;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.status-badge.active {
+    background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+    color: white;
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+}
+
+.status-badge.pending {
+    background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%);
+    color: white;
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+}
+
+/* Responsive mượt mà */
+@media (max-width: 1300px) {
     .detail-grid {
-        grid-template-columns: 1fr; /* Xếp chồng Sidebar lên đầu */
+        grid-template-columns: 1fr;
     }
-
     .info-sidebar {
         position: static;
     }
-
     .content-reader {
-        padding: 20px;
+        padding: 40px 30px;
     }
-}
-
-@media (max-width: 600px) {
-    .admin-header h1 {
-        font-size: 1.5rem;
-    }
-
-    .reader-header h2 {
-        font-size: 1.4rem;
-    }
-
-    .reader-body {
-        font-size: 1rem;
-    }
-
-    .btn-approve-large {
-        padding: 12px;
-        font-size: 0.9rem;
-    }
-}
-
-/* Loading & Error Styles */
-.loading-container, .error-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 60vh;
-    color: white;
-}
-
-.spinner {
-    width: 40px;
-    height: 40px;
-    border: 4px solid rgba(255,255,255,0.1);
-    border-top: 4px solid var(--color-primary);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin-bottom: 20px;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-/* Tìm và thay thế hoặc bổ sung các class sau vào Banthaoadmin.css */
-
-.detail-header {
-    text-align: center;
-    margin-bottom: 50px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.title-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 10px;
-}
-
-.title-icon {
-    font-size: 2rem;
-}
-
-.detail-header h1 {
-    font-size: 2.8rem; /* Tăng kích thước chữ */
-    font-weight: 900;
-    letter-spacing: 4px; /* Giãn chữ cho sang trọng */
-    margin: 0;
-    /* Hiệu ứng màu gradient cho rực rỡ */
-    background: linear-gradient(to right, var(--color-accent-1), var(--color-accent-2), var(--color-accent-3));
-    
-    -webkit-text-fill-color: transparent;
-    text-transform: uppercase;
-}
-
-.header-divider {
-    width: 100px;
-    height: 4px;
-    background: var(--color-primary);
-    border-radius: 2px;
-    margin: 15px 0;
-}
-
-.subtitle {
-    color: #ffffff; /* Làm chữ phụ sáng lên cho rõ */
-    font-size: 1.1rem;
-    font-weight: 300;
-    opacity: 0.8;
-}
-
-/* Xóa bỏ CSS của .header-badge cũ nếu không dùng nữa */
-.header-badge {
-    display: none;
-}
-.search-input:focus {
-    border-color: #6C7EE1 !important;
-    background: rgba(255, 255, 255, 0.1) !important;
-    box-shadow: 0 0 15px rgba(108, 126, 225, 0.3);
 }

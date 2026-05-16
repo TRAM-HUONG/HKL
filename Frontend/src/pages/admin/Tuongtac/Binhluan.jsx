@@ -54,6 +54,7 @@ const Binhluan = () => {
 
     return (
         <Layout>
+            <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
             <div className="admin-glass-content">
                 <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                     <h1 style={{ margin: 0 }}>QUẢN LÝ BÌNH LUẬN</h1>
@@ -118,6 +119,7 @@ const Binhluan = () => {
                         )}
                     </tbody>
                 </table>
+            </div>
             </div>
         </Layout>
     );

@@ -28,15 +28,15 @@ const ChiTietBanthao = () => {
     }, [mabt]);
 
     const handleApprove = async () => {
-        if (window.confirm("Bạn có chắc chắn muốn duyệt chương này lên trang chủ?")) {
+        if (window.confirm("Bệ hạ có chắc chắn muốn sắc phong phê duyệt ban thảo này?")) {
             try {
                 const res = await axios.put(`http://localhost:5000/api/admin/ban-thao/approve/${mabt}`);
                 if (res.data.success) {
-                    alert("Duyệt bản thảo thành công!");
+                    alert("Khải hoàn! Phê duyệt bản thảo thành công!");
                     navigate('/admin/ban-thao');
                 }
             } catch (error) {
-                alert("Lỗi khi duyệt bản thảo!");
+                alert("Lỗi khi phê duyệt bản thảo!");
             }
         }
     };
@@ -44,9 +44,8 @@ const ChiTietBanthao = () => {
     if (loading) {
         return (
             <Layout>
-                <div className="loading-container">
-                    <div className="spinner"></div>
-                    <p>Đang giải mã nội dung...</p>
+                <div style={{ textAlign: 'center', padding: '100px', color: '#800000', fontFamily: 'Cinzel Decorative, serif', fontSize: '1.5rem', fontWeight: '900' }}>
+                    ⚡ ĐANG KHAI PHÁ ĐIỆN VĂN... ⚡
                 </div>
             </Layout>
         );
@@ -55,86 +54,87 @@ const ChiTietBanthao = () => {
     if (!draft) {
         return (
             <Layout>
-                <div className="error-container">
-                    <h2>Bản thảo không tồn tại hoặc đã bị xóa.</h2>
-                    <button onClick={() => navigate('/admin/ban-thao')} className="btn-back">Quay lại danh sách</button>
+                <div style={{ textAlign: 'center', padding: '100px', color: '#800000' }}>
+                    <h2 style={{ fontFamily: 'Cinzel Decorative, serif' }}>MẬT THƯ KHÔNG TỒN TẠI HOẶC ĐÃ BỊ THIÊU HỦY.</h2>
+                    <button onClick={() => navigate('/admin/ban-thao')} className="btn-back-outline" style={{ marginTop: '20px', width: 'auto' }}>Quay lại bản doanh</button>
                 </div>
             </Layout>
         );
     }
 
     return (
-    <Layout>
-        <div className="admin-glass-content detail-page">
-            {/* Header mới: Đã bỏ Badge ID và làm rõ tiêu đề */}
-            <header className="detail-header">
-                <div className="title-wrapper">
-                    <span className="title-icon">📜</span>
-                    <h1>KIỂM DUYỆT NỘI DUNG</h1>
+        <Layout>
+            <div className="detail-page-wrapper">
+                <div className="admin-glass-content detail-page">
+                    
+                    {/* TIÊU ĐỀ HOÀNG GIA */}
+                    <header className="detail-header">
+                        <h1>PHÁN QUYẾT BẢN THẢO</h1>
+                        <p className="subtitle">Điện văn tối cao — Rà soát kỹ lưỡng trước khi truyền ban thiên hạ</p>
+                    </header>
+
+                    {/* KHUNG GRID QUÝ TỘC */}
+                    <div className="detail-grid">
+                        
+                        {/* THANH THÔNG TIN BÊN TRÁI */}
+                        <aside className="info-sidebar">
+                            <div className="info-card">
+                                <h3>MINH CHỨNG</h3>
+                                <div className="info-item">
+                                    <label>Chương Hồi:</label>
+                                    <span>{draft.tenbt || draft.ten_chuong}</span>
+                                </div>
+                                <div className="info-item">
+                                    <label>Thuộc Thiên Truyện:</label>
+                                    <span>{draft.ten_truyen}</span>
+                                </div>
+                                
+                                <div className="info-item">
+                                    <label>Trạng Thái:</label>
+                                    <span className={`status-badge ${draft.trangthai === 'Đã Duyệt' ? 'active' : 'pending'}`}>
+                                        {draft.trangthai}
+                                    </span>
+                                </div>
+                                
+                                <div style={{ marginTop: '30px' }}>
+                                    {draft.trangthai !== 'Đã Duyệt' && (
+                                        <button onClick={handleApprove} className="btn-approve-large">
+                                            ✦ PHÊ DUYỆT ✦
+                                        </button>
+                                    )}
+                                    <button onClick={() => navigate('/admin/ban-thao')} className="btn-back-outline">
+                                        Lui Về Bản Doanh
+                                    </button>
+                                </div>
+                            </div>
+                        </aside>
+
+                        {/* PHẦN ĐỌC VĂN BẢN MÀU ĐỎ CỔ ĐIỂN CĂN ĐỀU HAI BÊN */}
+                        <main className="content-reader">
+                            <div className="reader-paper">
+                                <div className="reader-header">
+                                    <h2>{draft.tenbt || draft.ten_chuong}</h2>
+                                    <hr />
+                                </div>
+                                
+                                <div className="reader-body">
+                                    {draft.nd ? (
+                                        <div 
+                                            className="ql-editor" 
+                                            dangerouslySetInnerHTML={{ __html: draft.nd }} 
+                                        />
+                                    ) : (
+                                        <p style={{ textAlign: 'center', fontStyle: 'italic', color: '#800000' }}>Điện văn trống rỗng, không tìm thấy ký tự.</p>
+                                    )}
+                                </div>
+                            </div>
+                        </main>
+
+                    </div>
                 </div>
-                <div className="header-divider"></div>
-                <p className="subtitle">Vui lòng rà soát kỹ nội dung trước khi xuất bản lên hệ thống</p>
-            </header>
-
-            <div className="detail-grid">
-                {/* Sidebar */}
-                <aside className="info-sidebar">
-                    <div className="info-card">
-                        <h3>Thông tin bản thảo</h3>
-                        <div className="info-item">
-                            <label>Tên chương:</label>
-                            <span>{draft.tenbt}</span>
-                        </div>
-                        <div className="info-item">
-                            <label>Thuộc tác phẩm:</label>
-                            <span>{draft.ten_truyen}</span>
-                        </div>
-                        <div className="info-item">
-                            <label>Trạng thái:</label>
-                            <span className={`status-badge ${draft.trangthai === 'Đã Duyệt' ? 'active' : 'pending'}`}>
-                                {draft.trangthai}
-                            </span>
-                        </div>
-                        
-                        <div className="action-buttons-vertical">
-                            {draft.trangthai !== 'Đã Duyệt' && (
-                                <button onClick={handleApprove} className="btn-approve-large">
-                                    PHÊ DUYỆT NGAY
-                                </button>
-                            )}
-                            <button onClick={() => navigate('/admin/ban-thao')} className="btn-back-outline">
-                                Quay về danh sách
-                            </button>
-                        </div>
-                    </div>
-                </aside>
-
-                {/* Nội dung đọc */}
-                <main className="content-reader">
-                    <div className="reader-paper">
-                        <div className="reader-header">
-                            <h2>{draft.tenbt}</h2>
-                            <hr />
-                        </div>
-                        
-<div className="reader-body">
-    {draft.nd ? (
-        <div 
-            className="ql-editor" // Thêm class này để giữ định dạng nếu bạn dùng ReactQuill
-            style={{ minHeight: '200px', wordBreak: 'break-word' }}
-            dangerouslySetInnerHTML={{ __html: draft.nd }} 
-        />
-    ) : (
-        "Chương này không có nội dung."
-    )}
-</div>
-                    </div>
-                </main>
             </div>
-        </div>
-    </Layout>
-);
-   
+        </Layout>
+    );
 };
 
 export default ChiTietBanthao;

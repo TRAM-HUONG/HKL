@@ -208,7 +208,6 @@
     font-weight: 800;
     margin-bottom: 20px;
     background: linear-gradient(to right, #1e00ff, #058391); /* Chữ gradient cho sang */
-    -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 

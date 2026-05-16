@@ -78,6 +78,7 @@ const ManageWithdrawal = () => {
 
     return (
         <Layout>
+                <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
             <div className="admin-glass-content">
                 <header className="admin-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '20px' }}>
                     <div>
@@ -195,6 +196,7 @@ const ManageWithdrawal = () => {
                         </tbody>
                     </table>
                 </div>
+            </div>
             </div>
 
             <style>{`

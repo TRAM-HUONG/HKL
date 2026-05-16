@@ -38,6 +38,7 @@ const DetailedRevenue = () => {
 
     return (
         <Layout>
+                <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
             <div className="admin-glass-content">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                     <h2 className="page-title" style={{ margin: 0 }}>💰 CHI TIẾT CHIA SẺ DOANH THU</h2>
@@ -100,6 +101,7 @@ const DetailedRevenue = () => {
                         </tbody>
                     </table>
                 </div>
+            </div>
             </div>
         </Layout>
     );

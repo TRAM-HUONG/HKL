@@ -45,6 +45,7 @@ const Tacgia = () => {
 
     return (
         <Layout>
+                <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
             <div style={{ padding: '20px' }} className="admin-glass-content">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                     <h2 className="text-2xl font-bold">Danh sách Tác giả</h2>
@@ -91,6 +92,7 @@ const Tacgia = () => {
                         </div>
                     )}
                 </div>
+            </div>
             </div>
         </Layout>
     );

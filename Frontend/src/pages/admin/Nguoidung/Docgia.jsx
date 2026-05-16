@@ -45,9 +45,10 @@ const Docgia = () => {
 
     return (
         <Layout>
-            <div className="p-4 admin-glass-content">
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                    <h2 className="text-2xl font-bold">Danh sách Độc giả</h2>
+            <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+                <div className="p-4 admin-glass-content">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                        <h2 className="text-2xl font-bold">Danh sách Độc giả</h2>
 
                     {/* THANH TÌM KIẾM */}
                     <input 
@@ -93,6 +94,7 @@ const Docgia = () => {
                         </div>
                     )}
                 </div>
+            </div>
             </div>
         </Layout>
     );

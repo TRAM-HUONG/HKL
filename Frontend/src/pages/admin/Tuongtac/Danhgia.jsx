@@ -57,6 +57,7 @@ const Danhgia = () => {
 
     return (
         <Layout>
+            <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
             <div className="admin-glass-content">
                 <header className="admin-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                     <h1 style={{ margin: 0 }}>QUẢN LÝ ĐÁNH GIÁ</h1>
@@ -131,6 +132,7 @@ const Danhgia = () => {
                         </tbody>
                     </table>
                 </div>
+            </div>
             </div>
         </Layout>
     );

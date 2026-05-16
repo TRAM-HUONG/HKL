@@ -38,6 +38,7 @@ const Taikhoan = () => {
 
     return (
         <Layout>
+            <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
             <div className="p-4 admin-glass-content">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                     <h2 className="text-2xl font-bold">Quản lý Tài khoản</h2>
@@ -119,6 +120,7 @@ const Taikhoan = () => {
                         </tbody>
                     </table>
                 </div>
+            </div>
             </div>
         </Layout>
     );
