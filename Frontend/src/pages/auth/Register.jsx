@@ -31,12 +31,7 @@ const Register = () => {
     }
 
     try {
-      // Tự động chuyển đổi link API giữa localhost và Render theo môi trường chạy của giao diện
-      const API_BASE = window.location.hostname === 'localhost' 
-        ? "https://hkl-backend-v3uu.onrender.com" 
-        : "https://hkl-backend-v3uu.onrender.com";
-
-      const response = await fetch(`${API_BASE}/api/auth/register`, {
+      const response = await fetch("https://hkl-backend-v3uu.onrender.com/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -52,8 +47,7 @@ const Register = () => {
       const data = await response.json();
 
       if (response.ok) {
-        // Sử dụng data.message linh hoạt từ server trả về (Hiện thông báo check mail ở local hoặc Đăng ký thành công ở Render)
-        alert(data.message || "Đăng ký thành công!");
+        alert("Một email xác nhận đã được gửi. Vui lòng kiểm tra hộp thư của bạn để kích hoạt tài khoản.");
         navigate("/login");
       } else {
         alert(data.error);

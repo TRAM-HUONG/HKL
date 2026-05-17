@@ -55,48 +55,11 @@ exports.register = async (req, res) => {
     const check = await pool.query("SELECT * FROM TAI_KHOAN WHERE TENDN=$1 OR EMAIL=$2", [tendn, email]);
     if (check.rows.length > 0) return res.status(400).json({ error: "Tên hoặc Email đã tồn tại!" });
 
-    // Tự động nhận diện host đang chạy (localhost hoặc render)
-    const host = req.get('host');  
-
-    // =========================================================================
-    // TRƯỜNG HỢP 1: CHẠY TRÊN RENDER (Bỏ qua bước gửi mail, tự động lưu DB thành công)
-    // =========================================================================
-    if (host && !host.includes('localhost')) {
-      console.log("--- Phát hiện chạy trên Render: Tự động kích hoạt tài khoản ---");
-      
-      // Tự động tạo mã MATK tiếp theo
-      const count = await pool.query("SELECT COUNT(*) FROM TAI_KHOAN");
-      const matk = `TK${(parseInt(count.rows[0].count) + 1).toString().padStart(3, '0')}`;
-      const dbRole = role === 'author' ? 'TacGia' : 'DocGia';
-
-      // Lưu bảng TAI_KHOAN
-      await pool.query(
-        "INSERT INTO TAI_KHOAN (MATK, TENDN, MK, VAI_TRO, NGAYSINH, EMAIL, SDT) VALUES ($1, $2, $3, $4, $5, $6, $7)",
-        [matk, tendn, mk, dbRole, ngaysinh, email, sdt]
-      );
-
-      // Lưu bảng chi tiết tương ứng vai trò (Độc giả hoặc Tác giả)
-      if (role === 'author') {
-          const countTG = await pool.query("SELECT COUNT(*) FROM TAC_GIA");
-          const matg = `TG${(parseInt(countTG.rows[0].count) + 1).toString().padStart(3, '0')}`;
-          await pool.query("INSERT INTO TAC_GIA (MATG, TENTG, MATK) VALUES ($1, $2, $3)", [matg, tendn, matk]);
-      } else {
-          const countDG = await pool.query("SELECT COUNT(*) FROM DOC_GIA");
-          const madg = `DG${(parseInt(countDG.rows[0].count) + 1).toString().padStart(3, '0')}`;
-          await pool.query("INSERT INTO DOC_GIA (MADG, TENDG, MATK) VALUES ($1, $2, $3)", [madg, tendn, matk]);
-      }
-
-      // Trả về phản hồi đăng ký thành công ngay lập tức để frontend chuyển trang
-      return res.status(200).json({ message: "Đăng ký tài khoản thành công!" });
-    }
-
-    // =========================================================================
-    // TRƯỜNG HỢP 2: CHẠY DƯỚI LOCALHOST (Giữ nguyên gốc logic gửi mail điều khoản)
-    // =========================================================================
     // 2. Gói dữ liệu vào Token
     const token = jwt.sign({ tendn, mk, email, sdt, ngaysinh, role }, SECRET_KEY, { expiresIn: '10m' });
     const confirmLink = `https://hkl-backend-v3uu.onrender.com/api/auth/confirm-registration?token=${token}`;
 
+  
     await transporter.sendMail({
       from: '"HKL Story" <nguyentramhuong2k221@gmail.com>',
       to: email, 
@@ -137,6 +100,7 @@ exports.register = async (req, res) => {
     res.status(500).json({ error: "Lỗi hệ thống khi gửi mail!" });
   }
 };
+
 // Hàm confirmRegistration để chính thức lưu vào Database khi nhấn link
 exports.confirmRegistration = async (req, res) => {
   const { token } = req.query;
