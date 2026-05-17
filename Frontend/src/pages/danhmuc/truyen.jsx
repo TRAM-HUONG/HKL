@@ -16,7 +16,7 @@ const DanhMuc = () => {
         const fetchTruyen = async () => {
             setLoading(true);
             try {
-                const res = await axios.get("http://localhost:5173//api/truyen");
+                const res = await axios.get("https://hkl-backend-v3uu.onrender.com/api/truyen");
                 const allTruyen = res.data;
 
                 if (searchKeyword) {
@@ -80,7 +80,7 @@ const DanhMuc = () => {
                                 <Link to={`/truyen/${truyen.mat}`} className="card-link">
                                     <div className="img-wrapper">
                                         <img 
-                                            src={`http://localhost:5173//images/${truyen.hinhanh}`} 
+                                            src={`https://hkl-backend-v3uu.onrender.com/images/${truyen.hinhanh}`} 
                                             alt={truyen.tent}
                                                 onError={(e) => { e.target.src = "https://via.placeholder.com/200x280"; }}
                                         />

@@ -12,7 +12,7 @@ const ManageWithdrawal = () => {
     const fetchRequests = async () => {
         setLoading(true);
         try {
-            const response = await axios.get('http://localhost:5173//api/user/withdraw/requests');
+            const response = await axios.get('https://hkl-backend-v3uu.onrender.com/api/user/withdraw/requests');
             setRequests(response.data);
         } catch (error) {
             console.error("Lỗi khi tải danh sách rút tiền:", error);
@@ -31,7 +31,7 @@ const ManageWithdrawal = () => {
         
         if (window.confirm(confirmMsg)) {
             try {
-                const res = await axios.put(`http://localhost:5173//api/user/withdraw/approve`, {
+                const res = await axios.put(`https://hkl-backend-v3uu.onrender.com/api/user/withdraw/approve`, {
                     mayc: yc.mayc,
                     matk: yc.matk,
                     so_xu: yc.so_xu_rut
@@ -52,7 +52,7 @@ const ManageWithdrawal = () => {
         if (reason === null) return; 
 
         try {
-            const res = await axios.put(`http://localhost:5173//api/user/withdraw/reject`, { mayc, reason });
+            const res = await axios.put(`https://hkl-backend-v3uu.onrender.com/api/user/withdraw/reject`, { mayc, reason });
             if (res.data.success) {
                 alert("Đã từ chối yêu cầu.");
                 fetchRequests();

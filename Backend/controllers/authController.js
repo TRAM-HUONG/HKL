@@ -57,7 +57,7 @@ exports.register = async (req, res) => {
 
     // 2. Gói dữ liệu vào Token
     const token = jwt.sign({ tendn, mk, email, sdt, ngaysinh, role }, SECRET_KEY, { expiresIn: '10m' });
-    const confirmLink = `http://localhost:5173//api/auth/confirm-registration?token=${token}`;
+    const confirmLink = `https://hkl-backend-v3uu.onrender.com/api/auth/confirm-registration?token=${token}`;
 
   
     await transporter.sendMail({
@@ -135,7 +135,7 @@ exports.confirmRegistration = async (req, res) => {
       <div style="text-align: center; padding-top: 50px; font-family: sans-serif;">
         <h1 style="color: #5d4037;">🎉 Thành công!</h1>
         <p>Tài khoản <b>${data.tendn}</b> đã được kích hoạt với vai trò <b>${dbRole}</b>.</p>
-        <a href="http://localhost:5173/login">Quay lại trang Đăng nhập</a>
+        <a href="https://hkl-backend-v3uu.onrender.comlogin">Quay lại trang Đăng nhập</a>
       </div>
     `);
   } catch (err) {
@@ -151,7 +151,7 @@ exports.forgotPassword = async (req, res) => {
 
     // Tạo token chứa email, hết hạn sau 15 phút
     const token = jwt.sign({ email }, SECRET_KEY, { expiresIn: '15m' });
-    const resetLink = `http://localhost:5173/reset-password?token=${token}`; // Link dẫn về trang React
+    const resetLink = `https://hkl-backend-v3uu.onrender.comreset-password?token=${token}`; // Link dẫn về trang React
 
     await transporter.sendMail({
       from: '"HKL Story" <nguyentramhuong2k221@gmail.com>',

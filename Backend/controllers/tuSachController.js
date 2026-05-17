@@ -78,7 +78,7 @@ exports.getTuSachTacGia = async (req, res) => {
     const { matk } = req.params;
 
     try {
-        // 1. Cập nhật query lấy bản thảo kèm tên truyện gốc
+        // 1. Lấy bản thảo (Giữ nguyên hoặc ép kiểu clear)
         const queryBanThao = `
             SELECT 
                 bt.MABT as ma_so,
@@ -86,16 +86,16 @@ exports.getTuSachTacGia = async (req, res) => {
                 bt.TRANGTHAI as trang_thai,
                 bt.NGAY_DUYET as ngay_tao,
                 bt.MAT as ma_goc,
-                t.TENT as ten_truyen_goc, -- Lấy thêm tên truyện gốc từ bảng TRUYEN
+                t.TENT as ten_truyen_goc,
                 'Bản thảo' as loai
             FROM BAN_THAO bt
             JOIN TAC_GIA tg ON bt.MATG = tg.MATG
-            LEFT JOIN TRUYEN t ON bt.MAT = t.MAT -- Join để lấy tên truyện
-            WHERE tg.MATK = $1
+            LEFT JOIN TRUYEN t ON bt.MAT = t.MAT
+            WHERE CAST(tg.MATK AS TEXT) = CAST($1 AS TEXT) -- Đảm bảo chuẩn hóa kiểu dữ liệu
             ORDER BY bt.NGAY_DUYET DESC
         `;
 
-        // 2. Lấy danh sách Truyện đã xuất bản
+        // 2. SỬA TẠI ĐÂY: Dùng STRING_AGG để gộp thể loại, tránh trùng lặp dòng truyện
         const queryTruyen = `
             SELECT 
                 t.MAT as ma_so,
@@ -103,13 +103,14 @@ exports.getTuSachTacGia = async (req, res) => {
                 t.HINHANH as hinh_anh,
                 t.TRANGTHAI as trang_thai,
                 t.NGAYDANG as ngay_tao,
-                tl.TENTL as the_loai,
+                STRING_AGG(tl.TENTL, ', ') as the_loai, -- Gom các thể loại lại thành "Tiên Hiệp, Huyền Huyễn"
                 'Truyện' as loai
             FROM TRUYEN t
             JOIN TAC_GIA tg ON t.MATG = tg.MATG
             LEFT JOIN CHI_TIET_TRUYEN ct ON t.MAT = ct.MAT
             LEFT JOIN THE_LOAI tl ON ct.MATL = tl.MATL
-            WHERE tg.MATK = $1
+            WHERE CAST(tg.MATK AS TEXT) = CAST($1 AS TEXT)
+            GROUP BY t.MAT, t.TENT, t.HINHANH, t.TRANGTHAI, t.NGAYDANG -- Bắt buộc phải GROUP BY khi dùng hàm gộp
             ORDER BY t.NGAYDANG DESC
         `;
 
@@ -121,7 +122,6 @@ exports.getTuSachTacGia = async (req, res) => {
         res.json({
             success: true,
             data: {
-                // Chia bản thảo thành 2 nhóm theo đúng yêu cầu của bạn
                 banThaoChoDuyet: btRes.rows.filter(r => r.trang_thai !== 'Đã Duyệt'),
                 banThaoDaDuyet: btRes.rows.filter(r => r.trang_thai === 'Đã Duyệt'),
                 daXuatBan: tRes.rows
@@ -132,7 +132,6 @@ exports.getTuSachTacGia = async (req, res) => {
         res.status(500).json({ success: false, message: "Lỗi hệ thống" });
     }
 };
-
 
 
 // Lấy chi tiết bản thảo để đổ vào form

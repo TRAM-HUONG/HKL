@@ -13,7 +13,7 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:5173//api/truyen")
+    fetch("https://hkl-backend-v3uu.onrender.com/api/truyen")
       .then((res) => res.json())
       .then((data) => {
         setTruyenList(data);
@@ -74,7 +74,7 @@ const Home = () => {
 
                 <div className="wao-img-container">
                   <img 
-                    src={`http://localhost:5173//images/${item.hinhanh}`} 
+                    src={`https://hkl-backend-v3uu.onrender.com/images/${item.hinhanh}`} 
                     alt={item.tent} 
                     onError={(e) => { e.target.src = "https://via.placeholder.com/200x300"; }}
                   />
