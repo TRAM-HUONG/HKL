@@ -11,7 +11,7 @@ const Danhgia = () => {
     const fetchData = async () => {
         try {
             setLoading(true);
-            const res = await axios.get('https://hkl-backend-v3uu.onrender.com/api/admin/danh-gia/all');
+            const res = await axios.get('http://localhost:5173//api/admin/danh-gia/all');
             if (res.data.success) {
                 setData(res.data.data);
             }
@@ -27,7 +27,7 @@ const Danhgia = () => {
     const handleDelete = async (id) => {
         if (window.confirm("Bạn có chắc chắn muốn xóa đánh giá này không?")) {
             try {
-                const res = await axios.delete(`https://hkl-backend-v3uu.onrender.com/api/admin/danh-gia/delete/${id}`);
+                const res = await axios.delete(`http://localhost:5173//api/admin/danh-gia/delete/${id}`);
                 if (res.data.success) {
                     alert("Đã xóa đánh giá thành công!");
                     setData(data.filter(item => (item.madgia || item.MADGIA) !== id));

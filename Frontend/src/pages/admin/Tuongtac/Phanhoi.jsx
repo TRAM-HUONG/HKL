@@ -11,7 +11,7 @@ const Phanhoi = () => {
     const fetchData = async () => {
         try {
             setLoading(true);
-            const res = await axios.get('https://hkl-backend-v3uu.onrender.com/api/admin/phan-hoi/all');
+            const res = await axios.get('http://localhost:5173//api/admin/phan-hoi/all');
             if (res.data.success) {
                 setData(res.data.data);
             }
@@ -27,7 +27,7 @@ const Phanhoi = () => {
     const handleDelete = async (id) => {
         if (window.confirm("Bạn có chắc muốn xóa phản hồi này?")) {
             try {
-                const res = await axios.delete(`https://hkl-backend-v3uu.onrender.com/api/admin/phan-hoi/delete/${id}`);
+                const res = await axios.delete(`http://localhost:5173//api/admin/phan-hoi/delete/${id}`);
                 if (res.data.success) {
                     alert("Xóa phản hồi thành công!");
                     setData(data.filter(item => (item.maph || item.MAPH) !== id));

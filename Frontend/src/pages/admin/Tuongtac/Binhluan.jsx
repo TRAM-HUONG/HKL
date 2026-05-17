@@ -11,7 +11,7 @@ const Binhluan = () => {
     const fetchData = async () => {
         try {
             setLoading(true);
-            const res = await axios.get('https://hkl-backend-v3uu.onrender.com/api/admin/binh-luan/all');
+            const res = await axios.get('http://localhost:5173//api/admin/binh-luan/all');
             if (res.data.success) setData(res.data.data);
         } catch (err) { 
             console.error("Lỗi:", err); 
@@ -25,7 +25,7 @@ const Binhluan = () => {
     const handleDelete = async (id) => {
         if (window.confirm("Bạn có chắc muốn xóa bình luận này?")) {
             try {
-                const res = await axios.delete(`https://hkl-backend-v3uu.onrender.com/api/admin/binh-luan/delete/${id}`);
+                const res = await axios.delete(`http://localhost:5173//api/admin/binh-luan/delete/${id}`);
                 if (res.data.success) {
                     setData(prevData => prevData.filter(item => (item.mabl || item.MABL) !== id));
                     alert("Xóa thành công!");

@@ -8,33 +8,52 @@ import "../../static/css/WritePost.css";
 const WritePost = () => {
     const [dsTruyen, setDsTruyen] = useState([]);
     const [formData, setFormData] = useState({ MAT: '', TENBT: '', ND: '', GIA_XU: 0 });
+    const [loading, setLoading] = useState(true);
 
+    // Lấy thông tin user từ localStorage
     const user = JSON.parse(localStorage.getItem("user"));
-    const matg = user?.MATG || 'TG01'; 
+    const matk = user?.MATK || user?.matk;
 
     useEffect(() => {
-        axios.get(`https://hkl-backend-v3uu.onrender.com/api/chuong/tacgia/${matg}`)
-            .then(res => setDsTruyen(res.data))
-            .catch(err => console.error("Lỗi tải danh sách truyện", err));
-    }, [matg]);
+        const fetchStories = async () => {
+            if (!matk) return;
+            try {
+                // Gọi API lấy truyện dựa theo mã tài khoản (matk)
+                const res = await axios.get(`http://localhost:5173//api/chuong/tacgia/${matk}`);
+                setDsTruyen(res.data);
+            } catch (err) {
+                console.error("Lỗi tải danh sách truyện", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchStories();
+    }, [matk]);
 
     const handleEditorChange = (content) => {
         setFormData({ ...formData, ND: content });
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const res = await axios.post('https://hkl-backend-v3uu.onrender.com/api/chuong/viet-bai', {
-                ...formData,
-                MATG: matg
-            });
-            alert(res.data.message);
-            setFormData({ MAT: '', TENBT: '', ND: '', GIA_XU: 0 });
-        } catch (err) {
-            alert("Lỗi: " + (err.response?.data?.error || "Không thể gửi bài"));
-        }
-    };
+    e.preventDefault();
+    
+    if (!formData.MAT) {
+        alert("Vui lòng chọn một tác phẩm trước khi gửi!");
+        return;
+    }
+
+    try {
+        const res = await axios.post('http://localhost:5173//api/chuong/viet-bai', {
+            ...formData,
+            MATK: matk // ĐỔI THÀNH GỬI MATK LÊN, Backend sẽ tự xử lý tìm MATG
+        });
+        
+        alert(res.data.message);
+        setFormData({ MAT: '', TENBT: '', ND: '', GIA_XU: 0 });
+    } catch (err) {
+        alert("Lỗi: " + (err.response?.data?.error || "Không thể gửi bài"));
+    }
+};
 
     const modules = {
         toolbar: [
@@ -47,6 +66,10 @@ const WritePost = () => {
             ['clean']
         ],
     };
+
+    if (loading) {
+        return <div style={{ textAlign: 'center', padding: '50px' }}>Đang tải danh sách tác phẩm...</div>;
+    }
 
     return (
         <Layout>
@@ -67,7 +90,11 @@ const WritePost = () => {
                                     required
                                 >
                                     <option value="">-- Chọn truyện --</option>
-                                    {dsTruyen.map(t => <option key={t.mat} value={t.mat}>{t.tent}</option>)}
+                                    {dsTruyen.map(t => (
+                                        <option key={t.mat || t.MAT} value={t.mat || t.MAT}>
+                                            {t.tent || t.TENT}
+                                        </option>
+                                    ))}
                                 </select>
                             </div>
 

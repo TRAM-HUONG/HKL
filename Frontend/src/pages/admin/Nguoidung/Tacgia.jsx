@@ -8,7 +8,7 @@ const Tacgia = () => {
     const [searchTerm, setSearchTerm] = useState(""); // State cho từ khóa tìm kiếm
 
     const fetchData = () => {
-        axios.get('https://hkl-backend-v3uu.onrender.com/api/admin/authors')
+        axios.get('http://localhost:5173//api/admin/authors')
             .then(res => setAuthors(res.data))
             .catch(err => console.error("Lỗi lấy dữ liệu:", err));
     };
@@ -20,7 +20,7 @@ const Tacgia = () => {
     const deleteAuthor = async (id, matk) => {
         if (window.confirm("Xóa tác giả này sẽ xóa tài khoản liên quan. Tiếp tục?")) {
             try {
-                const res = await axios.delete(`https://hkl-backend-v3uu.onrender.com/api/admin/accounts/${matk}`);
+                const res = await axios.delete(`http://localhost:5173//api/admin/accounts/${matk}`);
                 if (res.data.success) {
                     setAuthors(authors.filter(a => a.matk !== matk));
                     alert("Xóa thành công!");

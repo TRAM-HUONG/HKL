@@ -41,44 +41,55 @@ exports.getNoiDungChuong = async (req, res) => {
 };
 
 exports.getTruyenCuaTacGia = async (req, res) => {
-    const { matg } = req.params; 
+    // Đổi tên biến thành matk để đồng bộ với Frontend gửi lên
+    const { matg: matk } = req.params; 
     try {
-        // Lấy trực tiếp từ bảng TRUYEN dựa trên mã tác giả
+        // Query chuẩn theo Database: Tìm MATG thông qua MATK trước rồi mới lấy TRUYEN
         const query = `
-            SELECT MAT as mat, TENT as tent 
-            FROM TRUYEN 
-            WHERE MATG = $1
-            ORDER BY NGAYDANG DESC
+            SELECT t.MAT as mat, t.TENT as tent 
+            FROM TRUYEN t
+            JOIN TAC_GIA tg ON t.MATG = tg.MATG
+            WHERE tg.MATK = $1
+            ORDER BY t.NGAYDANG DESC
         `;
-        const result = await pool.query(query, [matg]);
-        res.json(result.rows); // Trả về danh sách truyện (kể cả truyện mới)
+        const result = await pool.query(query, [matk]);
+        res.json(result.rows); 
     } catch (err) {
         console.error("Lỗi getTruyenCuaTacGia:", err.message);
-        res.status(500).json({ error: "Lỗi hệ thống" });
+        res.status(500).json({ error: "Lỗi hệ thống khi tải danh sách truyện tác giả" });
     }
 };
 // 4. Tác giả gửi bản thảo mới (Viết bài)
 // Sửa hàm dangBanThaoMoi trong chuongController.js
 exports.dangBanThaoMoi = async (req, res) => {
-    // Nhận thêm GIA_XU từ req.body
-    const { MAT, TENBT, ND, MATG, GIA_XU } = req.body;
+    // Nhận MATK từ Frontend gửi lên thay vì MATG
+    const { MAT, TENBT, ND, MATK, GIA_XU } = req.body;
     
     const MABT = 'BT' + Date.now().toString().slice(-8);
 
     try {
+        // 1. Tìm MATG của tác giả dựa trên MATK
+        const tgRes = await pool.query('SELECT MATG FROM TAC_GIA WHERE MATK = $1', [MATK]);
+        
+        if (tgRes.rows.length === 0) {
+            return res.status(400).json({ error: "Tài khoản này chưa được cấu hình làm Tác giả!" });
+        }
+        
+        const v_matg = tgRes.rows[0].matg; // Lấy được mã dạng 'TG01'
+
+        // 2. Tiến hành chèn bản thảo với MATG vừa tìm được
         const query = `
             INSERT INTO BAN_THAO (MABT, MAT, TENBT, ND, TRANGTHAI, MATG, NGAY_DUYET, GIA_XU)
             VALUES ($1, $2, $3, $4, 'Chờ Duyệt', $5, NULL, $6)
         `;
-        // Truyền thêm giá trị GIA_XU (mặc định 0 nếu không có)
-        await pool.query(query, [MABT, MAT, TENBT, ND, MATG, GIA_XU || 0]);
+        await pool.query(query, [MABT, MAT, TENBT, ND, v_matg, GIA_XU || 0]);
+        
         res.status(201).json({ message: "Gửi bản thảo thành công! Vui lòng đợi quản trị viên phê duyệt." });
     } catch (err) {
         console.error("Lỗi dangBanThaoMoi:", err.message);
         res.status(500).json({ error: "Lỗi hệ thống khi gửi bản thảo" });
     }
 };
-
 
 // 1. Kiểm tra xem người dùng đã mua chương này hoặc trọn bộ truyện này chưa
 exports.checkQuyenDoc = async (req, res) => {

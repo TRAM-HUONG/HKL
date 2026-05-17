@@ -23,8 +23,8 @@ const AdminDashboard = () => {
             try {
                 setLoading(true);
                 const [resQuickStats, resRevenue] = await Promise.all([
-                    axios.get('https://hkl-backend-v3uu.onrender.com/api/admin/quick-stats'),
-                    axios.get('https://hkl-backend-v3uu.onrender.com/api/admin/doanh-thu/stats')
+                    axios.get('http://localhost:5173//api/admin/quick-stats'),
+                    axios.get('http://localhost:5173//api/admin/doanh-thu/stats')
                 ]);
 
                 setStats({
