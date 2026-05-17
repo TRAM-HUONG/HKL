@@ -29,7 +29,7 @@ const ChiTietTruyen = () => {
       setUser(JSON.parse(storedUser));
     }
 
-    fetch(`http://localhost:5000/api/truyen/${mat}`)
+    fetch(`https://hkl-backend-v3uu.onrender.com/api/truyen/${mat}`)
       .then((res) => res.json())
       .then((data) => {
         setTruyen(data);
@@ -44,14 +44,14 @@ const ChiTietTruyen = () => {
   }, [mat]);
 
   const loadDanhGia = () => {
-    fetch(`http://localhost:5000/api/truyen/${mat}/danh-gia`)
+    fetch(`https://hkl-backend-v3uu.onrender.com/api/truyen/${mat}/danh-gia`)
       .then((res) => res.json())
       .then((data) => setDanhGia(data))
       .catch((err) => console.error("Lỗi tải đánh giá:", err));
   };
 
   // --- LOGIC XỬ LÝ MUA CHƯƠNG LẺ ---
- const handleChapterClick = async (chuong) => {
+  const handleChapterClick = async (chuong) => {
     // ĐƯA LOGIC KIỂM TRA MIỄN PHÍ LÊN TRÊN ĐẦU
     const giaChuong = chuong.gia_xu || chuong.GIA_XU || 0;
     if (giaChuong === 0) {
@@ -77,7 +77,7 @@ const ChiTietTruyen = () => {
     // Nếu có phí, kiểm tra quyền sở hữu trước khi navigate
     try {
       const madg = user.MADG || user.madg;
-      const checkRes = await fetch(`http://localhost:5000/api/chuong/check-quyen?mabt=${chuong.mabt}&madg=${madg}`);
+      const checkRes = await fetch(`https://hkl-backend-v3uu.onrender.com/api/chuong/check-quyen?mabt=${chuong.mabt}&madg=${madg}`);
       const checkData = await checkRes.json();
 
       if (checkData.purchased) {
@@ -94,7 +94,7 @@ const ChiTietTruyen = () => {
 
   const thucHienMuaChuongLe = async (chuong) => {
     try {
-      const res = await fetch("http://localhost:5000/api/chuong/mua-le", {
+      const res = await fetch("https://hkl-backend-v3uu.onrender.com/api/chuong/mua-le", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -126,7 +126,7 @@ const ChiTietTruyen = () => {
     
     if (window.confirm(`Xác nhận dùng ${giaFull} Xu để mua trọn bộ truyện này?`)) {
       try {
-        const res = await fetch("http://localhost:5000/api/truyen/mua-tron-goi", {
+        const res = await fetch("https://hkl-backend-v3uu.onrender.com/api/truyen/mua-tron-goi", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -175,7 +175,7 @@ const ChiTietTruyen = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/truyen/danh-gia`, {
+      const response = await fetch(`https://hkl-backend-v3uu.onrender.com/api/truyen/danh-gia`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -206,7 +206,7 @@ const ChiTietTruyen = () => {
     const isTG = user?.VAI_TRO === 'TacGia' || user?.vai_tro === 'TacGia';
 
     try {
-      const response = await fetch(`http://localhost:5000/api/binh-luan`, {
+      const response = await fetch(`https://hkl-backend-v3uu.onrender.com/api/binh-luan`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -233,7 +233,7 @@ const ChiTietTruyen = () => {
     if (!window.confirm("Bạn có chắc muốn xóa phản hồi này?")) return;
     const userId = user?.MADG || user?.madg || user?.MATG || user?.matg;
     try {
-      const res = await fetch(`http://localhost:5000/api/binh-luan/phan-hoi/${id}`, {
+      const res = await fetch(`https://hkl-backend-v3uu.onrender.com/api/binh-luan/phan-hoi/${id}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId })
@@ -253,7 +253,7 @@ const ChiTietTruyen = () => {
     if (!window.confirm("Bạn có chắc muốn xóa đánh giá này?")) return;
     const currentMadg = user?.MADG || user?.madg;
     try {
-      const response = await fetch(`http://localhost:5000/api/truyen/danh-gia/${madgia}`, {
+      const response = await fetch(`https://hkl-backend-v3uu.onrender.com/api/truyen/danh-gia/${madgia}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ madg: currentMadg }),
@@ -272,7 +272,7 @@ const ChiTietTruyen = () => {
   const handleStartReading = () => {
     setLoadingChuong(true);
     setShowModal(true);
-    fetch(`http://localhost:5000/api/chuong/truyen/${mat}`)
+    fetch(`https://hkl-backend-v3uu.onrender.com/api/chuong/truyen/${mat}`)
       .then((res) => res.json())
       .then((data) => {
         setDanhSachChuong(data);
@@ -294,7 +294,7 @@ const ChiTietTruyen = () => {
           <div className="chitiet-left">
             <img
               className="chitiet-img"
-              src={`http://localhost:5000/images/${truyen.hinhanh || truyen.HINHANH || ""}`}
+              src={`https://hkl-backend-v3uu.onrender.com/images/${truyen.hinhanh || truyen.HINHANH || ""}`}
               alt={truyen.tent || truyen.TENT}
               onError={(e) => {
                 e.target.src = "https://via.placeholder.com/300x450?text=No+Image";
@@ -344,22 +344,22 @@ const ChiTietTruyen = () => {
               <p>{truyen.MOTA || truyen.mota || "Chưa có mô tả cho truyện này."}</p>
             </div>
            
-<div className="chitiet-actions" style={{ display: 'flex', gap: '15px' }}>
-  <button className="read-now-btn" onClick={handleStartReading}>
-    BẮT ĐẦU ĐỌC
-  </button>
+            <div className="chitiet-actions" style={{ display: 'flex', gap: '15px' }}>
+              <button className="read-now-btn" onClick={handleStartReading}>
+                BẮT ĐẦU ĐỌC
+              </button>
 
-  {/* Chỉ hiển thị nút mua nếu là Độc giả và truyện có phí */}
-  {user && (user.VAI_TRO === 'DocGia' || user.vai_tro === 'DocGia') && (truyen.gia_tron_goi || truyen.GIA_TRON_GOI) > 0 && (
-    <button 
-      className="read-now-btn" 
-      onClick={handleBuyFullStory}
-      style={{ backgroundColor: '#ff5a00', border: 'none' }}
-    >
-      MUA TRỌN BỘ
-    </button>
-  )}
-</div>
+              {/* Chỉ hiển thị nút mua nếu là Độc giả và truyện có phí */}
+              {user && (user.VAI_TRO === 'DocGia' || user.vai_tro === 'DocGia') && (truyen.gia_tron_goi || truyen.GIA_TRON_GOI) > 0 && (
+                <button 
+                  className="read-now-btn" 
+                  onClick={handleBuyFullStory}
+                  style={{ backgroundColor: '#ff5a00', border: 'none' }}
+                >
+                  MUA TRỌN BỘ
+                </button>
+              )}
+            </div>
           </div>
         </div>
 
@@ -495,9 +495,9 @@ const ChiTietTruyen = () => {
                     </div>
                   ))
                 ) : (
-                <p className="no-chapter" style={{ color: "#333", textAlign: "center", padding: "20px" }}>
-      Truyện hiện chưa có đánh giá nào
-    </p>
+                  <p className="no-chapter" style={{ color: "#333", textAlign: "center", padding: "20px" }}>
+                    Truyện hiện chưa có đánh giá nào
+                  </p>
                 )}
               </div>
             </div>
@@ -518,27 +518,31 @@ const ChiTietTruyen = () => {
                 <div className="loading-text">Đang tải danh sách chương...</div>
               ) : danhSachChuong.length > 0 ? (
                 <div className="chuong-grid">
-                  {danhSachChuong.map((chuong, index) => (
-                    <div
-                      key={chuong.mabt || index}
-                      className="chuong-item-card"
-                      onClick={() => handleChapterClick(chuong)}
-                      style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer' }}
-                    >
-                      <div>
-                        <span className="chuong-number">Chương {index + 1}:</span>
-                        <span className="chuong-name">{chuong.tenbt || chuong.TENBT}</span>
+                  {danhSachChuong.map((chuong, index) => {
+                    const giaChuong = chuong.gia_xu || chuong.GIA_XU || 0;
+                    return (
+                      <div
+                        key={chuong.mabt || index}
+                        className="chuong-item-card"
+                        onClick={() => handleChapterClick(chuong)}
+                      >
+                        <div className="chuong-item-left">
+                          <span className="chuong-number">Chương {index + 1}:</span>
+                          <span className="chuong-name" title={chuong.tenbt || chuong.TENBT}>
+                            {chuong.tenbt || chuong.TENBT}
+                          </span>
+                        </div>
+                        <span className={`chuong-price-badge ${giaChuong > 0 ? "has-price" : "is-free"}`}>
+                          {giaChuong > 0 ? `${giaChuong} Xu` : "Miễn phí"}
+                        </span>
                       </div>
-                      <span className="chuong-price" style={{ fontSize: '0.9rem', color: '#ffcc00', fontWeight: 'bold' }}>
-                        {(chuong.gia_xu || chuong.GIA_XU) > 0 ? `${chuong.gia_xu || chuong.GIA_XU} Xu` : "Miễn phí"}
-                      </span>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               ) : (
                 <p className="no-chapter" style={{ color: "#333", textAlign: "center", padding: "20px" }}>
-      Truyện hiện chưa có chương nào được duyệt.
-    </p>
+                  Truyện hiện chưa có chương nào được duyệt.
+                </p>
               )}
             </div>
           </div>

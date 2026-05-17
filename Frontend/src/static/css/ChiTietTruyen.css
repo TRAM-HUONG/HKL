@@ -154,29 +154,30 @@ body, input, textarea, select, .ql-editor {
 .modal-overlay {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(5px);
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1000;
+    padding: 20px;
 }
 
 .modal-content {
-    background: linear-gradient(to bottom, #ffffff, #f8f9ff);
-    width: 90%;
+    background: #ffffff;
+    width: 100%;
     max-width: 850px;
-    max-height: 85vh;
+    max-height: 80vh;
     border-radius: 24px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
 }
 
 .modal-header {
-    padding: 25px;
-    background: white;
+    padding: 20px 25px;
+    background: #ffffff;
     border-bottom: 1px solid #f1f3f5;
     display: flex;
     justify-content: space-between;
@@ -186,70 +187,107 @@ body, input, textarea, select, .ql-editor {
 .modal-header h2 {
     font-size: 1.4rem;
     color: #333;
+    font-weight: 700;
+    margin: 0;
 }
 
 .modal-body {
-    padding: 20px;
+    padding: 25px;
     overflow-y: auto;
+    background-color: #fafafa;
 }
 
-/* Danh sách chương dạng lưới (Grid) */
+/* Danh sách chương dạng lưới (Grid) chống vỡ khung */
 .chuong-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
 }
 
+/* Card item cho từng chương */
 .chuong-item-card {
-    padding: 16px;
     background: #ffffff;
-    border: 1px solid #edf2ff; /* Viền xanh lơ nhạt */
+    border: 1px solid #eaeaea;
     border-radius: 12px;
+    padding: 14px 16px;
     cursor: pointer;
-    transition: all 0.2s ease;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .chuong-item-card:hover {
-    background: #fff5f5; /* Hover sang hồng nhạt */
+    background: #fff9f9;
     border-color: #ffadad;
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(255, 173, 173, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(255, 173, 173, 0.12);
+}
+
+/* Khối text bên trái bọc chống tràn dữ liệu */
+.chuong-item-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    overflow: hidden;
+    flex: 1;
 }
 
 .chuong-number {
     font-size: 0.85rem;
-    color: #adb5bd;
+    color: #888888;
     font-weight: 500;
+    flex-shrink: 0;
 }
 
 .chuong-name {
+    font-size: 0.95rem;
     font-weight: 600;
-    color: #495057;
+    color: #333333;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
+    text-overflow: ellipsis; /* Tạo dấu ... khi text vượt chiều rộng card */
+}
+
+/* Badge giá tiền / miễn phí bên phải gọn gàng */
+.chuong-price-badge {
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.chuong-price-badge.is-free {
+    background-color: #e6fcf5;
+    color: #20c997;
+}
+
+.chuong-price-badge.has-price {
+    background-color: #fff9db;
+    color: #f59f00;
+    border: 1px solid #ffe066;
 }
 
 .close-btn {
-    background: #f8f9fa;
+    background: #f1f3f5;
     border: none;
-    width: 35px;
-    height: 35px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #adb5bd;
+    color: #868e96;
+    transition: all 0.2s;
 }
 
 .close-btn:hover {
     background: #ffe3e3;
-    color: #ff8e8e;
+    color: #ff6b6b;
 }
 
 /* CSS cho phần Đánh giá */
@@ -421,7 +459,7 @@ body, input, textarea, select, .ql-editor {
 
     .chuong-grid {
         grid-template-columns: 1fr; /* Grid biến thành 1 cột duy nhất trên điện thoại */
-        gap: 10px;
+        gap: 12px;
     }
 
     .modal-header {
@@ -429,7 +467,7 @@ body, input, textarea, select, .ql-editor {
     }
 
     .modal-body {
-        padding: 12px;
+        padding: 15px;
     }
 
     /* Phần Đánh giá */
