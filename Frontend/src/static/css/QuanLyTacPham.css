@@ -11,7 +11,7 @@
 
 .admin-page-wrapper {
     font-family: 'Inter', sans-serif;
-    background-color: var(--bg-main);
+  
     padding: 30px;
     min-height: 100vh;
 }

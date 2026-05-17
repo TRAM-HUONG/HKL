@@ -12,10 +12,7 @@
 .write-post-wrapper {
     min-height: 100vh;
     padding: 40px 20px;
-    background: 
-        radial-gradient(at 0% 100%, rgba(251, 162, 208, 0.15) 0px, transparent 50%),
-        radial-gradient(at 100% 0%, rgba(108, 126, 225, 0.15) 0px, transparent 50%),
-        #fcfcfd;
+   
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -55,7 +52,7 @@
 .post-form {
     display: grid;
     grid-template-columns: 350px 1fr; /* Cột trái nhỏ, cột phải cho Editor */
-    gap: 30px;
+    gap: 50px;
     padding: 30px;
 }
 
@@ -64,7 +61,7 @@
     flex-direction: column;
     gap: 20px;
     background: rgba(255,255,255,0.5);
-    padding: 25px;
+    padding: 45px;
     border-radius: 20px;
     border: 1px solid rgba(0,0,0,0.03);
 }
@@ -82,7 +79,7 @@
 }
 
 .form-group label {
-    font-weight: 700;
+    font-weight: 200;
     color: #475569;
     font-size: 0.9rem;
     padding-left: 4px;

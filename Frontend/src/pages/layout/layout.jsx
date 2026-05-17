@@ -3,7 +3,6 @@ import '../../static/css/layout.css';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 import heroBackground from '../../static/images/banner.png';
-// Import thêm ảnh mới theo yêu cầu
 import footerImg from '../../static/images/Footer.png';
 import bodyBackground from '../../static/images/Br.png';
 
@@ -12,7 +11,7 @@ const Layout = ({ children }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [theLoaiList, setTheLoaiList] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // Trạng thái đóng mở menu mobile
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); 
   
   const [searchTerm, setSearchTerm] = useState("");
   
@@ -70,7 +69,6 @@ const Layout = ({ children }) => {
         navigate("/login");
       }
     }
-    // Đóng menu khi chuyển trang trên mobile
     setIsMobileMenuOpen(false);
   }, [location.pathname, navigate]);
 
@@ -150,7 +148,6 @@ const Layout = ({ children }) => {
         }}
       >
         <nav className="navbar">
-          {/* Nút Hamburger cho Mobile */}
           <div className="mobile-menu-icon" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
             <span className="bar"></span>
             <span className="bar"></span>
@@ -173,7 +170,7 @@ const Layout = ({ children }) => {
                   className="dropdown-wrapper"
                   onMouseEnter={() => setShowDropdown(true)} 
                   onMouseLeave={() => setShowDropdown(false)}
-                  onClick={() => setShowDropdown(!showDropdown)} // Hỗ trợ click trên mobile
+                  onClick={() => setShowDropdown(!showDropdown)} 
                 >
                   Danh mục ▾
                   {showDropdown && (
@@ -231,25 +228,24 @@ const Layout = ({ children }) => {
         </div>
       </header>
 
-     {/* Chỉ hiển thị thanh tìm kiếm nếu KHÔNG PHẢI là TacGia và KHÔNG PHẢI là Admin */}
-{role !== 'TacGia' && role !== 'Admin' && (
-  <div className="search-wrapper">
-    <div className="search-box">
-      <input 
-        type="text" 
-        placeholder="Bạn muốn tìm truyện gì hôm nay?" 
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        onKeyDown={handleKeyDown}
-      />
-      <button className="search-icon" onClick={handleSearch}>🔍</button>
-    </div>
-  </div>
-)}
+      {role !== 'TacGia' && role !== 'Admin' && (
+        <div className="search-wrapper">
+          <div className="search-box">
+            <input 
+              type="text" 
+              placeholder="Bạn muốn tìm truyện gì hôm nay?" 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={handleKeyDown}
+            />
+            <button className="search-icon" onClick={handleSearch}>🔍</button>
+          </div>
+        </div>
+      )}
 
       <main className="main-content">{children}</main>
 
-    <footer 
+      <footer 
         className="footer-modern"
         style={{
           backgroundImage: `url(${footerImg})`,
@@ -257,11 +253,11 @@ const Layout = ({ children }) => {
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
           padding: '60px 0 30px 0',
-          color: '#462bb3' // Đảm bảo chữ trắng trên nền ảnh
+          color: '#462bb3' 
         }}
       >
         <div className="footer-container">
-          {/* Cột 1: Thông tin & Điều hướng */}
+          {/* Cột 1: Thông tin, Điều hướng & Các liên kết liên hệ hệ thống mới */}
           <div className="footer-column contact-info">
             <h2 className="footer-logo">HKL - Thế Giới Truyện</h2>
             <div className="footer-contact-details">
@@ -270,24 +266,52 @@ const Layout = ({ children }) => {
               <p>📞 Hotline: 0972380225</p>
             </div>
             
-            <nav className="footer-quick-links">
+            {/* Khối liên kết mạng xã hội & quản trị hệ thống theo yêu cầu */}
+            <div className="footer-social-networks" style={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <a 
+                href="https://www.facebook.com/share/1SGKA1fU2w/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="f-link"
+                style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: '600' }}
+              >
+                🔵 Fanpage Facebook Quảng Bá
+              </a>
+              <a 
+                href="https://zalo.me/g/x6t9ll3ux6mtkmw34nlu" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="f-link"
+                style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: '600' }}
+              >
+                💬 Nhóm Diễn Đàn Web Truyện (Zalo)
+              </a>
+              <a 
+                href="https://zalo.me/84972380225" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="f-link"
+                style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: '600', color: '#e67e22' }}
+              >
+                📞 Liên Hệ Nhà Quản Trị Hệ Thống
+              </a>
+            </div>
+            
+            <nav className="footer-quick-links" style={{ marginTop: '20px' }}>
               <Link to="/" className="f-link">Trang Chủ</Link>
-              
               {user && role !== 'DocGia' && (
                  <Link to="/nap-tien" className="f-link highlight-footer">Nạp tiền</Link>
               )}
             </nav>
           </div>
+
           <div className="footer-column slogan-area">
             <h3 className="slogan-title">Mở Sách Ngay - Thay Cảm Xúc</h3>
             <p className="slogan-text">
               "Nơi cảm xúc thăng hoa cùng từng trang truyện. Mở sách ngay, để trái tim bạn được chạm vào những câu chuyện tuyệt vời nhất!"
             </p>
-            
           </div>
         </div>
-        
-       
       </footer>
     </div>
   );

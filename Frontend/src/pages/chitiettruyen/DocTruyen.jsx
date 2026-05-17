@@ -244,6 +244,37 @@ const DocTruyen = () => {
     if (id) navigate(`/doc-truyen/${id}`);
   };
 
+  // Logic sao chép nội dung chương và mở link chia sẻ Facebook
+  const handleShareFacebookWithText = async () => {
+    if (!chuong) return;
+
+    // Lọc bỏ các thẻ HTML để lấy text thuần từ nội dung truyện (chuong.nd)
+    const rawContent = chuong.nd || chuong.ND || "";
+    const cleanText = rawContent.replace(/<[^>]*>/g, ""); 
+    
+    // Định dạng nội dung bài đăng mẫu hoàn chỉnh
+    const tieuDe = chuong.tenbt || chuong.TENBT || "";
+    const tenTruyen = chuong.tent || chuong.TENT || "";
+    const linkTruyen = window.location.href;
+
+    const textToCopy = `📖 ${tieuDe}\n🎬 Truyện: ${tenTruyen}\n\n${cleanText}\n\n👉 Đọc tiếp tại đây: ${linkTruyen}`;
+
+    try {
+      // Tiến hành sao chép tự động nội dung chương truyện vào Clipboard
+      await navigator.clipboard.writeText(textToCopy);
+      alert("Đã tự động sao chép toàn bộ nội dung chương! Bạn chỉ cần nhấn Ctrl+V (hoặc Dán) vào ô trạng thái trên Facebook để đăng truyện.");
+      
+      // Mở trình chia sẻ Facebook
+      const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(linkTruyen)}`;
+      window.open(fbUrl, "_blank", "width=600,height=500");
+    } catch (err) {
+      console.error("Không thể sao chép văn bản: ", err);
+      // Fallback mở bình thường nếu trình duyệt chặn clipboard
+      const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(linkTruyen)}`;
+      window.open(fbUrl, "_blank", "width=600,height=500");
+    }
+  };
+
   if (loading) return (
     <Layout>
       <div className="loader-container">
@@ -292,30 +323,47 @@ const DocTruyen = () => {
 
         <hr className="divider" />
 
-  
+        <article className="doc-content">
+          {hasAccess ? (
+            // HIỂN THỊ NỘI DUNG NẾU CÓ QUYỀN
+            <div 
+              className="ql-editor" // Thêm class này để đồng nhất định dạng với lúc soạn thảo
+              style={{ color: '#ff0202', lineHeight: '1.8', fontSize: '1.2rem' }}
+              dangerouslySetInnerHTML={{ 
+                __html: chuong.nd || chuong.ND || "Nội dung đang được cập nhật..." 
+              }} 
+            />
+          ) : (
+            // HIỂN THỊ PAYWALL NẾU CHƯA MUA (Giữ nguyên logic của bạn)
+            <div className="paywall-container" style={{ textAlign: "center", padding: "40px", border: "1px dashed #ffcc00", borderRadius: "10px", margin: "20px 0" }}>
+                <h2 style={{ color: "#ffcc00" }}>🔒 Chương này có phí</h2>
+                <p>Bạn cần <strong>{chuong.gia_xu || chuong.GIA_XU} Xu</strong> để đọc nội dung này.</p>
+                <div style={{ marginTop: "20px", display: "flex", justifyContent: "center", gap: "10px" }}>
+                    <button onClick={handleBuyChapter} className="nav-btn highlight">Mua Chương</button>
+                    <button onClick={() => navigate("/nap-xu")} className="nav-btn">Nạp thêm Xu</button>
+                </div>
+            </div>
+          )}
+        </article>
 
-<article className="doc-content">
-  {hasAccess ? (
-    // HIỂN THỊ NỘI DUNG NẾU CÓ QUYỀN
-    <div 
-      className="ql-editor" // Thêm class này để đồng nhất định dạng với lúc soạn thảo
-      style={{ color: '#ff0202', lineHeight: '1.8', fontSize: '1.2rem' }}
-      dangerouslySetInnerHTML={{ 
-        __html: chuong.nd || chuong.ND || "Nội dung đang được cập nhật..." 
-      }} 
-    />
-  ) : (
-    // HIỂN THỊ PAYWALL NẾU CHƯA MUA (Giữ nguyên logic của bạn)
-    <div className="paywall-container" style={{ textAlign: "center", padding: "40px", border: "1px dashed #ffcc00", borderRadius: "10px", margin: "20px 0" }}>
-        <h2 style={{ color: "#ffcc00" }}>🔒 Chương này có phí</h2>
-        <p>Bạn cần <strong>{chuong.gia_xu || chuong.GIA_XU} Xu</strong> để đọc nội dung này.</p>
-        <div style={{ marginTop: "20px", display: "flex", justifyContent: "center", gap: "10px" }}>
-            <button onClick={handleBuyChapter} className="nav-btn highlight">Mua Chương</button>
-            <button onClick={() => navigate("/nap-xu")} className="nav-btn">Nạp thêm Xu</button>
+        {/* CHỈ CÒN LẠI NÚT CHIA SẺ FACEBOOK (TỰ ĐỘNG COPY TRUYỆN) */}
+        <div className="share-container" style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "15px", margin: "25px 0", padding: "10px" }}>
+          <span style={{ fontSize: "0.95rem", color: "#aaa", fontWeight: "600" }}>Chia sẻ chương này:</span>
+          
+          <button 
+            onClick={handleShareFacebookWithText} 
+            style={{ 
+              display: "flex", alignItems: "center", gap: "8px", backgroundColor: "#1877F2", color: "white", 
+              border: "none", padding: "10px 20px", borderRadius: "20px", cursor: "pointer", fontWeight: "600", fontSize: "0.9rem" 
+            }}
+          >
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+            Chia sẻ lên Facebook
+          </button>
         </div>
-    </div>
-  )}
-</article>
+
         <hr className="divider" />
 
         <section className="comment-section">
@@ -394,6 +442,7 @@ const DocTruyen = () => {
 
         <div className="chapter-navigation bottom-final">
           <button
+            disabled={!prevChapter}
             disabled={!prevChapter}
             onClick={() => goToChapter(prevChapter.mabt || prevChapter.MABT)}
             className="nav-btn"

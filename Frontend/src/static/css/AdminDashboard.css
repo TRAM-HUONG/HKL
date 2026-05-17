@@ -17,7 +17,7 @@
 
 .admin-wow-dashboard {
     padding: 30px;
-    background-color: var(--bg-admin);
+    
     min-height: 100vh;
     font-family: 'Inter', sans-serif;
     color: var(--text-main);
