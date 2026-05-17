@@ -33,7 +33,7 @@ const Register = () => {
     try {
       // Tự động chuyển đổi link API giữa localhost và Render theo môi trường chạy của giao diện
       const API_BASE = window.location.hostname === 'localhost' 
-        ? "http://localhost:5000" 
+        ? "https://hkl-backend-v3uu.onrender.com" 
         : "https://hkl-backend-v3uu.onrender.com";
 
       const response = await fetch(`${API_BASE}/api/auth/register`, {
