@@ -9,7 +9,7 @@ const Lichsumua = () => {
     const [searchTerm, setSearchTerm] = useState(""); // State lưu từ khóa tìm kiếm
 
     useEffect(() => {
-        axios.get('https://hkl-backend-v3uu.onrender.com/api/admin/purchase-history')
+        axios.get('http://localhost:5000/api/admin/purchase-history')
             .then(res => {
                 if(res.data.success) setData(res.data.data);
                 setLoading(false);
@@ -39,7 +39,7 @@ const Lichsumua = () => {
                     {/* THANH TÌM KIẾM */}
                     <input 
                         type="text" 
-                        placeholder="Tìm mã mua, mã DG hoặc tên người mua..." 
+     H                   placeholder="Tìm mã mua, mã DG hoặc tên người mua..." 
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         style={{
