@@ -8,7 +8,8 @@ router.put('/update', userController.updateUser);
 router.get('/financial-info/:matk', userController.getFinancialInfo);
 router.post('/nap-tien', userController.napTien);
 router.get('/tac-gia/doanh-thu/:matg', userController.getDoanhThuTacGia);
-
+// Thêm route này để giải quyết lỗi 404 /api/user/withdraw/request
+router.post('/withdraw/request', userController.requestWithdrawal);
 // Đảm bảo dùng router.get (vì trang ManageWithdrawal dùng axios.get)
 router.get('/withdraw/requests', userController.getWithdrawalRequests);
 // Đảm bảo dùng router.put và đúng đường dẫn

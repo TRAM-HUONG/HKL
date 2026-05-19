@@ -11,7 +11,8 @@
 
 .write-post-wrapper {
     min-height: 100vh;
-    padding: 40px 20px;
+    height: auto; /* SỬA: Đảm bảo chiều cao tự động theo nội dung */
+    padding: 40px 20px 80px 20px; /* SỬA: Tăng padding-bottom để tạo khoảng trống cuộn an toàn ở đáy trang */
    
     display: flex;
     justify-content: center;
@@ -27,8 +28,9 @@
     border-radius: 30px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.05);
     border: 1px solid rgba(255,255,255,0.6);
-    overflow: hidden;
+    overflow: visible; /* SỬA: Đổi từ hidden thành visible để không bị cắt cụt nội dung/đổ bóng ở đáy */
     animation: slideUp 0.7s ease-out;
+    margin-bottom: 40px; /* THÊM: Khoảng cách giữa container và footer bên dưới */
 }
 
 @keyframes slideUp {
@@ -103,13 +105,13 @@
 
 /* Editor Section */
 .editor-wrapper {
-    height: 550px; /* Tăng chiều cao cho thoải mái sáng tác */
+    min-height: 550px; /* SỬA: Đổi từ height cố định thành min-height để linh hoạt hơn */
     display: flex;
     flex-direction: column;
 }
 
 .quill {
-    height: 100%;
+    flex: 1; /* SỬA: Cho Quill tự lấp đầy không gian wrapper */
     display: flex;
     flex-direction: column;
     border-radius: 20px;
@@ -128,6 +130,8 @@
     border: none !important;
     font-size: 1.1rem !important;
     background: #fff;
+    flex: 1; /* SỬA: Đảm bảo vùng soạn thảo chiếm trọn diện tích còn lại */
+    overflow-y: auto; /* SỬA: Tự xuất hiện thanh cuộn nội bộ nếu truyện quá dài, không làm vỡ form bên ngoài */
 }
 
 /* Nút bấm Submit */
@@ -161,6 +165,7 @@
         grid-column: span 1;
     }
 }
+
 /* WritePost.css */
 
 /* Định dạng chung cho các ô nhập liệu */
