@@ -149,25 +149,20 @@ exports.forgotPassword = async (req, res) => {
     const user = await pool.query("SELECT * FROM TAI_KHOAN WHERE EMAIL = $1", [email]);
     if (user.rows.length === 0) return res.status(404).json({ error: "Email không tồn tại!" });
 
-    // Tạo token chứa email, hết hạn sau 15 phút
+    // Tạo token chứa email khôi phục, hết hạn sau 15 phút
     const token = jwt.sign({ email }, SECRET_KEY, { expiresIn: '15m' });
-    
-    // ĐOẠN NÀY QUAN TRỌNG: Kiểm tra xem đang chạy ở đâu
-    // Nếu chạy trên RENDER (NODE_ENV là production), chúng ta CHẶN KHÔNG GỬI MAIL
-    if (process.env.NODE_ENV === 'production') {
-      
-      // Bạn có thể tự động cập nhật luôn mật khẩu tạm thời ở đây nếu muốn, 
-      // hoặc trả link reset trực tiếp về cho frontend xử lý đổi luôn
-      const resetLinkOnHost = `https://hkl-frontend.onrender.com/reset-password?token=${token}`;
 
+    // ⛔ TRÊN RENDER (NODE_ENV là production): KHÔNG gửi email, trả thẳng link về giao diện
+    if (process.env.NODE_ENV === 'production') {
+      const hostResetLink = `https://hkl-frontend.onrender.com/reset-password?token=${token}`;
       return res.json({ 
-        message: "Hệ thống đang chạy trên Render (Chế độ tự động): Đã bỏ qua bước gửi mail!", 
-        devLink: resetLinkOnHost // Trả link trực tiếp lên giao diện trên Host luôn
+        message: "Chạy trên Render: Đã chặn gửi email!", 
+        devLink: hostResetLink 
       });
     }
 
-    // NẾU CHẠY Ở LOCALHOST: Tiến hành gửi Email thật về hòm thư để test
-    const resetLinkLocal = `http://localhost:5173/reset-password?token=${token}`;
+    // ✅ DƯỚI LOCALHOST: Tiến hành gửi Email thật để test luồng mail nhận được
+    const localResetLink = `http://localhost:5173/reset-password?token=${token}`;
 
     await transporter.sendMail({
       from: '"HKL Story" <nguyentramhuong2k221@gmail.com>',
@@ -175,14 +170,13 @@ exports.forgotPassword = async (req, res) => {
       subject: '🔑 [LOCAL TEST] Khôi Phục Mật Khẩu HKL Story',
       html: `
         <div style="font-family: serif; padding: 20px; border: 1px solid #5d4037;">
-          <h3>Yêu cầu đặt lại mật khẩu (Chạy dưới Localhost)</h3>
-          <p>Chào bạn, bấm vào nút bên dưới để thực hiện đổi mật khẩu tại máy local:</p>
-          <a href="${resetLinkLocal}" style="background: #5d4037; color: white; padding: 10px 20px; text-decoration: none; display: inline-block;">ĐẶT LẠI MẬT KHẨU LOCAL</a>
-          <p>Link này sẽ hết hạn sau 15 phút.</p>
+          <h3>Yêu cầu đặt lại mật khẩu (Localhost)</h3>
+          <p>Bấm vào nút bên dưới để thực hiện đổi mật khẩu tại máy local của bạn:</p>
+          <a href="${localResetLink}" style="background: #5d4037; color: white; padding: 10px 20px; text-decoration: none; display: inline-block;">ĐẶT LẠI MẬT KHẨU LOCAL</a>
         </div>`
     });
 
-    res.json({ message: "Chế độ Local: Vui lòng kiểm tra email thật của bạn!" });
+    res.json({ message: "Chế độ Local: Đã gửi email khôi phục thành công!" });
   } catch (err) {
     console.error(">>> LỖI FORGOT PASSWORD:", err); 
     res.status(500).json({ error: "Lỗi hệ thống tại Backend!" });
