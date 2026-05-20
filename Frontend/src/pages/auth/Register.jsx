@@ -15,6 +15,7 @@ const Register = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false); 
+  const [hostConfirmLink, setHostConfirmLink] = useState(''); // State hứng link kích hoạt nhanh trên Render
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
@@ -31,6 +32,7 @@ const Register = () => {
     }
 
     try {
+      // Chỉ gọi duy nhất link Render theo ý bạn
       const response = await fetch("https://hkl-backend-v3uu.onrender.com/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -47,8 +49,14 @@ const Register = () => {
       const data = await response.json();
 
       if (response.ok) {
-        alert("Một email xác nhận đã được gửi. Vui lòng kiểm tra hộp thư của bạn để kích hoạt tài khoản.");
-        navigate("/login");
+        // Nếu backend đang chạy trên Render và gửi về confirmLink kích hoạt thẳng
+        if (data.confirmLink) {
+          setHostConfirmLink(data.confirmLink);
+          alert("Hệ thống đã chặn gửi Email! Bạn hãy bấm vào liên kết xuất hiện bên dưới để kích hoạt tài khoản trực tiếp.");
+        } else {
+          alert("Một email xác nhận đã được gửi. Vui lòng kiểm tra hộp thư của bạn để kích hoạt tài khoản.");
+          navigate("/login");
+        }
       } else {
         alert(data.error);
       }
@@ -162,6 +170,19 @@ const Register = () => {
               <button type="submit" className={styles['login-btn']}>
                 Tạo Tài Khoản
               </button>
+
+              {/* HIỂN THỊ KHUNG KÍCH HOẠT NHANH TRÊN RENDER TẠI ĐÂY */}
+              {hostConfirmLink && (
+                <div style={{ marginTop: '15px', textAlign: 'center', padding: '10px', background: '#fff3cd', border: '1px solid #ffeeba', borderRadius: '4px' }}>
+                  <p style={{ margin: 0, color: '#856404', fontSize: '14px' }}><b>Chế độ Host:</b> Không gửi mail xác nhận.</p>
+                  <a 
+                    href={hostConfirmLink} 
+                    style={{ color: '#0056b3', textDecoration: 'underline', fontWeight: 'bold', display: 'block', marginTop: '5px' }}
+                  >
+                    👉 Click vào đây để KÍCH HOẠT tài khoản ngay 👈
+                  </a>
+                </div>
+              )}
 
               <div className={styles['form-footer']}>
                 <span>Đã có tài khoản?</span>
