@@ -40,13 +40,6 @@ exports.login = async (req, res) => {
         res.status(500).json({ error: "Lỗi máy chủ!" });
     }
 };
-
-
-
-
-
-
-
 exports.register = async (req, res) => {
   const { tendn, mk, email, sdt, ngaysinh, role } = req.body;
 
@@ -59,7 +52,15 @@ exports.register = async (req, res) => {
     const token = jwt.sign({ tendn, mk, email, sdt, ngaysinh, role }, SECRET_KEY, { expiresIn: '10m' });
     const confirmLink = `https://hkl-backend-v3uu.onrender.com/api/auth/confirm-registration?token=${token}`;
 
+    // ⛔ CHỈ SỬA ĐOẠN NÀY: Nếu chạy trên Render (production) thì chặn gửi email, trả link về Frontend luôn
+    if (process.env.NODE_ENV === 'production') {
+      return res.status(200).json({ 
+        message: "Chạy trên Render: Đã chặn gửi email kích hoạt!", 
+        confirmLink: confirmLink 
+      });
+    }
   
+    // ✅ DƯỚI LOCALHOST: Giữ nguyên đoạn gửi Email thật với giao diện cũ của bạn
     await transporter.sendMail({
       from: '"HKL Story" <nguyentramhuong2k221@gmail.com>',
       to: email, 
