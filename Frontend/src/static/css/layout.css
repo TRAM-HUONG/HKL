@@ -126,7 +126,7 @@
 .card-hidden { opacity: 0; transform: translateZ(-300px); }
 
 .search-wrapper { margin-top: 100px; display: flex; justify-content: center; }
-.search-box { background: white; width: 500px; padding: 12px 25px; border-radius: 30px; display: flex; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+.search-box { background: white; width: 500px; padding: 12px 25px; border-radius: 30px; display: flex; box-shadow: 0 4px 15px rgb(255, 0, 0); }
 .search-box input { flex: 1; border: none; outline: none; font-size: 1rem; }
 .search-icon { background: none; border: none; font-size: 1.2rem; cursor: pointer; }
 

@@ -9,19 +9,25 @@ const ResetPassword = () => {
   const navigate = useNavigate();
   const token = searchParams.get("token");
 
-  const handleUpdate = async (e) => {
+const handleUpdate = async (e) => {
     e.preventDefault();
-    const res = await fetch("https://hkl-backend-v3uu.onrender.com/api/auth/reset-password", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token, newPassword }),
-    });
-    const data = await res.json();
-    if (res.ok) {
-      alert("Thành công! Hãy đăng nhập lại.");
-      navigate("/login");
-    } else {
-      alert(data.error);
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/reset-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token, newPassword }), // Gửi kèm mã mã hóa và mật khẩu mới
+      });
+      const data = await res.json();
+      
+      if (res.ok) {
+        alert("Thành công! Hãy đăng nhập lại.");
+        navigate("/login");
+      } else {
+        // Hiển thị chính xác thông báo lỗi từ phía Backend trả về (Ví dụ: "Link đã hết hạn hoặc không hợp lệ!")
+        alert(data.error || "Cập nhật mật khẩu thất bại!"); 
+      }
+    } catch (err) {
+      alert("Lỗi kết nối đến máy chủ Backend!");
     }
   };
 

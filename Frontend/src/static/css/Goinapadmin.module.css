@@ -120,26 +120,45 @@ h2.page-title,
 }
 
 /* ==========================================================================
-   INPUTS, THANH TÌM KIẾM CHUẨN CỔ ĐIỂN
+   INPUTS, THANH TÌM KIẾM CHUẨN CỔ ĐIỂN - ĐẬP TAN BÓNG ĐEN VÀ MÀU XÁM MỜ
    ========================================================================== */
-.search-input,
-input[type="text"] {
+.search-input {
+    display: block !important;
+    width: 280px !important;
     padding: 11px 18px !important;
     border: 1px solid var(--gold-solid) !important;
-    background: #ffffff !important;
-    color: var(--text-dark) !important;
+    background: #ffffff !important;           /* Ép chết màu trắng */
+    background-color: #ffffff !important;     /* Bọc lót màu trắng */
+    color: var(--text-dark) !important;        /* Chữ nâu thẫm hoàng gia */
     font-family: 'Playfair Display', serif !important;
     font-weight: 600 !important;
     font-size: 0.95rem !important;
     outline: none !important;
-    box-shadow: inset 0 1px 4px rgba(0,0,0,0.05) !important;
+    border-radius: 4px !important;            /* Bo vuông nhẹ đồng bộ hệ thống */
+    
+    /* DIỆT TẬN GỐC HIỆU ỨNG BÓNG ĐEN INSET VÀ LỌC MÀU MỜ KÍNH */
+    box-shadow: none !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    
+    /* Vô hiệu hóa tùy biến giao diện của hệ điều hành / trình duyệt khác */
+    -webkit-appearance: none !important;
+    appearance: none !important;
     transition: var(--royal-transition) !important;
 }
 
-.search-input:focus,
-input[type="text"]:focus {
+/* Đổi màu chữ Placeholder (Chữ gợi ý) cho dễ nhìn trên nền trắng */
+.search-input::placeholder {
+    color: #ff0000 !important;
+    -webkit-text-fill-color: #ff7b00 !important;
+    opacity: 0.7 !important;
+    font-style: italic !important;
+}
+
+.search-input:focus {
     border-color: var(--royal-red) !important;
-    box-shadow: 0 0 5px rgba(128, 0, 0, 0.1) !important;
+    box-shadow: 0 0 8px rgba(128, 0, 0, 0.15) !important;
 }
 
 /* ==========================================================================
@@ -201,7 +220,7 @@ input[type="text"]:focus {
     background: #ffffff !important;
 }
 
-/* Tiêu đề các cột trong bảng (Thơ mộng, trang nghiêm - Chuyển sang màu đỏ hoàng gia) */
+/* Tiêu đề các cột trong bảng */
 .premium-table th, .admin-table th {
     font-family: 'Playfair Display', serif !important;
     background: var(--parchment-dark) !important;
@@ -271,7 +290,6 @@ input[type="text"]:focus {
 /* ==========================================================================
    BẢO VỆ MÀU TIỀN TỆ VÀ LINH THẠCH XU XANH / ĐỎ KHÔNG BỊ PHAI
    ========================================================================== */
-/* Số tiền VND nạp (Hiện chuẩn màu Xanh Ngọc lục bảo rực rỡ) */
 .text-success,
 .premium-table td.text-success,
 .admin-table td.text-success {
@@ -280,7 +298,6 @@ input[type="text"]:focus {
     font-weight: 800 !important;
 }
 
-/* Số Xu nhận được (Hiện chuẩn màu Xanh Hoàng Gia hiện đại năng lượng) */
 .text-info,
 .premium-table td.text-info,
 .admin-table td.text-info {
@@ -289,7 +306,6 @@ input[type="text"]:focus {
     font-weight: 800 !important;
 }
 
-/* Số xu bị trừ / tiêu tốn (Màu đỏ tươi flats) */
 .text-danger,
 .premium-table td.text-danger,
 .admin-table td.text-danger {
@@ -321,12 +337,11 @@ small {
     text-align: left !important;
 }
 
-/* Label tiêu đề trường thông tin nhập liệu (Chuyển sang màu Đỏ nhung hoàng gia) */
 .form-group label {
     display: block !important;
     font-family: 'Playfair Display', serif !important;
     font-weight: 700 !important;
-    color: var(--royal-red) !important; /* Màu đỏ thẫm quý tộc đồng bộ */
+    color: var(--royal-red) !important;
     margin-bottom: 8px !important;
     font-size: 1.05rem !important;
 }
@@ -352,7 +367,7 @@ small {
 }
 
 /* ==========================================================================
-   PILL TRẠNG THÁI / LOẠI GIAO DỊCH (Lịch sử mua)
+   PILL TRẠNG THÁI / LOẠI GIAO DỊCH
    ========================================================================== */
 .status-pill {
     padding: 4px 12px !important;
@@ -362,14 +377,12 @@ small {
     border: 1px solid transparent !important;
 }
 
-/* Mua Trọn Gói phong cách Sắc Phong hoàng tộc */
 .status-pill.TRON_GOI {
     background: var(--parchment-dark) !important;
     color: var(--royal-red) !important;
     border-color: var(--gold-solid) !important;
 }
 
-/* Mua chương lẻ phong cách nhã nhặn quý phái */
 .status-pill.CHUONG_LE {
     background: #f3f4f6 !important;
     color: #4b5563 !important;

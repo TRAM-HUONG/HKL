@@ -22,8 +22,12 @@ const DocTruyen = () => {
   useEffect(() => {
     const fetchContent = async () => {
       setLoading(true);
+      // KHẮC PHỤC LỖI: Reset lại trạng thái chương và quyền truy cập cũ trước khi tải chương mới
+      setChuong(null);
+      setHasAccess(false);
+      
       try {
-        const res = await fetch(`https://hkl-backend-v3uu.onrender.com/api/chuong/noidung/${mabt}`);
+        const res = await fetch(`http://localhost:5000/api/chuong/noidung/${mabt}`);
         const data = await res.json();
         setChuong(data);
 
@@ -32,18 +36,28 @@ const DocTruyen = () => {
         const giaChuong = data.gia_xu || data.GIA_XU || 0;
 
         // 1. Kiểm tra quyền truy cập nếu chương có phí
-        if (giaChuong > 0) {
-          const madg = user?.MADG || user?.madg;
-          if (!madg) {
-            setHasAccess(false);
-          } else {
-            const checkRes = await fetch(`https://hkl-backend-v3uu.onrender.com/api/chuong/check-quyen?mabt=${mabt}&madg=${madg}`);
-            const checkData = await checkRes.json();
-            setHasAccess(checkData.purchased);
-          }
-        } else {
-          setHasAccess(true); // Miễn phí thì cho đọc
-        }
+        // 1. Kiểm tra quyền truy cập nếu chương có phí
+if (giaChuong > 0) {
+  // Nếu chưa đăng nhập thì chắc chắn không có quyền đọc chương mất phí
+  if (!user) {
+    setHasAccess(false);
+  } else {
+    const role = user.VAI_TRO || user.vai_tro;
+
+    // Quy trình ưu tiên: Admin và Tác giả được đọc mọi chương miễn phí (Giống ChiTietTruyen)
+    if (role === 'Admin' || role === 'TacGia') {
+      setHasAccess(true);
+    } else {
+      // Nếu là Độc giả bình thường, tiến hành gọi API check xem đã mua chưa
+      const madg = user.MADG || user.madg;
+      const checkRes = await fetch(`http://localhost:5000/api/chuong/check-quyen?mabt=${mabt}&madg=${madg}`);
+      const checkData = await checkRes.json();
+      setHasAccess(checkData.purchased);
+    }
+  }
+} else {
+  setHasAccess(true); // Miễn phí thì cho đọc công khai
+}
 
         // 2. Lưu lịch sử đọc
         const storedUser = localStorage.getItem("user");
@@ -77,7 +91,7 @@ const DocTruyen = () => {
     const gia = chuong.gia_xu || chuong.GIA_XU;
     if (window.confirm(`Xác nhận dùng ${gia} Xu để mở khóa chương này?`)) {
       try {
-        const res = await fetch("https://hkl-backend-v3uu.onrender.com/api/chuong/mua-le", {
+        const res = await fetch("http://localhost:5000/api/chuong/mua-le", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -101,7 +115,7 @@ const DocTruyen = () => {
   };
 
   const loadBinhLuan = () => {
-    fetch(`https://hkl-backend-v3uu.onrender.com/api/binh-luan/chuong/${mabt}`)
+    fetch(`http://localhost:5000/api/binh-luan/chuong/${mabt}`)
       .then(res => res.ok ? res.json() : [])
       .then(data => setBinhLuan(data))
       .catch(err => {
@@ -161,7 +175,7 @@ const DocTruyen = () => {
     };
 
     try {
-        const res = await fetch(`https://hkl-backend-v3uu.onrender.com/api/binh-luan`, {
+        const res = await fetch(`http://localhost:5000/api/binh-luan`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
@@ -180,7 +194,7 @@ const DocTruyen = () => {
     if (!window.confirm("Bạn có chắc muốn xóa bình luận này?")) return;
     const userId = user?.MADG || user?.madg || user?.MATG || user?.matg;
     try {
-      const res = await fetch(`https://hkl-backend-v3uu.onrender.com/api/binh-luan/${id}`, {
+      const res = await fetch(`http://localhost:5000/api/binh-luan/${id}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId })
@@ -200,7 +214,7 @@ const DocTruyen = () => {
     if (!window.confirm("Bạn có chắc muốn xóa phản hồi này?")) return;
     const userId = user?.MADG || user?.madg || user?.MATG || user?.matg;
     try {
-      const res = await fetch(`https://hkl-backend-v3uu.onrender.com/api/binh-luan/phan-hoi/${id}`, {
+      const res = await fetch(`http://localhost:5000/api/binh-luan/phan-hoi/${id}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId })
@@ -217,7 +231,7 @@ const DocTruyen = () => {
   };
 
   const saveReadingHistory = (madg, mat, tenbt) => {
-    fetch(`https://hkl-backend-v3uu.onrender.com/api/lich-su/update`, {
+    fetch(`http://localhost:5000/api/lich-su/update`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ madg, mat, tenbt })
@@ -227,7 +241,7 @@ const DocTruyen = () => {
   };
 
   const fetchDanhSachChuong = (maTruyen) => {
-    fetch(`https://hkl-backend-v3uu.onrender.com/api/chuong/truyen/${maTruyen}`)
+    fetch(`http://localhost:5000/api/chuong/truyen/${maTruyen}`)
       .then((res) => res.json())
       .then((data) => {
         setDanhSachChuong(data);
@@ -254,7 +268,7 @@ const DocTruyen = () => {
     
     // Định dạng nội dung bài đăng mẫu hoàn chỉnh
     const tieuDe = chuong.tenbt || chuong.TENBT || "";
-    const tenTruyen = chuong.tent || chuong.TENT || "";
+    const tenTruyen = chuong.tent || chuong.TENT || "---";
     const linkTruyen = window.location.href;
 
     const textToCopy = `📖 ${tieuDe}\n🎬 Truyện: ${tenTruyen}\n\n${cleanText}\n\n👉 Đọc tiếp tại đây: ${linkTruyen}`;
@@ -346,7 +360,7 @@ const DocTruyen = () => {
           )}
         </article>
 
-        {/* CHỈ CÒN LẠI NÚT CHIA SẺ FACEBOOK (TỰ ĐỘNG COPY TRUYỆN) */}
+        {/* CHÂN TRANG VÀ CÁC THÀNH PHẦN KHÁC GIỮ NGUYÊN */}
         <div className="share-container" style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "15px", margin: "25px 0", padding: "10px" }}>
           <span style={{ fontSize: "0.95rem", color: "#aaa", fontWeight: "600" }}>Chia sẻ chương này:</span>
           
@@ -442,7 +456,6 @@ const DocTruyen = () => {
 
         <div className="chapter-navigation bottom-final">
           <button
-            disabled={!prevChapter}
             disabled={!prevChapter}
             onClick={() => goToChapter(prevChapter.mabt || prevChapter.MABT)}
             className="nav-btn"

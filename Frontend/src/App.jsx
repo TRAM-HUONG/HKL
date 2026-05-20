@@ -64,6 +64,7 @@ function App() {
         <Route path="/viet-bai" element={<WritePost />} />
         <Route path="/nap-tien" element={<NapTien />} />
         <Route path="/thanh-toan" element={<Payment />} />
+  
         {/* Admin Routes */}
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/ban-thao" element={<DanhSachBanthao />} />

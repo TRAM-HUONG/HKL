@@ -12,7 +12,7 @@ const GoiNapList = () => {
 
     const fetchPackages = async () => {
         try {
-            const res = await axios.get('https://hkl-backend-v3uu.onrender.com/api/admin/goi-nap/all');
+            const res = await axios.get('http://localhost:5000/api/admin/goi-nap/all');
             if (res.data.success) {
                 setPackages(res.data.data);
             }
@@ -30,7 +30,7 @@ const GoiNapList = () => {
     const handleDelete = async (magoi) => {
         if (window.confirm(`Bạn có chắc muốn xóa gói ${magoi}?`)) {
             try {
-                const res = await axios.delete(`https://hkl-backend-v3uu.onrender.com/api/admin/goi-nap/delete/${magoi}`);
+                const res = await axios.delete(`http://localhost:5000/api/admin/goi-nap/delete/${magoi}`);
                 if (res.data.success) {
                     alert("Xóa thành công!");
                     setPackages(packages.filter(p => p.magoi !== magoi));
@@ -62,22 +62,13 @@ const GoiNapList = () => {
                     </div>
 
                     {/* THANH TÌM KIẾM */}
-                    <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
+                    <div className={styles['search-action-group']}>
                         <input 
                             type="text" 
+                            className={styles['search-input']}
                             placeholder="Tìm mã gói hoặc tên gói..." 
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            style={{
-                                padding: '10px 15px',
-                                borderRadius: '20px',
-                                border: '1px solid rgba(108, 126, 225, 0.5)',
-                                background: 'rgba(255, 255, 255, 0.1)',
-                                color: '#fff',
-                                width: '280px',
-                                outline: 'none',
-                                backdropFilter: 'blur(5px)'
-                            }}
                         />
                         <button className={styles['btn-submit']} style={{width: 'auto', padding: '10px 20px', margin: 0}} onClick={() => navigate('/admin/goi-nap/create')}>
                             ➕ Thêm Gói Mới

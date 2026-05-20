@@ -19,11 +19,13 @@ exports.getDanhSachChuong = async (req, res) => {
 };
 
 // 2. Lấy nội dung chi tiết chương (QUAN TRỌNG: Phải lấy thêm cột MAT)
+// 2. Lấy nội dung chi tiết chương (QUAN TRỌNG: Phải lấy thêm cột MAT và GIA_XU)
 exports.getNoiDungChuong = async (req, res) => {
     const { mabt } = req.params; 
     try {
+        // SỬA TẠI ĐÂY: Thêm cột GIA_XU vào chuỗi SELECT
         const query = `
-            SELECT MABT, TENBT, ND, MAT 
+            SELECT MABT, TENBT, ND, MAT, GIA_XU
             FROM BAN_THAO 
             WHERE MABT = $1 AND TRANGTHAI = 'Đã Duyệt'
         `;
