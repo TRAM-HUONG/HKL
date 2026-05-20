@@ -152,10 +152,19 @@ exports.forgotPassword = async (req, res) => {
     // Tạo token chứa email, hết hạn sau 15 phút
     const token = jwt.sign({ email }, SECRET_KEY, { expiresIn: '15m' });
     
-    // --- SỬA DÒNG NÀY ---
-  
+    // Link dẫn tới trang Reset Password ở Frontend
     const resetLink = `http://localhost:5173/reset-password?token=${token}`;
 
+    // KIỂM TRA MÔI TRƯỜNG CHẠY (DEVELOPMENT VS PRODUCTION)
+    if (process.env.NODE_ENV === 'development' || !process.env.NODE_ENV) {
+      // Nếu ở localhost: Không gửi mail, trả thẳng link về cho Frontend xử lý
+      return res.json({ 
+        message: "Chế độ Local: Đã tạo link khôi phục thành công!", 
+        devLink: resetLink 
+      });
+    }
+
+    // Nếu ở trên Host thực tế: Tiến hành gửi Email thật
     await transporter.sendMail({
       from: '"HKL Story" <nguyentramhuong2k221@gmail.com>',
       to: email,
@@ -175,7 +184,6 @@ exports.forgotPassword = async (req, res) => {
     res.status(500).json({ error: "Lỗi hệ thống!" });
   }
 };
-
 // 2. Cập nhật mật khẩu mới vào Database
 exports.resetPassword = async (req, res) => {
   const { token, newPassword } = req.body;
