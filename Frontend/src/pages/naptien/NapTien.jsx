@@ -22,7 +22,7 @@ const NapTien = () => {
     // Tải danh sách gói nạp từ Backend
     const fetchGoiNap = async () => {
       try {
-        const res = await axios.get('https://hkl-backend-v3uu.onrender.com/api/admin/goi-nap/all');
+        const res = await axios.get('http://localhost:5000/api/admin/goi-nap/all');
         if (res.data.success) {
           setDanhSachGoi(res.data.data);
         }
