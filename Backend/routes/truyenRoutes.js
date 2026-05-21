@@ -18,25 +18,38 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// --- CÁC ROUTE CỐ ĐỊNH (PHẢI ĐỂ TRÊN CÙNG) ---
+// =========================================================================
+// 1. --- CÁC ROUTE CỐ ĐỊNH CHẤT LƯỢNG (BẮT BUỘC ĐỂ TRÊN CÙNG) ---
+// =========================================================================
 router.post('/register', upload.single('hinhanh'), truyenController.registerTruyen);
 router.post('/danh-gia', chiTietController.postDanhGia);
+router.post('/mua-tron-goi', truyenController.muaTronGoi);
 
+// =========================================================================
+// 2. --- CÁC ROUTE CÓ BIẾN DYNAMIC CHI TIẾT (PHẢI ĐỂ TRÊN /:mat) ---
+// =========================================================================
 
-
-
-// --- CÁC ROUTE CÓ THAM SỐ BIẾN ---
+// Khớp với URL: https://hkl-backend-v3uu.onrender.com/api/truyen/:mat/danh-gia
 router.get('/:mat/danh-gia', chiTietController.getDanhGiaByMat); 
 
-// Dòng này rất "nguy hiểm", nếu để trên cùng nó sẽ hốt hết mọi request dạng /xxx
+// ĐÃ SỬA: Bỏ chữ /truyen dư thừa ở đầu. Khớp với URL: https://hkl-backend-v3uu.onrender.com/api/truyen/:mat/cung-the-loai
+router.get('/:mat/cung-the-loai', chiTietController.getTruyenCungTheLoai);
+
+// ĐÃ SỬA: Bỏ chữ /truyen dư thừa ở đầu. Khớp với URL: https://hkl-backend-v3uu.onrender.com/api/truyen/:mat/chuong
+router.get('/:mat/chuong', chuongController.getDanhSachChuong); 
+
+// =========================================================================
+// 3. --- ROUTE NGUY HIỂM (BẮT BUỘC PHẢI ĐỂ DƯỚI CÙNG CỦA CÁC ĐƯỜNG DẪN /:mat) ---
+// =========================================================================
+// Dòng này hốt tất cả request có dạng /api/truyen/XYZ. Do đó các route /:mat/xxx phải nằm TRÊN nó.
 router.get('/:mat', chiTietController.getChiTietByMat); 
 
+// =========================================================================
+// 4. --- CÁC ROUTE KHÁC ---
+// =========================================================================
 router.get('/', truyenController.getAllTruyen);
-router.get('/truyen/:mat/chuong', chuongController.getDanhSachChuong);
 router.get('/noidung/:mabt', chuongController.getNoiDungChuong);
 router.delete('/danh-gia/:madgia', chiTietController.deleteDanhGia);
-// Ví dụ trong routes/truyenRoutes.js hoặc binhLuanRoutes.js
 router.delete('/phan-hoi/:maph', chiTietController.deletePhanHoi);
-// Backend/routes/truyenRoutes.js
-router.post('/mua-tron-goi', truyenController.muaTronGoi);
+
 module.exports = router;

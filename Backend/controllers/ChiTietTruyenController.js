@@ -136,3 +136,38 @@ exports.deletePhanHoi = async (req, res) => {
         res.status(500).json({ error: "Lỗi hệ thống khi xóa phản hồi" });
     }
 };
+// Lấy danh sách truyện cùng thể loại (Gợi ý)
+exports.getTruyenCungTheLoai = async (req, res) => {
+    const { mat } = req.params; // Mã truyện hiện tại đang xem
+    try {
+        // Bước 1: Tìm mã thể loại (MATL) của truyện hiện tại
+        const queryTheLoai = `SELECT MATL FROM CHI_TIET_TRUYEN WHERE MAT = $1`;
+        const resTheLoai = await pool.query(queryTheLoai, [mat]);
+
+        if (resTheLoai.rows.length === 0 || !resTheLoai.rows[0].matl) {
+            return res.json([]); // Nếu truyện chưa phân loại, trả về mảng rỗng
+        }
+
+        const maTheLoai = resTheLoai.rows[0].matl;
+
+        // Bước 2: Lấy các truyện khác có cùng mã thể loại đó (Giới hạn lấy 4 truyện)
+        const queryGoiY = `
+            SELECT 
+                t.MAT, 
+                t.TENT, 
+                t.HINHANH,
+                (SELECT COUNT(*) FROM BAN_THAO bt WHERE bt.MAT = t.MAT AND bt.TRANGTHAI = 'Đã Duyệt') as so_chuong,
+                COALESCE((SELECT AVG(SOSAO) FROM DANH_GIA dg WHERE dg.MAT = t.MAT), 0) as sao_trung_binh
+            FROM TRUYEN t
+            JOIN CHI_TIET_TRUYEN ct ON t.MAT = ct.MAT
+            WHERE ct.MATL = $1 AND t.MAT != $2
+            LIMIT 4
+        `;
+        
+        const result = await pool.query(queryGoiY, [maTheLoai, mat]);
+        res.json(result.rows);
+    } catch (err) {
+        console.error("Lỗi lấy truyện cùng thể loại:", err.message);
+        res.status(500).json({ error: "Lỗi hệ thống" });
+    }
+};

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams, useNavigate, useLocation, Link } from "react-router-dom"; // Thêm Link từ thư viện
 import Layout from "../layout/layout.jsx";
 import "../../static/css/ChiTietTruyen.css";
 
@@ -23,13 +23,19 @@ const ChiTietTruyen = () => {
   const [replyTarget, setReplyTarget] = useState(null);
   const [noiDungPH, setNoiDungPH] = useState("");
 
+  // --- 1. STATE LƯU TRỮ TRUYỆN GỢI Ý ---
+  const [danhSachGoiY, setDanhSachGoiY] = useState([]);
+
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
 
-    fetch(`http://localhost:5000/api/truyen/${mat}`)
+    setLoading(true); // Bật loading mỗi khi đổi sang xem một truyện khác
+    
+    // Tải chi tiết truyện chính
+    fetch(`https://hkl-backend-v3uu.onrender.com/api/truyen/${mat}`)
       .then((res) => res.json())
       .then((data) => {
         setTruyen(data);
@@ -40,11 +46,21 @@ const ChiTietTruyen = () => {
         setLoading(false);
       });
 
+    // --- 2. GỌI API LẤY TRUYỆN CÙNG THỂ LOẠI ---
+    fetch(`https://hkl-backend-v3uu.onrender.com/api/truyen/${mat}/cung-the-loai`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setDanhSachGoiY(data);
+        }
+      })
+      .catch((err) => console.error("Lỗi tải truyện gợi ý:", err));
+
     loadDanhGia();
-  }, [mat]);
+  }, [mat]); // Khi click truyện gợi ý, 'mat' thay đổi, useEffect sẽ chạy lại toàn bộ
 
   const loadDanhGia = () => {
-    fetch(`http://localhost:5000/api/truyen/${mat}/danh-gia`)
+    fetch(`https://hkl-backend-v3uu.onrender.com/api/truyen/${mat}/danh-gia`)
       .then((res) => res.json())
       .then((data) => setDanhGia(data))
       .catch((err) => console.error("Lỗi tải đánh giá:", err));
@@ -52,14 +68,12 @@ const ChiTietTruyen = () => {
 
   // --- LOGIC XỬ LÝ MUA CHƯƠNG LẺ ---
   const handleChapterClick = async (chuong) => {
-    // ĐƯA LOGIC KIỂM TRA MIỄN PHÍ LÊN TRÊN ĐẦU
     const giaChuong = chuong.gia_xu || chuong.GIA_XU || 0;
     if (giaChuong === 0) {
         navigate(`/doc-truyen/${chuong.mabt || chuong.MABT}`);
         return;
     }
 
-    // SAU ĐÓ MỚI KIỂM TRA ĐĂNG NHẬP CHO CHƯƠNG CÓ PHÍ
     if (!user) {
         alert("Vui lòng đăng nhập!");
         navigate("/login");
@@ -68,16 +82,14 @@ const ChiTietTruyen = () => {
 
     const role = user.VAI_TRO || user.vai_tro;
 
-    // QUY TRÌNH ƯU TIÊN: Admin và Tác giả được đọc mọi chương miễn phí
     if (role === 'Admin' || role === 'TacGia') {
         navigate(`/doc-truyen/${chuong.mabt || chuong.MABT}`);
         return;
     }
 
-    // Nếu có phí, kiểm tra quyền sở hữu trước khi navigate
     try {
       const madg = user.MADG || user.madg;
-      const checkRes = await fetch(`http://localhost:5000/api/chuong/check-quyen?mabt=${chuong.mabt}&madg=${madg}`);
+      const checkRes = await fetch(`https://hkl-backend-v3uu.onrender.com/api/chuong/check-quyen?mabt=${chuong.mabt}&madg=${madg}`);
       const checkData = await checkRes.json();
 
       if (checkData.purchased) {
@@ -94,7 +106,7 @@ const ChiTietTruyen = () => {
 
   const thucHienMuaChuongLe = async (chuong) => {
     try {
-      const res = await fetch("http://localhost:5000/api/chuong/mua-le", {
+      const res = await fetch("https://hkl-backend-v3uu.onrender.com/api/chuong/mua-le", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -126,7 +138,7 @@ const ChiTietTruyen = () => {
     
     if (window.confirm(`Xác nhận dùng ${giaFull} Xu để mua trọn bộ truyện này?`)) {
       try {
-        const res = await fetch("http://localhost:5000/api/truyen/mua-tron-goi", {
+        const res = await fetch("https://hkl-backend-v3uu.onrender.com/api/truyen/mua-tron-goi", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -175,7 +187,7 @@ const ChiTietTruyen = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/truyen/danh-gia`, {
+      const response = await fetch(`https://hkl-backend-v3uu.onrender.com/api/truyen/danh-gia`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -206,7 +218,7 @@ const ChiTietTruyen = () => {
     const isTG = user?.VAI_TRO === 'TacGia' || user?.vai_tro === 'TacGia';
 
     try {
-      const response = await fetch(`http://localhost:5000/api/binh-luan`, {
+      const response = await fetch(`https://hkl-backend-v3uu.onrender.com/api/binh-luan`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -233,7 +245,7 @@ const ChiTietTruyen = () => {
     if (!window.confirm("Bạn có chắc muốn xóa phản hồi này?")) return;
     const userId = user?.MADG || user?.madg || user?.MATG || user?.matg;
     try {
-      const res = await fetch(`http://localhost:5000/api/binh-luan/phan-hoi/${id}`, {
+      const res = await fetch(`https://hkl-backend-v3uu.onrender.com/api/binh-luan/phan-hoi/${id}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId })
@@ -253,7 +265,7 @@ const ChiTietTruyen = () => {
     if (!window.confirm("Bạn có chắc muốn xóa đánh giá này?")) return;
     const currentMadg = user?.MADG || user?.madg;
     try {
-      const response = await fetch(`http://localhost:5000/api/truyen/danh-gia/${madgia}`, {
+      const response = await fetch(`https://hkl-backend-v3uu.onrender.com/api/truyen/danh-gia/${madgia}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ madg: currentMadg }),
@@ -272,7 +284,7 @@ const ChiTietTruyen = () => {
   const handleStartReading = () => {
     setLoadingChuong(true);
     setShowModal(true);
-    fetch(`http://localhost:5000/api/chuong/truyen/${mat}`)
+    fetch(`https://hkl-backend-v3uu.onrender.com/api/chuong/truyen/${mat}`)
       .then((res) => res.json())
       .then((data) => {
         setDanhSachChuong(data);
@@ -294,7 +306,7 @@ const ChiTietTruyen = () => {
           <div className="chitiet-left">
             <img
               className="chitiet-img"
-              src={`http://localhost:5000/images/${truyen.hinhanh || truyen.HINHANH || ""}`}
+              src={`https://hkl-backend-v3uu.onrender.com/images/${truyen.hinhanh || truyen.HINHANH || ""}`}
               alt={truyen.tent || truyen.TENT}
               onError={(e) => {
                 e.target.src = "https://via.placeholder.com/300x450?text=No+Image";
@@ -349,7 +361,6 @@ const ChiTietTruyen = () => {
                 BẮT ĐẦU ĐỌC
               </button>
 
-              {/* Chỉ hiển thị nút mua nếu là Độc giả và truyện có phí */}
               {user && (user.VAI_TRO === 'DocGia' || user.vai_tro === 'DocGia') && (truyen.gia_tron_goi || truyen.GIA_TRON_GOI) > 0 && (
                 <button 
                   className="read-now-btn" 
@@ -363,6 +374,7 @@ const ChiTietTruyen = () => {
           </div>
         </div>
 
+        {/* --- KHỐI ĐÁNH GIÁ TỪ ĐỘC GIẢ --- */}
         <div className="chitiet-reviews-section">
           <div className="reviews-header-flex" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <h3 onClick={() => setShowReviews(!showReviews)} style={{ cursor: "pointer" }}>
@@ -503,6 +515,45 @@ const ChiTietTruyen = () => {
             </div>
           )}
         </div>
+
+        {/* --- 3. KHỐI HIỂN THỊ DANH SÁCH TRUYỆN GỢI Ý (THỂ LOẠI) --- */}
+    {danhSachGoiY.length > 0 && (
+  <div className="chitiet-suggested-section" style={{ marginTop: "50px", borderTop: "2px solid #222", paddingTop: "30px" }}>
+    <h3 style={{ color: "#fff", marginBottom: "25px", textTransform: "uppercase", letterSpacing: "1px", borderLeft: "4px solid #ffcc00", paddingLeft: "15px" }}>
+      📚 Truyện cùng thể loại
+    </h3>
+    
+    <div className="suggested-grid">
+      {danhSachGoiY.map((item) => {
+        const maTruyenGoiY = item.mat || item.MAT;
+        return (
+          <Link 
+            to={`/truyen/${maTruyenGoiY}`} 
+            key={maTruyenGoiY} 
+            className="suggested-card-link"
+          >
+            <div className="suggested-card">
+              <div className="img-container">
+                <img
+                  src={`https://hkl-backend-v3uu.onrender.com/images/${item.hinhanh || item.HINHANH || ""}`}
+                  alt={item.tent || item.TENT}
+                  onError={(e) => { e.target.src = "https://via.placeholder.com/300x450?text=No+Image"; }}
+                />
+              </div>
+              <div className="card-info">
+                <h4>{item.tent || item.TENT}</h4>
+                <div className="card-meta">
+                  <span className="meta-item">📚 {item.so_chuong || 0} chương</span>
+                  <span className="meta-rate">⭐ {Number(item.sao_trung_binh || 0).toFixed(1)}</span>
+                </div>
+              </div>
+            </div>
+          </Link>
+        );
+      })}
+    </div>
+  </div>
+)}
       </div>
 
       {/* --- MODAL DANH SÁCH CHƯƠNG --- */}

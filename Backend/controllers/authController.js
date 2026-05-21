@@ -56,7 +56,7 @@ const token = jwt.sign({ tendn, mk, email, sdt, ngaysinh, role }, SECRET_KEY, { 
 
 // Dùng cách này để thay thế các ký tự dễ gây lỗi trên URL
 const safeToken = token.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-const confirmLink = `http://localhost:5000/api/auth/confirm-registration?token=${safeToken}`;
+const confirmLink = `https://hkl-backend-v3uu.onrender.com/api/auth/confirm-registration?token=${safeToken}`;
 
     // ⛔ CHỈ SỬA ĐOẠN NÀY: Nếu chạy trên Render (production) thì chặn gửi email, trả link về Frontend luôn
     if (process.env.NODE_ENV === 'production') {
