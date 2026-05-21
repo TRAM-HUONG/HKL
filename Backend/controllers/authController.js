@@ -49,8 +49,14 @@ exports.register = async (req, res) => {
     if (check.rows.length > 0) return res.status(400).json({ error: "Tên hoặc Email đã tồn tại!" });
 
     // 2. Gói dữ liệu vào Token
-    const token = jwt.sign({ tendn, mk, email, sdt, ngaysinh, role }, SECRET_KEY, { expiresIn: '10m' });
-    const confirmLink = `http://localhost:5000/api/auth/confirm-registration?token=${token}`;
+  // Thay đổi cách tạo link ở phần register:
+// TRONG HÀM REGISTER:
+// Thay vì dùng encodeURIComponent đơn thuần
+const token = jwt.sign({ tendn, mk, email, sdt, ngaysinh, role }, SECRET_KEY, { expiresIn: '10m' });
+
+// Dùng cách này để thay thế các ký tự dễ gây lỗi trên URL
+const safeToken = token.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+const confirmLink = `http://localhost:5000/api/auth/confirm-registration?token=${safeToken}`;
 
     // ⛔ CHỈ SỬA ĐOẠN NÀY: Nếu chạy trên Render (production) thì chặn gửi email, trả link về Frontend luôn
     if (process.env.NODE_ENV === 'production') {
@@ -107,15 +113,16 @@ exports.confirmRegistration = async (req, res) => {
   const { token } = req.query;
   try {
     const data = jwt.verify(token, SECRET_KEY);
-    
-    // 1. Tạo mã MATK tự động
-    const count = await pool.query("SELECT COUNT(*) FROM TAI_KHOAN");
-    const matk = `TK${(parseInt(count.rows[0].count) + 1).toString().padStart(3, '0')}`;
 
-    // 2. Chuẩn hóa tên vai trò để lưu vào database
+    // --- LOGIC TẠO MÃ RANDOM 8 SỐ ---
+    // Tạo 8 số ngẫu nhiên: Math.random() tạo số từ 0 đến 1, 
+    // chúng ta lấy phần thập phân và nhân với 10^8
+    const randomSuffix = Math.floor(10000000 + Math.random() * 90000000);
+    const matk = `TK${randomSuffix}`; // Tổng là 10 ký tự: 2 chữ + 8 số
+
     const dbRole = data.role === 'author' ? 'TacGia' : 'DocGia';
 
-    // 3. LƯU VÀO BẢNG TAI_KHOAN
+    // ... (tiếp tục lưu vào TAI_KHOAN)
     await pool.query(
       "INSERT INTO TAI_KHOAN (MATK, TENDN, MK, VAI_TRO, NGAYSINH, EMAIL, SDT) VALUES ($1, $2, $3, $4, $5, $6, $7)",
       [matk, data.tendn, data.mk, dbRole, data.ngaysinh, data.email, data.sdt]
@@ -132,16 +139,25 @@ exports.confirmRegistration = async (req, res) => {
         await pool.query("INSERT INTO DOC_GIA (MADG, TENDG, MATK) VALUES ($1, $2, $3)", [madg, data.tendn, matk]);
     }
 
-    res.send(`
-      <div style="text-align: center; padding-top: 50px; font-family: sans-serif;">
-        <h1 style="color: #5d4037;">🎉 Thành công!</h1>
-        <p>Tài khoản <b>${data.tendn}</b> đã được kích hoạt với vai trò <b>${dbRole}</b>.</p>
-        <a href="http://localhost:5000/login">Quay lại trang Đăng nhập</a>
-      </div>
-    `);
+   res.send(`
+  <div style="text-align: center; padding-top: 50px; font-family: sans-serif;">
+    <h1 style="color: #5d4037;">🎉 Thành công!</h1>
+    <p>Tài khoản <b>${data.tendn}</b> đã được kích hoạt với vai trò <b>${dbRole}</b>.</p>
+    <a href="https://hkl-frontend.onrender.com/login" 
+       style="padding: 10px 20px; background: #5d4037; color: white; text-decoration: none; border-radius: 5px;">
+       Quay lại trang Đăng nhập
+    </a>
+  </div>
+  <script>
+    // Tự động chuyển hướng sau 3 giây để trải nghiệm mượt hơn
+    setTimeout(() => {
+      window.location.href = 'https://hkl-frontend.onrender.com/login';
+    }, 3000);
+  </script>
+`);
   } catch (err) {
-    console.error(err);
-    res.status(400).send("Link xác nhận không hợp lệ hoặc đã hết hạn!");
+    console.error("LỖI CHI TIẾT:", err); // Sửa từ console.error(err) thành thế này
+    res.status(400).send("Lỗi: " + err.message); // Trả lỗi thực tế ra màn hình để đọc
   }
 };
 exports.forgotPassword = async (req, res) => {
