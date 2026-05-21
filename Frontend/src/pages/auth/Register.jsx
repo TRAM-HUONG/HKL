@@ -33,7 +33,7 @@ const Register = () => {
 
     try {
       // Chỉ gọi duy nhất link Render theo ý bạn
-      const response = await fetch("https://hkl-backend-v3uu.onrender.com/api/auth/register", {
+      const response = await fetch("http://localhost:5000/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
