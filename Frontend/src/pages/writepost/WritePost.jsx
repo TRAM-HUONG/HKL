@@ -19,7 +19,7 @@ const WritePost = () => {
             if (!matk) return;
             try {
                 // Gọi API lấy truyện dựa theo mã tài khoản (matk)
-                const res = await axios.get(`https://hkl-backend-v3uu.onrender.com/api/chuong/tacgia/${matk}`);
+                const res = await axios.get(`http://localhost:5000/api/chuong/tacgia/${matk}`);
                 setDsTruyen(res.data);
             } catch (err) {
                 console.error("Lỗi tải danh sách truyện", err);
@@ -43,7 +43,7 @@ const WritePost = () => {
     }
 
     try {
-        const res = await axios.post('https://hkl-backend-v3uu.onrender.com/api/chuong/viet-bai', {
+        const res = await axios.post('http://localhost:5000/api/chuong/viet-bai', {
             ...formData,
             MATK: matk // ĐỔI THÀNH GỬI MATK LÊN, Backend sẽ tự xử lý tìm MATG
         });

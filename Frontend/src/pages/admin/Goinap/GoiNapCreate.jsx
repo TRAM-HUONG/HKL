@@ -15,7 +15,7 @@ const GoiNapCreate = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('https://hkl-backend-v3uu.onrender.com/api/admin/goi-nap/create', formData);
+            const res = await axios.post('http://localhost:5000/api/admin/goi-nap/create', formData);
             if (res.data.success) {
                 alert(res.data.message);
                 navigate('/admin/goi-nap');

@@ -35,7 +35,7 @@ const ChiTietTruyen = () => {
     setLoading(true); // Bật loading mỗi khi đổi sang xem một truyện khác
     
     // Tải chi tiết truyện chính
-    fetch(`https://hkl-backend-v3uu.onrender.com/api/truyen/${mat}`)
+    fetch(`http://localhost:5000/api/truyen/${mat}`)
       .then((res) => res.json())
       .then((data) => {
         setTruyen(data);
@@ -47,7 +47,7 @@ const ChiTietTruyen = () => {
       });
 
     // --- 2. GỌI API LẤY TRUYỆN CÙNG THỂ LOẠI ---
-    fetch(`https://hkl-backend-v3uu.onrender.com/api/truyen/${mat}/cung-the-loai`)
+    fetch(`http://localhost:5000/api/truyen/${mat}/cung-the-loai`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
@@ -60,7 +60,7 @@ const ChiTietTruyen = () => {
   }, [mat]); // Khi click truyện gợi ý, 'mat' thay đổi, useEffect sẽ chạy lại toàn bộ
 
   const loadDanhGia = () => {
-    fetch(`https://hkl-backend-v3uu.onrender.com/api/truyen/${mat}/danh-gia`)
+    fetch(`http://localhost:5000/api/truyen/${mat}/danh-gia`)
       .then((res) => res.json())
       .then((data) => setDanhGia(data))
       .catch((err) => console.error("Lỗi tải đánh giá:", err));
@@ -89,7 +89,7 @@ const ChiTietTruyen = () => {
 
     try {
       const madg = user.MADG || user.madg;
-      const checkRes = await fetch(`https://hkl-backend-v3uu.onrender.com/api/chuong/check-quyen?mabt=${chuong.mabt}&madg=${madg}`);
+      const checkRes = await fetch(`http://localhost:5000/api/chuong/check-quyen?mabt=${chuong.mabt}&madg=${madg}`);
       const checkData = await checkRes.json();
 
       if (checkData.purchased) {
@@ -106,7 +106,7 @@ const ChiTietTruyen = () => {
 
   const thucHienMuaChuongLe = async (chuong) => {
     try {
-      const res = await fetch("https://hkl-backend-v3uu.onrender.com/api/chuong/mua-le", {
+      const res = await fetch("http://localhost:5000/api/chuong/mua-le", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -138,7 +138,7 @@ const ChiTietTruyen = () => {
     
     if (window.confirm(`Xác nhận dùng ${giaFull} Xu để mua trọn bộ truyện này?`)) {
       try {
-        const res = await fetch("https://hkl-backend-v3uu.onrender.com/api/truyen/mua-tron-goi", {
+        const res = await fetch("http://localhost:5000/api/truyen/mua-tron-goi", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -187,7 +187,7 @@ const ChiTietTruyen = () => {
     }
 
     try {
-      const response = await fetch(`https://hkl-backend-v3uu.onrender.com/api/truyen/danh-gia`, {
+      const response = await fetch(`http://localhost:5000/api/truyen/danh-gia`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -218,7 +218,7 @@ const ChiTietTruyen = () => {
     const isTG = user?.VAI_TRO === 'TacGia' || user?.vai_tro === 'TacGia';
 
     try {
-      const response = await fetch(`https://hkl-backend-v3uu.onrender.com/api/binh-luan`, {
+      const response = await fetch(`http://localhost:5000/api/binh-luan`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -245,7 +245,7 @@ const ChiTietTruyen = () => {
     if (!window.confirm("Bạn có chắc muốn xóa phản hồi này?")) return;
     const userId = user?.MADG || user?.madg || user?.MATG || user?.matg;
     try {
-      const res = await fetch(`https://hkl-backend-v3uu.onrender.com/api/binh-luan/phan-hoi/${id}`, {
+      const res = await fetch(`http://localhost:5000/api/binh-luan/phan-hoi/${id}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId })
@@ -265,7 +265,7 @@ const ChiTietTruyen = () => {
     if (!window.confirm("Bạn có chắc muốn xóa đánh giá này?")) return;
     const currentMadg = user?.MADG || user?.madg;
     try {
-      const response = await fetch(`https://hkl-backend-v3uu.onrender.com/api/truyen/danh-gia/${madgia}`, {
+      const response = await fetch(`http://localhost:5000/api/truyen/danh-gia/${madgia}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ madg: currentMadg }),
@@ -284,7 +284,7 @@ const ChiTietTruyen = () => {
   const handleStartReading = () => {
     setLoadingChuong(true);
     setShowModal(true);
-    fetch(`https://hkl-backend-v3uu.onrender.com/api/chuong/truyen/${mat}`)
+    fetch(`http://localhost:5000/api/chuong/truyen/${mat}`)
       .then((res) => res.json())
       .then((data) => {
         setDanhSachChuong(data);
@@ -306,7 +306,7 @@ const ChiTietTruyen = () => {
           <div className="chitiet-left">
             <img
               className="chitiet-img"
-              src={`https://hkl-backend-v3uu.onrender.com/images/${truyen.hinhanh || truyen.HINHANH || ""}`}
+              src={`http://localhost:5000/images/${truyen.hinhanh || truyen.HINHANH || ""}`}
               alt={truyen.tent || truyen.TENT}
               onError={(e) => {
                 e.target.src = "https://via.placeholder.com/300x450?text=No+Image";
@@ -535,7 +535,7 @@ const ChiTietTruyen = () => {
             <div className="suggested-card">
               <div className="img-container">
                 <img
-                  src={`https://hkl-backend-v3uu.onrender.com/images/${item.hinhanh || item.HINHANH || ""}`}
+                  src={`http://localhost:5000/images/${item.hinhanh || item.HINHANH || ""}`}
                   alt={item.tent || item.TENT}
                   onError={(e) => { e.target.src = "https://via.placeholder.com/300x450?text=No+Image"; }}
                 />
