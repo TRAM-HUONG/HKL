@@ -46,6 +46,9 @@ import Taikhoan from './pages/admin/Nguoidung/Taikhoan';
 import Docgia from './pages/admin/Nguoidung/Docgia';
 import Tacgia from './pages/admin/Nguoidung/Tacgia';
 
+import Forbidden from './pages/403';
+import NotFound from './pages/404';
+
 function App() { 
   return (
     <Router>
@@ -93,6 +96,10 @@ function App() {
         <Route path="/quan-ly-tac-pham" element={<QuanLyTacPham />} />
         <Route path="/author/edit-ban-thao/:id" element={<SuaBanThao />} />
         <Route path="/author/edit-truyen/:id" element={<SuaTruyen />} />
+
+                {/* --- CẤU HÌNH TRANG LỖI --- */}
+        <Route path="/forbidden" element={<Forbidden />} />
+        <Route path="*" element={<NotFound />} /> {/* Phải đặt ở cuối cùng */}
       </Routes>
     </Router>
   ); 

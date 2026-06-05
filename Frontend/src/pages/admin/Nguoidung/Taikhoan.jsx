@@ -5,7 +5,12 @@ import styles from "../../../static/css/Nguoidungadmin.module.css";
 
 const Taikhoan = () => {
     const [data, setData] = useState([]);
-    const [searchTerm, setSearchTerm] = useState(""); // 1. State cho từ khóa tìm kiếm
+    const [searchTerm, setSearchTerm] = useState(""); 
+    
+    // States cho chức năng thêm tài khoản
+    const [showForm, setShowForm] = useState(false);
+    const [formData, setFormData] = useState({ tendn: "", matkhau: "", email: "" });
+    const [formError, setFormError] = useState("");
 
     const fetchData = async () => {
         try {
@@ -23,9 +28,26 @@ const Taikhoan = () => {
         }
     };
 
+    // Logic xử lý gửi dữ liệu thêm Admin lên backend
+    const handleCreateAdmin = async (e) => {
+        e.preventDefault();
+        setFormError("");
+        try {
+            // Gửi request POST tới API tạo admin
+            const res = await axios.post('http://localhost:5000/api/admin/accounts', formData);
+            if (res.data.success) {
+                alert(res.data.message);
+                setShowForm(false); // Đóng form
+                setFormData({ tendn: "", matkhau: "", email: "" }); // Reset form
+                fetchData(); // Tải lại danh sách
+            }
+        } catch (err) {
+            setFormError(err.response?.data?.message || "Có lỗi xảy ra khi tạo tài khoản.");
+        }
+    };
+
     useEffect(() => { fetchData(); }, []);
 
-    // 2. LOGIC TÌM KIẾM
     const filteredData = data.filter(item => {
         const search = searchTerm.trim().toLowerCase();
         if (!search) return true;
@@ -42,17 +64,76 @@ const Taikhoan = () => {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                     <h2 className={styles['page-title']}>Quản lý Tài khoản</h2>
 
-                    {/* 3. THANH TÌM KIẾM */}
-                    <input 
-                        type="text" 
-                        placeholder="Tìm mã TK hoặc tên đăng nhập..." 
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className={styles['search-input']}
-                        style={{ width: '320px' }}
-                    />
+                    <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
+                        {/* THANH TÌM KIẾM */}
+                        <input 
+                            type="text" 
+                            placeholder="Tìm mã TK hoặc tên đăng nhập..." 
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className={styles['search-input']}
+                            style={{ width: '250px' }}
+                        />
+                        {/* NÚT MỞ FORM THÊM ADMIN */}
+                        <button 
+                            onClick={() => setShowForm(!showForm)} 
+                            className={styles['btn-delete']} 
+                            style={{ marginTop: 0, backgroundColor: showForm ? '#64748b' : '#10b981' }}
+                        >
+                            {showForm ? "Hủy bỏ" : "+ Thêm Admin"}
+                        </button>
+                    </div>
                 </div>
 
+                {/* FORM THÊM TÀI KHOẢN ADMIN (Chỉ hiển thị khi bấm nút) */}
+                {showForm && (
+                    <div style={{
+                        background: 'rgba(255, 255, 255, 0.05)',
+                        backdropFilter: 'blur(10px)',
+                        padding: '20px',
+                        borderRadius: '12px',
+                        marginBottom: '20px',
+                        border: '1px solid rgba(255, 255, 255, 0.1)'
+                    }}>
+                        <h3 style={{ color: '#fff', marginBottom: '15px', fontSize: '1.1rem' }}>Tạo tài khoản Quản trị viên (ADMIN)</h3>
+                        {formError && <p style={{ color: '#ef4444', marginBottom: '10px' }}>{formError}</p>}
+                        
+                        <form onSubmit={handleCreateAdmin} style={{ display: 'flex', flexWrap: 'wrap', gap: '15px', alignItems: 'flex-end' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                                <label style={{ color: '#cbd5e1', fontSize: '0.85rem' }}>Tên đăng nhập</label>
+                                <input 
+                                    type="text" required
+                                    value={formData.tendn}
+                                    onChange={(e) => setFormData({...formData, tendn: e.target.value})}
+                                    className={styles['search-input']} style={{ width: '200px' }}
+                                />
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                                <label style={{ color: '#cbd5e1', fontSize: '0.85rem' }}>Mật khẩu</label>
+                                <input 
+                                    type="password" required
+                                    value={formData.matkhau}
+                                    onChange={(e) => setFormData({...formData, matkhau: e.target.value})}
+                                    className={styles['search-input']} style={{ width: '200px' }}
+                                />
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                                <label style={{ color: '#cbd5e1', fontSize: '0.85rem' }}>Email</label>
+                                <input 
+                                    type="email" required
+                                    value={formData.email}
+                                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                                    className={styles['search-input']} style={{ width: '250px' }}
+                                />
+                            </div>
+                            <button type="submit" className={styles['btn-delete']} style={{ marginTop: 0, backgroundColor: '#3b82f6', height: '42px' }}>
+                                Xác nhận thêm
+                            </button>
+                        </form>
+                    </div>
+                )}
+
+                {/* BẢNG HIỂN THỊ */}
                 <div className={styles['admin-table-wrapper']}>
                     <table className={styles['admin-table']}>
                         <thead>

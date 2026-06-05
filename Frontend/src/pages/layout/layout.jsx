@@ -29,28 +29,29 @@ const Layout = ({ children }) => {
         setUser(parsedUser);
         const role = parsedUser.VAI_TRO || parsedUser.vai_tro;
 
+        // 1. Kiểm tra quyền cho Tác giả
         if (role === 'TacGia') {
           const restrictedPaths = ['/admin', '/danh-muc', '/the-loai'];
           if (restrictedPaths.some(p => path.startsWith(p))) {
-            alert("Tác giả không có quyền truy cập khu vực này!");
-            navigate("/quan-ly-tac-pham");
+            navigate("/forbidden");
           }
         }
+        // 2. Kiểm tra quyền cho Độc giả
         else if (role === 'DocGia' || !role) {
           const restrictedPaths = ['/admin', '/viet-bai', '/quan-ly-tac-pham', '/dang-ky-truyen'];
           if (restrictedPaths.some(p => path.startsWith(p))) {
-            alert("Bạn cần quyền Tác giả để vào đây!");
-            navigate("/");
+            navigate("/forbidden");
           }
         }
+        // 3. Kiểm tra quyền cho Admin: CHẶN KHÔNG CHO VÀO TRANG TÁC GIẢ
         else if (role === 'Admin') {
-          const restrictedPaths = ['/viet-bai', '/dang-ky-truyen'];
+          const restrictedPaths = ['/viet-bai', '/dang-ky-truyen', '/quan-ly-tac-pham'];
           if (restrictedPaths.some(p => path.startsWith(p))) {
-            alert("Vui lòng sử dụng đúng tài khoản!");
-            navigate("/admin");
+            navigate("/forbidden"); // Đẩy sang trang 403 khi Admin cố vào trang tác giả
           }
         }
 
+        // Điều hướng khi ở trang chủ dựa trên vai trò
         if (path === "/") {
           if (role === 'Admin') {
             navigate("/admin");
@@ -257,7 +258,6 @@ const Layout = ({ children }) => {
         }}
       >
         <div className="footer-container">
-          {/* Cột 1: Thông tin, Điều hướng & Các liên kết liên hệ hệ thống mới */}
           <div className="footer-column contact-info">
             <h2 className="footer-logo">HKL - Thế Giới Truyện</h2>
             <div className="footer-contact-details">
@@ -266,7 +266,6 @@ const Layout = ({ children }) => {
               <p>📞 Hotline: 0972380225</p>
             </div>
             
-            {/* Khối liên kết mạng xã hội & quản trị hệ thống theo yêu cầu */}
             <div className="footer-social-networks" style={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <a 
                 href="https://www.facebook.com/share/1SGKA1fU2w/" 

@@ -560,7 +560,7 @@ body, input, textarea, select, .ql-editor {
   margin: 0 0 10px 0;
   color: #fff;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+
   -webkit-box-orient: vertical;
   overflow: hidden;
 }

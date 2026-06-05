@@ -109,26 +109,25 @@ const confirmLink = `http://localhost:5000/api/auth/confirm-registration?token=$
 };
 
 // Hàm confirmRegistration để chính thức lưu vào Database khi nhấn link
+// Hàm confirmRegistration để chính thức lưu vào Database khi nhấn link
 exports.confirmRegistration = async (req, res) => {
   const { token } = req.query;
   try {
     const data = jwt.verify(token, SECRET_KEY);
 
     // --- LOGIC TẠO MÃ RANDOM 8 SỐ ---
-    // Tạo 8 số ngẫu nhiên: Math.random() tạo số từ 0 đến 1, 
-    // chúng ta lấy phần thập phân và nhân với 10^8
     const randomSuffix = Math.floor(10000000 + Math.random() * 90000000);
-    const matk = `TK${randomSuffix}`; // Tổng là 10 ký tự: 2 chữ + 8 số
+    const matk = `TK${randomSuffix}`;
 
     const dbRole = data.role === 'author' ? 'TacGia' : 'DocGia';
 
-    // ... (tiếp tục lưu vào TAI_KHOAN)
+    // Lưu vào TAI_KHOAN
     await pool.query(
       "INSERT INTO TAI_KHOAN (MATK, TENDN, MK, VAI_TRO, NGAYSINH, EMAIL, SDT) VALUES ($1, $2, $3, $4, $5, $6, $7)",
       [matk, data.tendn, data.mk, dbRole, data.ngaysinh, data.email, data.sdt]
     );
 
-    // 4. QUAN TRỌNG: Lưu vào bảng chi tiết để logic LOGIN (LEFT JOIN) chạy được
+    // Lưu vào bảng chi tiết để logic LOGIN (LEFT JOIN) chạy được
     if (data.role === 'author') {
         const countTG = await pool.query("SELECT COUNT(*) FROM TAC_GIA");
         const matg = `TG${(parseInt(countTG.rows[0].count) + 1).toString().padStart(3, '0')}`;
@@ -139,27 +138,21 @@ exports.confirmRegistration = async (req, res) => {
         await pool.query("INSERT INTO DOC_GIA (MADG, TENDG, MATK) VALUES ($1, $2, $3)", [madg, data.tendn, matk]);
     }
 
-   res.send(`
-  <div style="text-align: center; padding-top: 50px; font-family: sans-serif;">
-    <h1 style="color: #5d4037;">🎉 Thành công!</h1>
-    <p>Tài khoản <b>${data.tendn}</b> đã được kích hoạt với vai trò <b>${dbRole}</b>.</p>
-    <a href="https://hkl-frontend.onrender.com/login" 
-       style="padding: 10px 20px; background: #5d4037; color: white; text-decoration: none; border-radius: 5px;">
-       Quay lại trang Đăng nhập
-    </a>
-  </div>
-  <script>
-    // Tự động chuyển hướng sau 3 giây để trải nghiệm mượt hơn
-    setTimeout(() => {
-      window.location.href = 'https://hkl-frontend.onrender.com/login';
-    }, 3000);
-  </script>
-`);
+    // 🎯 TỰ ĐỘNG NHẬN DIỆN MÔI TRƯỜNG ĐỂ REDIRECT
+    // Nếu chạy trên Render (production) thì về link Render, ngược lại dưới máy local thì về localhost
+    const frontendLoginUrl = process.env.NODE_ENV === 'production'
+      ? 'https://hkl-frontend.onrender.com/login'
+      : 'http://localhost:5173/login'; // Bạn nhớ check lại port của Frontend dưới máy bạn (5173 hoặc 3000) nhé!
+
+    // Chuyển hướng trình duyệt chạy thẳng tới trang login luôn, không cần hiển thị giao diện ở backend nữa
+    return res.redirect(frontendLoginUrl);
+
   } catch (err) {
-    console.error("LỖI CHI TIẾT:", err); // Sửa từ console.error(err) thành thế này
-    res.status(400).send("Lỗi: " + err.message); // Trả lỗi thực tế ra màn hình để đọc
+    console.error("LỖI CHI TIẾT KÍCH HOẠT TÀI KHOẢN:", err);
+    res.status(400).send("Lỗi kích hoạt: " + err.message);
   }
 };
+
 exports.forgotPassword = async (req, res) => {
   const { email } = req.body;
   try {

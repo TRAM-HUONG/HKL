@@ -519,7 +519,7 @@ const ChiTietTruyen = () => {
         {/* --- 3. KHỐI HIỂN THỊ DANH SÁCH TRUYỆN GỢI Ý (THỂ LOẠI) --- */}
     {danhSachGoiY.length > 0 && (
   <div className="chitiet-suggested-section" style={{ marginTop: "50px", borderTop: "2px solid #222", paddingTop: "30px" }}>
-    <h3 style={{ color: "#fff", marginBottom: "25px", textTransform: "uppercase", letterSpacing: "1px", borderLeft: "4px solid #ffcc00", paddingLeft: "15px" }}>
+    <h3 style={{ color: "#ff0000", marginBottom: "25px", textTransform: "uppercase", letterSpacing: "1px", borderLeft: "4px solid #ffcc00", paddingLeft: "15px" }}>
       📚 Truyện cùng thể loại
     </h3>
     

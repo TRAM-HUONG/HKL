@@ -52,4 +52,6 @@ router.delete('/danh-gia/delete/:id', TuongtacController.deleteDanhGia);
 router.get('/phan-hoi/all', TuongtacController.getAllPhanHoi);
 router.delete('/phan-hoi/delete/:id', TuongtacController.deletePhanHoi);
 
+// Tạo tài khoản ADMIN mới
+router.post('/accounts', adminController.createAdminAccount);
 module.exports = router;
