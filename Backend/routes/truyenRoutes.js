@@ -29,13 +29,13 @@ router.post('/mua-tron-goi', truyenController.muaTronGoi);
 // 2. --- CÁC ROUTE CÓ BIẾN DYNAMIC CHI TIẾT (PHẢI ĐỂ TRÊN /:mat) ---
 // =========================================================================
 
-// Khớp với URL: http://localhost:5000/api/truyen/:mat/danh-gia
+// Khớp với URL: https://hkl-backend-v3uu.onrender.com/api/truyen/:mat/danh-gia
 router.get('/:mat/danh-gia', chiTietController.getDanhGiaByMat); 
 
-// ĐÃ SỬA: Bỏ chữ /truyen dư thừa ở đầu. Khớp với URL: http://localhost:5000/api/truyen/:mat/cung-the-loai
+// ĐÃ SỬA: Bỏ chữ /truyen dư thừa ở đầu. Khớp với URL: https://hkl-backend-v3uu.onrender.com/api/truyen/:mat/cung-the-loai
 router.get('/:mat/cung-the-loai', chiTietController.getTruyenCungTheLoai);
 
-// ĐÃ SỬA: Bỏ chữ /truyen dư thừa ở đầu. Khớp với URL: http://localhost:5000/api/truyen/:mat/chuong
+// ĐÃ SỬA: Bỏ chữ /truyen dư thừa ở đầu. Khớp với URL: https://hkl-backend-v3uu.onrender.com/api/truyen/:mat/chuong
 router.get('/:mat/chuong', chuongController.getDanhSachChuong); 
 
 // =========================================================================

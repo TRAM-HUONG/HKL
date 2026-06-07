@@ -33,7 +33,7 @@ const Register = () => {
 
     try {
       // Chỉ gọi duy nhất link Render theo ý bạn
-      const response = await fetch("http://localhost:5000/api/auth/register", {
+      const response = await fetch("https://hkl-backend-v3uu.onrender.com/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -81,7 +81,7 @@ const Register = () => {
           </div>
 
           {/* Trang phải: Form đăng ký */}
-          <div className={`${styles['book-page']} ${styles['right-page']}`} style={{ padding: '25px 50px' }}>
+          <div className={`${styles['book-page']} ${styles['right-page']}`}>
             <form onSubmit={handleRegister} className={styles['login-form']}>
               <h2>Đăng Ký</h2>
               

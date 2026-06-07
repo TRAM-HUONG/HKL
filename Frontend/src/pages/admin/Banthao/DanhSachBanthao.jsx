@@ -16,7 +16,7 @@ const DanhSachBanthao = () => {
 
     const fetchDrafts = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/admin/ban-thao/all');
+            const res = await axios.get('https://hkl-backend-v3uu.onrender.com/api/admin/ban-thao/all');
             if (res.data.success) {
                 setDrafts(res.data.data);
             }
@@ -35,7 +35,7 @@ const DanhSachBanthao = () => {
         const confirmDelete = window.confirm("Hành động này không thể hoàn tác. Xóa vĩnh viễn bản thảo này?");
         if (confirmDelete) {
             try {
-                const res = await axios.delete(`http://localhost:5000/api/admin/ban-thao/delete/${id}`);
+                const res = await axios.delete(`https://hkl-backend-v3uu.onrender.com/api/admin/ban-thao/delete/${id}`);
                 if (res.data.success) {
                     alert("Đã xóa bản thảo thành công!");
                     fetchDrafts();

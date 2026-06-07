@@ -25,6 +25,9 @@ const Profile = () => {
     ghiChu: "" 
   });
 
+  // State mới bổ sung: Lưu lịch sử và trạng thái các yêu cầu rút tiền của tác giả
+  const [lichSuRut, setLichSuRut] = useState([]);
+
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -47,9 +50,11 @@ const Profile = () => {
             fetchFinance(parsedUser.MATK || parsedUser.matk);
         }
         
-        // Nếu là Tác giả thì lấy thông tin doanh thu
+        // Nếu là Tác giả thì lấy thông tin doanh thu và lịch sử rút tiền
         if (role === 'TacGia') {
-            fetchDoanhThu(parsedUser.MATG || parsedUser.matg);
+            const matg = parsedUser.MATG || parsedUser.matg;
+            fetchDoanhThu(matg);
+            fetchLichSuRut(matg); // Gọi hàm lấy trạng thái/lịch sử rút tiền
         }
 
       } catch (err) {
@@ -63,13 +68,73 @@ const Profile = () => {
   const fetchDoanhThu = async (matg) => {
     if (!matg) return;
     try {
-      const response = await fetch(`http://localhost:5000/api/user/tac-gia/doanh-thu/${matg}`);
+      const response = await fetch(`https://hkl-backend-v3uu.onrender.com/api/user/tac-gia/doanh-thu/${matg}`);
       if (response.ok) {
         const data = await response.json();
         setDoanhThu(data);
       }
     } catch (err) {
       console.error("Lỗi lấy doanh thu:", err);
+    }
+  };
+
+  // --- API MỚI: LẤY LỊCH SỬ & TRẠNG THÁI RÚT TIỀN CỦA TÁC GIẢ ---
+  const fetchLichSuRut = async (matg) => {
+    if (!matg) return;
+    try {
+      const response = await fetch(`https://hkl-backend-v3uu.onrender.com/api/user/tac-gia/lich-su-rut/${matg}`);
+      if (response.ok) {
+        const data = await response.json();
+        setLichSuRut(data);
+      }
+    } catch (err) {
+      console.error("Lỗi lấy lịch sử rút tiền:", err);
+    }
+  };
+
+  // --- API MỚI: XÓA TỪNG LỊCH SỬ RÚT TIỀN ĐƠN LẺ ---
+  const handleDeleteSingleWithdraw = async (mayc) => {
+    if (window.confirm("Bạn có chắc chắn muốn xóa lịch sử yêu cầu rút tiền này không?")) {
+      try {
+        const response = await fetch(`https://hkl-backend-v3uu.onrender.com/api/user/tac-gia/lich-su-rut/delete/${mayc}`, {
+          method: "DELETE"
+        });
+        if (response.ok) {
+          alert("Xóa lịch sử thành công!");
+          fetchLichSuRut(user.MATG || user.matg);
+        } else {
+          alert("Không thể xóa lịch sử rút tiền lúc này.");
+        }
+      } catch (error) {
+        console.error("Lỗi khi xóa lịch sử rút tiền đơn:", error);
+        alert("Lỗi kết nối server khi xóa.");
+      }
+    }
+  };
+
+  // --- API MỚI: XÓA TOÀN BỘ LỊCH SỬ RÚT TIỀN ---
+  const handleDeleteAllWithdraw = async () => {
+    if (!lichSuRut || lichSuRut.length === 0) {
+      alert("Không có lịch sử để xóa!");
+      return;
+    }
+
+    if (window.confirm("CẢNH BÁO: Bạn có chắc chắn muốn XÓA TOÀN BỘ lịch sử rút tiền? Hành động này không thể hoàn tác!")) {
+      try {
+        const matg = user.MATG || user.matg;
+        const response = await fetch(`https://hkl-backend-v3uu.onrender.com/api/user/tac-gia/lich-su-rut/delete-all/${matg}`, {
+          method: "DELETE"
+        });
+        if (response.ok) {
+          alert("Đã xóa sạch toàn bộ lịch sử rút tiền!");
+          setLichSuRut([]);
+        } else {
+          alert("Không thể xóa toàn bộ lịch sử rút tiền lúc này.");
+        }
+      } catch (error) {
+        console.error("Lỗi khi xóa toàn bộ lịch sử rút tiền:", error);
+        alert("Lỗi kết nối server khi xóa toàn bộ.");
+      }
     }
   };
 
@@ -84,7 +149,7 @@ const Profile = () => {
     const fullBankInfo = `STK: ${withdrawData.soTK} - Ngân hàng: ${withdrawData.nganHang} - Chủ TK: ${withdrawData.tenChuTK} ${withdrawData.ghiChu ? '(Ghi chú: ' + withdrawData.ghiChu + ')' : ''}`;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/user/withdraw/request`, {
+      const res = await fetch(`https://hkl-backend-v3uu.onrender.com/api/user/withdraw/request`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -98,6 +163,7 @@ const Profile = () => {
       if (res.ok) {
         alert(data.message);
         setShowWithdrawForm(false);
+        fetchLichSuRut(user.MATG || user.matg); // Tải lại danh sách sau khi gửi thành công
       } else {
         alert(data.message);
       }
@@ -110,7 +176,7 @@ const Profile = () => {
   const fetchLichSu = async (madg) => {
     if (!madg) return;
     try {
-      const response = await fetch(`http://localhost:5000/api/lich-su/${madg}`);
+      const response = await fetch(`https://hkl-backend-v3uu.onrender.com/api/lich-su/${madg}`);
       if (response.ok) {
         const data = await response.json();
         setLichSu(Array.isArray(data) ? data : []);
@@ -124,7 +190,7 @@ const Profile = () => {
   const fetchFinance = async (matk) => {
     if (!matk) return;
     try {
-      const response = await fetch(`http://localhost:5000/api/user/financial-info/${matk}`);
+      const response = await fetch(`https://hkl-backend-v3uu.onrender.com/api/user/financial-info/${matk}`);
       if (response.ok) {
         const data = await response.json();
         setFinance(data);
@@ -144,7 +210,7 @@ const Profile = () => {
     };
 
     try {
-      const response = await fetch(`http://localhost:5000/api/user/update`, {
+      const response = await fetch(`https://hkl-backend-v3uu.onrender.com/api/user/update`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updateData),
@@ -166,11 +232,11 @@ const Profile = () => {
     }
   };
 
-  // --- 5. API: XÓA LỊCH SỬ ĐỌC ---
+  // --- 5. API: XÓA TỪNG TRUYỆN ĐƠN LẺ KHỎI LỊCH SỬ ĐỌC ---
   const handleDeleteLichSu = async (mat) => {
     if (window.confirm("Bạn có chắc chắn muốn xóa truyện này khỏi lịch sử đọc?")) {
       try {
-        const response = await fetch(`http://localhost:5000/api/lich-su/delete`, {
+        const response = await fetch(`https://hkl-backend-v3uu.onrender.com/api/lich-su/delete`, {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ 
@@ -186,6 +252,28 @@ const Profile = () => {
         }
       } catch (err) {
         console.error("Lỗi xóa lịch sử:", err);
+      }
+    }
+  };
+
+  // --- 6. API MỚI: XÓA TOÀN BỘ LỊCH SỬ ĐỌC CỦA ĐỘC GIẢ ---
+  const handleDeleteAllLichSu = async () => {
+    if (window.confirm("Bạn có chắc chắn muốn XÓA SẠCH toàn bộ danh sách lịch sử đọc truyện của mình không?")) {
+      try {
+        const madg = user.MADG || user.madg;
+        const response = await fetch(`https://hkl-backend-v3uu.onrender.com/api/lich-su/delete-all/${madg}`, {
+          method: "DELETE"
+        });
+
+        if (response.ok) {
+          alert("Đã xóa sạch toàn bộ lịch sử đọc truyện!");
+          setLichSu([]); // Đưa state lịch sử về mảng rỗng để cập nhật giao diện ngay lập tức
+        } else {
+          alert("Không thể xóa toàn bộ lịch sử đọc lúc này.");
+        }
+      } catch (err) {
+        console.error("Lỗi khi xóa sạch lịch sử đọc:", err);
+        alert("Lỗi hệ thống khi kết nối server.");
       }
     }
   };
@@ -303,11 +391,13 @@ const Profile = () => {
         {role === 'TacGia' && (
           <>
             <div className="profile-card finance-card">
-              <h3><span className="icon">📈</span> Thống kê doanh thu</h3>
+              <h3><span className="icon">📈</span> Thống kê ví tiền</h3>
               <div className="finance-grid">
                 <div className="finance-item">
-                  <p>Tổng xu thực nhận (70%):</p>
-                  <span className="coin-value" style={{color: "#28a745"}}>{doanhThu.tong_nhan} Xu</span>
+                  <p>Số xu hiện có (Có thể rút):</p>
+                  <span className="coin-value" style={{color: "#28a745"}}>
+                    {doanhThu.so_du_hien_tai || 0} Xu
+                  </span>
                   <button 
                     className="edit-btn" 
                     onClick={() => setShowWithdrawForm(true)} 
@@ -376,6 +466,83 @@ const Profile = () => {
               )}
             </div>
 
+            {/* BẢNG THEO DÕI YÊU CẦU RÚT TIỀN CHO TÁC GIẢ */}
+            <div className="history-section" style={{marginTop: '30px'}}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+                <h3><span className="icon">🧾</span> Lịch sử & Trạng thái rút tiền</h3>
+                {lichSuRut.length > 0 && (
+                  <button 
+                    onClick={handleDeleteAllWithdraw}
+                    style={{ padding: '6px 12px', background: '#ff4444', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', fontSize: '0.85rem' }}
+                  >
+                    🗑️ Xóa tất cả lịch sử
+                  </button>
+                )}
+              </div>
+              <div className="bought-list">
+                {lichSuRut.length > 0 ? (
+                  <div className="bought-table-container">
+                    <table className="bought-table">
+                      <thead>
+                        <tr>
+                          <th>Mã YC</th>
+                          <th>Số Xu Rút</th>
+                          <th>Số Tiền</th>
+                          <th>Ngày Gửi</th>
+                          <th>Trạng Thái</th>
+                          <th>Thông tin chi tiết / Lý do từ chối</th>
+                          <th style={{ textAlign: 'center' }}>Hành động</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {lichSuRut.map((item, index) => (
+                          <tr key={index}>
+                            <td><strong>#{item.mayc}</strong></td>
+                            <td>{item.so_xu_rut} xu</td>
+                            <td>{new Intl.NumberFormat('vi-VN').format(item.so_tien_vnd)}đ</td>
+                            <td>{new Date(item.ngay_yc).toLocaleDateString('vi-VN')}</td>
+                            <td>
+                              <span 
+                                style={{
+                                  padding: '4px 8px', 
+                                  borderRadius: '4px', 
+                                  fontSize: '0.75rem',
+                                  fontWeight: 'bold',
+                                  color: '#fff',
+                                  background: item.trangthai === 'Chờ duyệt' ? '#ffcc00' : item.trangthai === 'Đã chuyển tiền' ? '#28a745' : '#ff4444'
+                                }}
+                              >
+                                {item.trangthai}
+                              </span>
+                            </td>
+                            <td style={{ 
+                                fontSize: '0.85rem', 
+                                whiteSpace: 'pre-wrap', 
+                                color: item.trangthai === 'Từ chối' ? '#ff4444' : 'inherit',
+                                fontWeight: item.trangthai === 'Từ chối' ? 'bold' : 'normal'
+                            }}>
+                              {item.thong_tin_nhan_tien}
+                            </td>
+                            <td style={{ textAlign: 'center' }}>
+                              <button
+                                onClick={() => handleDeleteSingleWithdraw(item.mayc)}
+                                style={{ background: 'none', border: 'none', color: '#ff4444', cursor: 'pointer', fontSize: '1.1rem' }}
+                                title="Xóa yêu cầu này"
+                              >
+                                ❌
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <p className="empty-msg">Bạn chưa tạo yêu cầu rút tiền nào.</p>
+                )}
+              </div>
+            </div>
+
             <div className="history-section">
               <h3><span className="icon">📊</span> Chi tiết tác phẩm đã bán</h3>
               <div className="bought-list">
@@ -412,16 +579,27 @@ const Profile = () => {
           </>
         )}
 
-        {/* PHẦN LỊCH SỬ ĐỌC */}
+        {/* PHẦN LỊCH SỬ ĐỌC (HIỂN THỊ CHO ĐỘC GIẢ HOẶC TÁC GIẢ) */}
         {role !== 'Admin' && (
           <div className="history-section">
-            <h3><span className="icon">📖</span> Lịch sử đọc gần đây</h3>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+              <h3><span className="icon">📖</span> Lịch sử đọc gần đây</h3>
+              {lichSu.length > 0 && (
+                <button 
+                  onClick={handleDeleteAllLichSu}
+                  style={{ padding: '6px 12px', background: '#ff4444', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', fontSize: '0.85rem' }}
+                >
+                  🗑️ Xóa sạch tất cả lịch sử đọc
+                </button>
+              )}
+            </div>
+            
             <div className="history-list">
               {lichSu.length > 0 ? (
                 lichSu.map((item, index) => (
                   <div key={index} className="history-item">
                     <img 
-                      src={`http://localhost:5000/images/${item.hinhanh}`} 
+                      src={`https://hkl-backend-v3uu.onrender.com/images/${item.hinhanh}`} 
                       alt={item.tent} 
                       onError={(e) => e.target.src = "https://via.placeholder.com/100x150?text=No+Image"}
                     />
@@ -433,7 +611,7 @@ const Profile = () => {
                     <button 
                       className="del-hist-btn" 
                       onClick={() => handleDeleteLichSu(item.mat)}
-                      title="Xóa lịch sử"
+                      title="Xóa lịch sử truyện này"
                     >
                       Xóa
                     </button>

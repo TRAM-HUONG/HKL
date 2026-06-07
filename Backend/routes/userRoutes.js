@@ -14,4 +14,12 @@ router.post('/withdraw/request', userController.requestWithdrawal);
 router.get('/withdraw/requests', userController.getWithdrawalRequests);
 // Đảm bảo dùng router.put và đúng đường dẫn
 router.put('/withdraw/approve', userController.approveWithdrawal);
+router.put('/withdraw/reject', userController.rejectWithdrawal);
+// Thêm dòng này vào nhóm các route rút tiền (trước module.exports = router;)
+router.get('/tac-gia/lich-su-rut/:matg', userController.getLichSuRutTien);
+// Thêm route xóa từng lịch sử rút tiền cụ thể
+router.delete('/tac-gia/lich-su-rut/delete/:mayc', userController.deleteLichSuRutTienDon);
+
+// Thêm route xóa toàn bộ lịch sử rút tiền của tác giả
+router.delete('/tac-gia/lich-su-rut/delete-all/:matg', userController.deleteAllLichSuRutTien);
 module.exports = router;

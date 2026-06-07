@@ -89,7 +89,15 @@ exports.napTien = async (req, res) => {
 exports.getDoanhThuTacGia = async (req, res) => {
     const { matg } = req.params;
     try {
-        // Sử dụng LEFT JOIN để tránh mất dữ liệu nếu thông tin liên kết bị thiếu
+        // 1. Lấy số dư hiện tại của tác giả từ bảng TAI_KHOAN thông qua MATG
+        const balanceRes = await pool.query(
+            `SELECT T.SO_DU 
+             FROM TAI_KHOAN T 
+             JOIN TAC_GIA TG ON T.MATK = TG.MATK 
+             WHERE TG.MATG = $1`, [matg]
+        );
+
+        // 2. Lấy chi tiết lịch sử bán truyện (Giữ nguyên logic cũ của bạn)
         const result = await pool.query(
             `SELECT 
                 DT.*, 
@@ -103,13 +111,11 @@ exports.getDoanhThuTacGia = async (req, res) => {
              ORDER BY DT.NGAY_GIAO_DICH DESC`, [matg]
         );
 
-        // Tính tổng và ép kiểu Number để tránh lỗi cộng chuỗi
-        const tongNhan = result.rows.reduce((sum, item) => {
-            return sum + Number(item.xu_tac_gia || 0);
-        }, 0);
+        // Số dư thực tế trong ví của tài khoản
+        const soDuHienTai = balanceRes.rows[0]?.so_du || 0;
 
         res.json({
-            tong_nhan: tongNhan,
+            so_du_hien_tai: soDuHienTai, // Trả về thêm trường này
             chi_tiet: result.rows
         });
     } catch (err) {
@@ -182,5 +188,106 @@ exports.approveWithdrawal = async (req, res) => {
     } catch (err) {
         await pool.query('ROLLBACK');
         res.status(500).json({ error: err.message });
+    }
+};
+// 4. Admin từ chối yêu cầu và nối lý do vào cột THONG_TIN_NHAN_TIEN có sẵn
+exports.rejectWithdrawal = async (req, res) => {
+    const { mayc, reason } = req.body;
+    try {
+        // Lấy thông tin cũ ra trước để nối chuỗi (hoặc ghi đè tùy bạn, ở đây mình nối chuỗi để giữ lại stk cũ)
+        const currentReq = await pool.query("SELECT THONG_TIN_NHAN_TIEN FROM YEU_CAU_RUT_TIEN WHERE MAYC = $1", [mayc]);
+        const oldInfo = currentReq.rows[0]?.thong_tin_nhan_tien || "";
+        
+        const newInfo = `${oldInfo}\n❌ LÝ DO TỪ CHỐI: ${reason}`;
+
+        // Cập nhật lại vào database
+        await pool.query(
+            `UPDATE YEU_CAU_RUT_TIEN 
+             SET TRANGTHAI = 'Từ chối', 
+                 THONG_TIN_NHAN_TIEN = $1, 
+                 NGAY_XU_LY = CURRENT_TIMESTAMP 
+             WHERE MAYC = $2`,
+            [newInfo, mayc]
+        );
+
+        res.json({ success: true, message: "Đã từ chối yêu cầu và gửi lý do tới tác giả!" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+// 4. Admin từ chối yêu cầu và nối lý do vào cột THONG_TIN_NHAN_TIEN có sẵn
+// Thêm vào cuối file userController.js của bạn
+
+// 4. Admin từ chối yêu cầu rút tiền và lưu lý do
+exports.rejectWithdrawal = async (req, res) => {
+    const { mayc, reason } = req.body;
+    
+    if (!mayc) {
+        return res.status(400).json({ success: false, message: "Thiếu mã yêu cầu rút tiền!" });
+    }
+
+    try {
+        // 1. Lấy thông tin hiện tại để nối chuỗi lý do từ chối vào mà không làm mất thông tin số tài khoản cũ
+        const currentReq = await pool.query("SELECT THONG_TIN_NHAN_TIEN FROM YEU_CAU_RUT_TIEN WHERE MAYC = $1", [mayc]);
+        
+        if (currentReq.rows.length === 0) {
+            return res.status(404).json({ success: false, message: "Không tìm thấy yêu cầu này!" });
+        }
+
+        const oldInfo = currentReq.rows[0].thong_tin_nhan_tien;
+        const updatedInfo = `${oldInfo} | ❌ LÝ DO TỪ CHỐI: ${reason || 'Không có lý do cụ thể'}`;
+
+        // 2. Cập nhật trạng thái thành 'Từ chối' và lưu lý do vào database
+        await pool.query(
+            `UPDATE YEU_CAU_RUT_TIEN 
+             SET TRANGTHAI = 'Từ chối', 
+                 THONG_TIN_NHAN_TIEN = $1, 
+                 NGAY_XU_LY = CURRENT_TIMESTAMP 
+             WHERE MAYC = $2`,
+            [updatedInfo, mayc]
+        );
+
+        res.json({ success: true, message: "Đã từ chối yêu cầu và lưu lý do thành công." });
+    } catch (err) {
+        console.error("Lỗi từ chối rút tiền:", err.message);
+        res.status(500).json({ success: false, error: err.message });
+    }
+};
+// Lấy lịch sử rút tiền riêng của một tác giả
+exports.getLichSuRutTien = async (req, res) => {
+    const { matg } = req.params;
+    try {
+        const result = await pool.query(
+            `SELECT MAYC, SO_XU_RUT, SO_TIEN_VND, TRANGTHAI, NGAY_YC, THONG_TIN_NHAN_TIEN 
+             FROM YEU_CAU_RUT_TIEN 
+             WHERE MATG = $1 
+             ORDER BY NGAY_YC DESC`, [matg]
+        );
+        res.json(result.rows);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+// Xóa một yêu cầu rút tiền cụ thể của tác giả
+exports.deleteLichSuRutTienDon = async (req, res) => {
+    const { mayc } = req.params;
+    try {
+        await pool.query("DELETE FROM YEU_CAU_RUT_TIEN WHERE MAYC = $1", [mayc]);
+        res.json({ success: true, message: "Đã xóa lịch sử rút tiền thành công." });
+    } catch (err) {
+        console.error("Lỗi khi xóa lịch sử rút tiền đơn:", err.message);
+        res.status(500).json({ success: false, error: err.message });
+    }
+};
+
+// Xóa tất cả lịch sử rút tiền của một tác giả
+exports.deleteAllLichSuRutTien = async (req, res) => {
+    const { matg } = req.params;
+    try {
+        await pool.query("DELETE FROM YEU_CAU_RUT_TIEN WHERE MATG = $1", [matg]);
+        res.json({ success: true, message: "Đã xóa toàn bộ lịch sử rút tiền." });
+    } catch (err) {
+        console.error("Lỗi khi xóa toàn bộ lịch sử rút tiền:", err.message);
+        res.status(500).json({ success: false, error: err.message });
     }
 };

@@ -27,7 +27,7 @@
     box-sizing: border-box !important;
 }
 
-/* Mô phỏng cuốn sách mở 3D cổ điển */
+/* 1. Đảm bảo khung chứa book chia đều tỷ lệ */
 .book, .reset-password-card {
     display: flex !important;
     width: 100% !important;
@@ -41,7 +41,7 @@
     overflow: hidden !important;
 }
 
-/* CHỈ HIỂN THỊ GÁY SÁCH KHI KHÔNG PHẢI LÀ TRANG ĐƠN */
+/* 2. Cấu hình lại gáy sách giả nằm ở giữa chuẩn xác */
 .book:not(.single-page-wrapper)::after, 
 .reset-password-card:not(.single-page-wrapper)::after {
     content: '' !important;
@@ -50,7 +50,8 @@
     bottom: 0 !important;
     left: 50% !important;
     width: 16px !important;
-    transform: translateX(-50%) !important;
+    /* Dùng translateX(-50%) để căn giữa trục tuyệt đối */
+    transform: translateX(-50%) !important; 
     background: linear-gradient(to right, 
         rgba(0,0,0,0.15) 0%, 
         rgba(0,0,0,0.3) 30%, 
@@ -61,10 +62,11 @@
     z-index: 5 !important;
 }
 
-/* Định dạng chung cho từng trang giấy */
+/* 3. Đồng bộ padding cho cả 2 trang và giảm bớt padding top/bottom để form không bị tràn */
 .book-page {
     flex: 1 !important;
-    padding: 45px 50px !important;
+    width: 50% !important; /* Khóa cứng tỷ lệ mỗi trang chiếm 1/2 */
+    padding: 25px 40px !important; /* Giảm nhẹ padding để form rộng rãi hơn */
     box-sizing: border-box !important;
     display: flex !important;
     flex-direction: column !important;

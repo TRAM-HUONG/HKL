@@ -12,7 +12,7 @@ const ManageWithdrawal = () => {
     const fetchRequests = async () => {
         setLoading(true);
         try {
-            const response = await axios.get('http://localhost:5000/api/user/withdraw/requests');
+            const response = await axios.get('https://hkl-backend-v3uu.onrender.com/api/user/withdraw/requests');
             setRequests(response.data);
         } catch (error) {
             console.error("Lỗi khi tải danh sách rút tiền:", error);
@@ -31,7 +31,7 @@ const ManageWithdrawal = () => {
         
         if (window.confirm(confirmMsg)) {
             try {
-                const res = await axios.put(`http://localhost:5000/api/user/withdraw/approve`, {
+                const res = await axios.put(`https://hkl-backend-v3uu.onrender.com/api/user/withdraw/approve`, {
                     mayc: yc.mayc,
                     matk: yc.matk,
                     so_xu: yc.so_xu_rut
@@ -49,16 +49,24 @@ const ManageWithdrawal = () => {
 
     const handleReject = async (mayc) => {
         const reason = window.prompt("Lý do từ chối (ví dụ: Tên chủ tài khoản không khớp):");
-        if (reason === null) return; 
+        if (reason === null) return; // Người dùng ấn Hủy prompt
+        if (reason.trim() === "") return alert("Vui lòng nhập lý do từ chối!");
 
         try {
-            const res = await axios.put(`http://localhost:5000/api/user/withdraw/reject`, { mayc, reason });
+            const res = await axios.put(`https://hkl-backend-v3uu.onrender.com/api/user/withdraw/reject`, { 
+                mayc, 
+                reason: reason.trim() 
+            });
+            
             if (res.data.success) {
-                alert("Đã từ chối yêu cầu.");
-                fetchRequests();
+                alert("✅ Đã từ chối yêu cầu rút tiền thành công.");
+                fetchRequests(); // Tải lại danh sách
+            } else {
+                alert("❌ Thao tác thất bại: " + res.data.message);
             }
         } catch (error) {
-            alert("Lỗi khi thực hiện thao tác.");
+            console.error("Lỗi khi từ chối yêu cầu:", error);
+            alert("❌ Lỗi: " + (error.response?.data?.message || "Không thể thực hiện thao tác này."));
         }
     };
 

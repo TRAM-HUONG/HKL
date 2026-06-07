@@ -1,5 +1,6 @@
 const pool = require('../config/db');
 
+// --- 1. CẬP NHẬT HOẶC THÊM LỊCH SỬ ĐỌC (Tối đa giữ lại 3 bản ghi) ---
 exports.updateLichSu = async (req, res) => {
     const { madg, mat, tenbt } = req.body;
 
@@ -13,7 +14,7 @@ exports.updateLichSu = async (req, res) => {
 
         const mactdg = 'CTD' + Date.now().toString().slice(-7);
 
-        // 1. Ghi nhận chương vừa đọc (Thêm mới hoặc cập nhật thời gian)
+        // Ghi nhận chương vừa đọc (Thêm mới hoặc cập nhật thời gian)
         const upsertQuery = `
             INSERT INTO CHI_TIET_DOC_GIA (mactdg, madg, mat, lsd, ngay_cap_nhat, trangthai)
             VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP, 'Đang đọc')
@@ -22,7 +23,7 @@ exports.updateLichSu = async (req, res) => {
         `;
         await client.query(upsertQuery, [mactdg, madg, mat, tenbt]);
 
-        // 2. XÓA TỔNG THỂ: Chỉ giữ lại đúng 3 bản ghi mới nhất của độc giả này (BỎ lọc theo MAT)
+        // XÓA TỔNG THỂ: Chỉ giữ lại đúng 3 bản ghi mới nhất của độc giả này
         const deleteGlobalQuery = `
             DELETE FROM CHI_TIET_DOC_GIA
             WHERE mactdg IN (
@@ -46,9 +47,10 @@ exports.updateLichSu = async (req, res) => {
         client.release();
     }
 };
-// lichSuController.js
+
+// --- 2. LẤY DANH SÁCH LỊCH SỬ ĐỌC CỦA ĐỘC GIẢ ---
 exports.getLichSuByDocGia = async (req, res) => {
-    const { madg } = req.params; // Lấy DG01 từ URL
+    const { madg } = req.params; 
     try {
         const query = `
             SELECT T.mat, T.tent, T.hinhanh, CT.lsd AS ten_chuong, CT.ngay_cap_nhat
@@ -58,15 +60,14 @@ exports.getLichSuByDocGia = async (req, res) => {
             ORDER BY CT.ngay_cap_nhat DESC;
         `;
         const result = await pool.query(query, [madg]);
-        res.status(200).json(result.rows); // Trả về JSON
+        res.status(200).json(result.rows); 
     } catch (err) {
         console.error(err.message);
         res.status(500).json({ error: "Lỗi server" });
     }
 };
 
-
-
+// --- 3. XÓA TỪNG CÁI (Xóa một bộ truyện cụ thể khỏi lịch sử đọc) ---
 exports.deleteLichSu = async (req, res) => {
     const { madg, mat } = req.body;
 
@@ -75,7 +76,6 @@ exports.deleteLichSu = async (req, res) => {
     }
 
     try {
-        // Xóa tất cả các bản ghi lịch sử của bộ truyện này đối với độc giả đó
         const query = `DELETE FROM CHI_TIET_DOC_GIA WHERE madg = $1 AND mat = $2`;
         const result = await pool.query(query, [madg, mat]);
 
@@ -87,5 +87,25 @@ exports.deleteLichSu = async (req, res) => {
     } catch (err) {
         console.error("Lỗi khi xóa lịch sử:", err.message);
         res.status(500).json({ error: "Lỗi hệ thống khi xóa." });
+    }
+};
+
+// --- 4. HÀM MỚI BỔ SUNG: XÓA TẤT CẢ (Xóa toàn bộ lịch sử đọc của độc giả đó) ---
+exports.deleteAllLichSu = async (req, res) => {
+    const { madg } = req.params; // Lấy mã độc giả từ URL params
+
+    if (!madg) {
+        return res.status(400).json({ error: "Thiếu mã độc giả để xóa toàn bộ lịch sử." });
+    }
+
+    try {
+        // Câu lệnh SQL xóa sạch mọi bản ghi tương ứng với độc giả này
+        const query = `DELETE FROM CHI_TIET_DOC_GIA WHERE madg = $1`;
+        await pool.query(query, [madg]);
+
+        res.status(200).json({ message: "Đã xóa toàn bộ lịch sử đọc thành công." });
+    } catch (err) {
+        console.error("Lỗi khi xóa toàn bộ lịch sử đọc:", err.message);
+        res.status(500).json({ error: "Lỗi hệ thống khi xóa toàn bộ lịch sử." });
     }
 };

@@ -150,18 +150,346 @@ button:hover {
 .del-hist-btn:hover {
     background: #f5c6cb;
 }
+/* --- TỔNG THỂ PROFILE CONTAINER --- */
+.profile-container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
 
-/* Responsive */
-@media (max-width: 600px) {
-    .history-item {
-        flex-direction: column;
-        text-align: center;
-    }
-    .history-item img {
-        margin: 0 0 15px 0;
-    }
-    .del-hist-btn {
-        margin-top: 15px;
-        width: 100%;
-    }
+.profile-container h2 {
+  font-size: 2rem;
+  color: #2c3e50;
+  margin-bottom: 30px;
+  position: relative;
+  font-weight: 700;
+}
+
+.profile-container h2::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+  border-radius: 2px;
+}
+
+/* --- GLASSMORPHISM CARD CHUNG --- */
+.profile-card, .history-section {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 30px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-card:hover, .history-section:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.1);
+}
+
+.profile-card h3, .history-section h3 {
+  font-size: 1.3rem;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-card h3 .icon, .history-section h3 .icon {
+  font-size: 1.5rem;
+}
+
+/* --- DISPLAY & FORM THÔNG TIN TÀI KHOẢN --- */
+.info-display p {
+  font-size: 1.05rem;
+  margin: 12px 0;
+  color: #4a5568;
+}
+
+.info-display p strong {
+  color: #2d3748;
+  display: inline-block;
+  width: 140px;
+}
+
+/* --- INPUT & TEXTAREA CHUNG --- */
+.form-group {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #4a5568;
+  font-size: 0.95rem;
+}
+
+.form-group input, .form-group textarea {
+  padding: 12px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.9);
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus, .form-group textarea:focus {
+  outline: none;
+  border-color: #ff6b6b;
+  box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.15);
+}
+
+.form-group textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+/* --- HỆ THỐNG NÚT BẤM (BUTTONS) MỚI --- */
+.edit-btn, .save-btn, .cancel-btn {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 0.95rem;
+}
+
+.edit-btn {
+  background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+  color: white;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.edit-btn:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+}
+
+.save-btn {
+  background: #2ecc71;
+  color: white;
+  box-shadow: 0 4px 12px rgba(46, 204, 113, 0.2);
+}
+
+.save-btn:hover {
+  background: #27ae60;
+  transform: translateY(-1px);
+}
+
+.cancel-btn {
+  background: #edf2f7;
+  color: #4a5568;
+}
+
+.cancel-btn:hover {
+  background: #e2e8f0;
+}
+
+.form-btns {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* --- GRID KHU VỰC TÀI CHÍNH --- */
+.finance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.finance-item {
+  background: rgba(248, 250, 252, 0.8);
+  border: 1px solid #e2e8f0;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.finance-item p {
+  margin: 0 0 10px 0;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.coin-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #e67e22;
+  display: block;
+}
+
+.money-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #27ae60;
+  display: block;
+}
+
+/* --- OVERLAY BOX FORM RÚT TIỀN (MỚI BỔ SUNG) --- */
+.withdraw-form-overlay {
+  animation: slideDown 0.35s ease-out;
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.02), 0 10px 25px rgba(0,0,0,0.05) !important;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- BẢNG DỮ LIỆU CHƯƠNG ĐÃ MUA & LỊCH SỬ RÚT TIỀN (ĐẸP & SẠCH) --- */
+.bought-table-container {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.bought-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  background: #fff;
+  font-size: 0.95rem;
+}
+
+.bought-table th {
+  background: #f8fafc;
+  color: #475569;
+  font-weight: 600;
+  padding: 14px 16px;
+  border-bottom: 2px solid #edf2f7;
+}
+
+.bought-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #edf2f7;
+  color: #334155;
+  vertical-align: middle;
+}
+
+.bought-table tr:last-child td {
+  border-bottom: none;
+}
+
+.bought-table tr:hover td {
+  background-color: #f8fafc;
+}
+
+/* --- DANH SÁCH LỊCH SỬ ĐỌC TRUYỆN --- */
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 15px;
+  background: #fff;
+  border: 1px solid #edf2f7;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.history-item:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+
+.history-item img {
+  width: 65px;
+  height: 95px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.history-info {
+  flex: 1;
+}
+
+.history-info h4 {
+  margin: 0 0 6px 0;
+  font-size: 1.1rem;
+  color: #1e293b;
+}
+
+.reading-chapter {
+  margin: 0 0 4px 0;
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.history-info small {
+  color: #94a3b8;
+}
+
+/* Nút xóa đơn lẻ (Lịch sử truyện) */
+.del-hist-btn {
+  padding: 6px 14px;
+  background: #fff;
+  color: #ef4444;
+  border: 1px solid #fee2e2;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.del-hist-btn:hover {
+  background: #ef4444;
+  color: white;
+  border-color: #ef4444;
+}
+
+/* --- TRẠNG THÁI TRỐNG --- */
+.empty-msg, .empty-history {
+  text-align: center;
+  padding: 30px;
+  color: #94a3b8;
+  font-style: italic;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px dashed #cbd5e1;
+}
+
+/* --- RESPONSIVE CHO THIẾT BỊ DI ĐỘNG --- */
+@media (max-width: 768px) {
+  .profile-container {
+    margin: 20px auto;
+    padding: 10px;
+  }
+  
+  .bought-table th, .bought-table td {
+    padding: 10px;
+    font-size: 0.85rem;
+  }
+  
+  .history-item {
+    gap: 12px;
+    padding: 10px;
+  }
+  
+  .history-item img {
+    width: 50px;
+    height: 75px;
+  }
 }
